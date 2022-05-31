@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Informations about user</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>WorkFlow Name</mat-label>
+                <input value="WorkFlow name" readonly matInput>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>WorkFlow Doc type</mat-label>
+                <input value="WorkFlow Doc type" readonly matInput>
+            </mat-form-field>
+        </div>
+    </div>
+    <h2>Actors</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let movie of movies" cdkDrag>
+                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                  {{movie}}
+                </div>
+              </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions>

@@ -1,0 +1,98 @@
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<div class="row">
+    <div align="end">
+        <button mat-button (click)="newWorkflow($event)">Add new courrier</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <mat-card>
+        <div class="form-group row">
+          <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
+          <div class="col-sm-6">
+            <input type="text"id="search" class="form-control" placeholder="PLACEHOLDER.FILTERtranslate">
+          </div>
+    
+        </div>
+        <div class="alert alert-danger" role="alert">
+          not found 
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">WorkFlow name</th>
+                <th scope="col">Date creation</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Projet</td>
+                <td>Word</td>
+                <td>
+                  <button mat-button [matMenuTriggerFor]="action">Actions</button>
+                  <mat-menu #action="matMenu">
+                    <button mat-menu-item  (click)="openDialogEdit($event)"> Edit</button>
+                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                  </mat-menu>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>
+                  <button mat-button [matMenuTriggerFor]="action">Actions</button>
+                  <mat-menu #action="matMenu">
+                    <button mat-menu-item  (click)="openDialogEdit($event)"> Edit</button>
+                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                  </mat-menu>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>
+                  <button mat-button [matMenuTriggerFor]="action">Actions</button>
+                  <mat-menu #action="matMenu">
+                    <button mat-menu-item  (click)="openDialogEdit($event)"> Edit</button>
+                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                  </mat-menu>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <div class="row">
+          <div class="col-md-4">
+            <nav aria-label="true">
+                <ul class="pager">
+                  <li><a >Previous</a></li>              
+                  <li><a  >  page 1/8</a></li>
+                  <li><a >Next</a></li>
+                  <li> <a >Size
+                    <select class="custom-select text" style="width: auto; border: none;">
+                        <option ngValue="5">5</option>
+                        <option ngValue="10">10</option>
+                        <option ngValue="15">15</option>
+                        <option ngValue="20">20</option>
+                        <option ngValue="50">50</option>
+                      </select>
+                  </a> 
+                    
+                  </li>
+                </ul>
+              </nav>
+              
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>

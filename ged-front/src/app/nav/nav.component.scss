@@ -1,0 +1,151 @@
+.sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    width: 280px;
+  }
+  
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+  
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .right{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  
+  .logout{
+    flex-grow: 1;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .title{
+    flex-grow: 8;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  #Brel CSS
+  .ng-valid[required], .ng-valid.required  {
+    border: 2px solid #42A948;
+  }
+  .ng-invalid:not(form):not(.ng-pristine)  {
+    border: 2px solid #a94442;
+  }
+  .command-row{
+    margin-bottom: 15px;
+  }
+  mat-card + .command-row, mat-card + mat-card{
+    margin-top: 15px;
+  }
+  .command-row a{
+    color: white !important;
+    margin: 3px;
+  }
+  .mat-table {
+  overflow: auto;
+  }
+  .mat-column-select {
+  overflow: visible;
+  }
+  .table-filter {
+  min-height: 64px;
+  padding: 8px 24px 0;
+  }
+  .mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  }
+  .green {
+  color: green;
+  }
+  .red {
+  color: red;
+  }
+  .our-display fieldset{
+    margin-bottom: 20px;
+  }
+  .our-display legend{
+    margin-bottom: 15px;
+    border-bottom: 1px solid #343a40;
+    font-size: 1.1em;
+  }
+  .our-display label{
+    font-style: italic;
+    font-size: 0.9em;
+  }
+  .our-display label::after{
+    content: " : ";
+  }
+  app-alert{
+    position: fixed;
+    top: 56px;
+    width: 100%;
+    z-index: 10000;
+    left: 0;
+  }
+  .modal{
+    z-index: 99999 !important;
+  }
+  .required-star{
+    color: red;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .details-list strong.form-control{
+    border-radius: 0px !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  .special-card{
+    border: none;
+    box-shadow: none !important;
+  }
+  .dropdown-item{
+  cursor: pointer;
+  }
+  .dark a{
+  color: gray !important;
+  }
+  
+  .menu a{
+    border-bottom: #343a40 solid 1px;
+    margin-bottom: 10px;
+  }
+  
+  .menu a:hover{
+    transition-duration: 50ms;
+    color: darkslategray;
+    transition-delay: 5ms;
+  }
+  
+  i{
+    margin-right: 3px;
+  }
+
+
+/*
+  .example-container {
+    width: 100%;
+    height: 100%;
+    margin: none;
+    border: 1px solid #555;
+  }
+  
+  mat-drawer-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }*/

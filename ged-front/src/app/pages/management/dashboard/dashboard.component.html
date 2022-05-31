@@ -1,0 +1,235 @@
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<app-loader-slite></app-loader-slite>
+<br>
+<div class="row">
+    <div class="col-md-6">
+Dashboard
+    </div>
+    
+    <div class="col-md-6" align="end">
+        <button mat-button  (click)="openDialogEdit($event)"><i class="fa fa-user-secret" aria-hidden="true"></i> <!-- <mat-icon matSuffix>perm_identity</mat-icon> -->Refresh</button>
+        <button mat-button  (click)="openDialogEdit($event)"><i class="fa fa-user-secret" aria-hidden="true"></i> <!-- <mat-icon matSuffix>perm_identity</mat-icon> -->System Infos</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="alert" style="background-color: green;">
+                    <div class="row">
+                        <div class="col-md-8"><i class="fa fa-tachometer" aria-hidden="true"></i> 200 Response</div>
+                        <div class="col-md-4" align="end"><h2>32</h2></div>
+                    </div>
+                    <p>Description</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert" style="background-color: orange;">
+                    <div class="row">
+                        <div class="col-md-8"><i class="fa fa-tachometer" aria-hidden="true"></i> 400 Response</div>
+                        <div class="col-md-4" align="end"><h2>0</h2></div>
+                    </div>
+                    <p>Description</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert" style="background-color: red;">
+                    <div class="row">
+                        <div class="col-md-8"><i class="fa fa-tachometer" aria-hidden="true"></i> 500 Response</div>
+                        <div class="col-md-4" align="end"><h2>0</h2></div>
+                    </div>
+                    <p>Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="background-color: aqua;">
+                    <mat-panel-title>
+                        <mat-icon class="white-icon">star</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Bar Chart
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>
+                    <div class="card mt-2">
+                      <div class="card-body">
+                        <canvas
+                          baseChart
+                          [data]="salesData"
+                          [type]="'bar'"
+                          [options]="chartOptions"
+                          (chartHover)="chartHovered($event)" 
+                          (chartClick)="chartClicked($event)"
+                        >
+                        </canvas>
+                      </div>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="col-md-6">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="background-color: aqua;">
+                    <mat-panel-title>
+                        <mat-icon class="white-icon">star</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Line Chart
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>            
+                    <div class="card mt-2">
+                        <div class="card-body">
+                        <canvas
+                            baseChart
+                            [data]="salesData"
+                            [type]="'line'"
+                            [options]="chartOptions"
+                        >
+                        </canvas>
+                        </div>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="background-color: aqua;">
+                    <mat-panel-title>
+                        <mat-icon class="white-icon">star</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        List of Response
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>
+                    <div class="form-group row">
+                      <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
+                      <div class="col-sm-6">
+                        <input type="text"id="search" class="form-control" placeholder="PLACEHOLDER.FILTERtranslate">
+                      </div>
+                
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      not found 
+                    </div>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Response Code</th>
+                            <th scope="col">Uri</th>
+                            <th scope="col">Poste</th>
+                            <th scope="col">IP</th>
+                            <th scope="col">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">200</th>
+                            <td>/service/ressource</td>
+                            <td>Secretaire</td>
+                            <td>156.2.1.1:2563</td>
+                            <td>12-05-2020</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">200</th>
+                            <td>/service/ressource</td>
+                            <td>Secretaire</td>
+                            <td>156.2.1.1:2563</td>
+                            <td>12-05-2020</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">200</th>
+                            <td>/service/ressource</td>
+                            <td>Secretaire</td>
+                            <td>156.2.1.1:2563</td>
+                            <td>12-05-2020</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">200</th>
+                            <td>/service/ressource</td>
+                            <td>Secretaire</td>
+                            <td>156.2.1.1:2563</td>
+                            <td>12-05-2020</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <nav aria-label="true">
+                            <ul class="pager">
+                              <li><a >Previous</a></li>              
+                              <li><a  >  page 1/8</a></li>
+                              <li><a >Next</a></li>
+                              <li> <a >Size
+                                <select class="custom-select text" style="width: auto; border: none;">
+                                    <option ngValue="5">5</option>
+                                    <option ngValue="10">10</option>
+                                    <option ngValue="15">15</option>
+                                    <option ngValue="20">20</option>
+                                    <option ngValue="50">50</option>
+                                  </select>
+                              </a> 
+                                
+                              </li>
+                            </ul>
+                          </nav>
+                          
+                      </div>
+                    </div>
+                  </mat-card>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="background-color: aqua;">
+                    <mat-panel-title>
+                        <mat-icon class="white-icon">star</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        User on line
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card>            
+                    <div class="card mt-2">
+                        <div class="card-body">
+                        <canvas
+                            baseChart
+                            [data]="salesDataPie"
+                            [type]="'line'"
+                            [options]="chartOptions"
+                        >
+                        </canvas>
+                        </div>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

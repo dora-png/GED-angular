@@ -1,0 +1,96 @@
+<mat-drawer-container  class="sidenav-container" [hasBackdrop]="'true'">
+    <mat-drawer #drawer [mode]="'side'">
+      <mat-toolbar  style="background-color: aqua;">
+        <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
+        Menu
+      </mat-toolbar>
+      <mat-nav-list class="menu">      
+        <a mat-list-item color="success" routerLinkActive="active" routerLink="/" ><i class="fa fa-tachometer" aria-hidden="true"></i>Acceuil OK</a>
+        <a mat-list-item routerLinkActive="active" routerLink="/documents"  ><i class="fa fa-folder-open" aria-hidden="true"></i>Mes documents</a>
+        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-envelope" aria-hidden="true"></i> Courrier</a>    
+        <a mat-list-item routerLinkActive="active" routerLink="/archive" ><i class="fa fa-archive" aria-hidden="true"></i>Archive</a>  
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <mat-toolbar style="background-color: aqua;">
+        <button *ngIf="logging"
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <i class="fa fa-bars" aria-hidden="true" matTooltip="MENU" aria-label="Side nav toggle icon" *ngIf="!drawer.opened; else showCross"></i>
+          <ng-template #showCross>
+            <i class="fa fa-times" aria-hidden="true" matTooltip="CLOSE" aria-label="Side nav toggle icon"></i>
+          </ng-template>
+        </button>
+        <span  *ngIf="logging">
+          <button mat-button [matMenuTriggerFor]="adminPanel"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
+          <mat-menu #adminPanel="matMenu">
+            <button mat-menu-item  routerLink="/hardware"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>
+            <button mat-menu-item routerLink="/users"><i class="fa fa-users" aria-hidden="true"></i> Gestion des utilisateurs</button>
+            <button mat-menu-item [matMenuTriggerFor]="groupUser"> <i class="fa fa-lock" aria-hidden="true"></i>  Gestion des Autorisations</button>
+            <button mat-menu-item [matMenuTriggerFor]="structure"> Gestion des Structures</button>
+            <button mat-menu-item  routerLink="/workflow"><i class="fa fa-tachometer" aria-hidden="true"></i>  Workflow</button>
+            <button mat-menu-item  routerLink="/organigram"><i class="fa fa-sitemap" aria-hidden="true"></i>  Organigramme</button>
+            <button mat-menu-item  routerLink="/admin_notification"><i class="fa fa-bell " aria-hidden="true"></i>  Notification<span class="badge">2</span></button>
+            
+          </mat-menu>
+          <mat-menu #groupUser="matMenu">
+            <button mat-menu-item routerLink="/role"><i class="fa fa-shield" aria-hidden="true"></i>  Rules</button>
+            <button mat-menu-item routerLink="/groupe"><i class="fa fa-users" aria-hidden="true"></i>  Groupes</button>
+          </mat-menu>
+          <mat-menu #structure="matMenu">
+            <button mat-menu-item routerLink="/structure"><i class="fa fa-tachometer" aria-hidden="true"></i>   Gestion des Directions / Cellules</button>
+            <button mat-menu-item routerLink="/poste"><i class="fa fa-tachometer" aria-hidden="true"></i>   Gestion des Postes</button>
+          </mat-menu>
+        </span>
+        <div class="right">
+          <span class="title">GED</span>
+          <span *ngIf="logging">
+            <button mat-button ><i class="fa fa-bell " aria-hidden="true"><span class="badge">2</span></i></button>
+          </span>
+          <span *ngIf="logging">
+            <button mat-button ><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+          <span *ngIf="logging">
+            <button mat-button [matMenuTriggerFor]="menuuser"><i class="fa fa-user" aria-hidden="true"></i></button>
+            <mat-menu #menuuser="matMenu">    
+              <button mat-menu-item >Profil</button>
+              <button mat-menu-item [matMenuTriggerFor]="setting"><i class="fa fa-cogs" aria-hidden="true"></i>   Parametre</button>
+              <button mat-menu-item [matMenuTriggerFor]="help"><i class="fa fa-info" aria-hidden="true"></i>  Aide et assistance</button>
+              <button mat-menu-item [matMenuTriggerFor]="affichage"><i class="fa fa-paint-brush" aria-hidden="true"></i>  Affichage</button>
+              <button mat-menu-item ><i class="fa fa-sign-out" aria-hidden="true"></i>   Se deconnecter</button>
+            </mat-menu>
+            <mat-menu #setting="matMenu">
+              <button mat-menu-item><i class="fa fa-cog" aria-hidden="true"></i>Parametres generaux</button>
+              <button mat-menu-item><i class="fa fa-history" aria-hidden="true"></i>   Historique</button>
+              <button mat-menu-item [matMenuTriggerFor]="language"><i class="fa fa-language" aria-hidden="true"></i>   Langue</button>
+            </mat-menu>
+            <mat-menu #help="matMenu">
+              <button mat-menu-item><i class="fa fa-question" aria-hidden="true"></i>    Page d'aide</button>
+              <button mat-menu-item><i class="fa fa-wrench" aria-hidden="true"></i>   Signaler un probleme</button>
+            </mat-menu>
+            <mat-menu #affichage="matMenu">
+              <button mat-menu-item><i class="fa fa-moon-o" aria-hidden="true"></i> Sombre</button>
+              <button mat-menu-item><i class="fa fa-sun-o" aria-hidden="true"></i>   Claire</button>
+            </mat-menu>
+            <mat-menu #language="matMenu">
+              <button mat-menu-item>FR</button>
+              <button mat-menu-item>EN</button>
+            </mat-menu>
+          </span>
+        </div>
+      </mat-toolbar>
+      
+      <app-loader *ngIf="loading"></app-loader>
+  
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <router-outlet></router-outlet>
+        </div>
+          <app-footer  *ngIf="logging"></app-footer>
+      </div> 
+      
+      
+    </mat-drawer-content>
+  </mat-drawer-container>

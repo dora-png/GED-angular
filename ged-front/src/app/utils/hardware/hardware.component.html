@@ -1,0 +1,114 @@
+<h2 mat-dialog-title>Informations about System</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-md-6">
+            <div class='c-avatar' style="align-items: center;">
+                <img class='c-avatar__image' src='../../../assets/user.jpg' height="50px" width="50px" alt=''>
+                <span class='c-avatar__status'></span>
+            </div>
+            <span>
+                <p>Ubuntu 16.04 lts</p>
+            </span>
+        </div>
+        <div class="col-md-6">
+            
+            <div class="row">
+                <div class="col-md-3">
+                    RAM:
+                </div>
+                <div class="col-md-9">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar progress-bar-striped active" role="progressbar" style="width: 45%;">
+                          35% 
+                        </div>
+                        <div class="progress-bar" style="width: 55%; background-color: gainsboro;">
+                            <span class="sr-only">10% Complete (danger)</span>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    CPU:
+                </div>
+                <div class="col-md-9">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar progress-bar-striped active" role="progressbar" style="width: 45%;">
+                          35% 
+                        </div>
+                        <div class="progress-bar" style="width: 55%; background-color: gainsboro;">
+                            <span class="sr-only">10% Complete (danger)</span>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-md-3">
+                    ROM:
+                </div>
+                <div class="col-md-9">
+                    51 / 100Go
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    Up Time:
+                </div>
+                <div class="col-md-6">
+                    00h45m
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                <u><strong>Data Base</strong></u>:
+            </h4>
+            <p>
+                <span>
+                    <strong>
+                        SGBD
+                    </strong> :
+                </span>
+                <span>
+                    Postgresql
+                </span>
+            </p>
+            <p>
+                <span>
+                    <strong>
+                        Version
+                    </strong> :
+                </span>
+                <span>
+                    13
+                </span>
+            </p>
+            <p>
+                <span>
+                    <strong>
+                        Status
+                    </strong> :
+                </span>
+                <span>
+                    UP
+                </span>
+            </p>
+        </div>
+        
+    </div>
+    
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions>
+
+
