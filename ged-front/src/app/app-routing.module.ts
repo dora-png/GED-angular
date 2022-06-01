@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, Route } from '@angular/router';
-import { ListWorkflowComponent } from './pages/management/workflow/list-workflow/list-workflow.component';
+import { ListTypeliasseComponent } from './pages/documentation/typeliasse/list-typeliasse/list-typeliasse.component';
 const toto: Route={
   path: 'toto',
-  component: ListWorkflowComponent,
+  component: ListTypeliasseComponent,
 };
 const routes: Routes = [
   toto,

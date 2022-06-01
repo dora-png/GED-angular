@@ -83,7 +83,6 @@ import { CreateStructureComponent } from './pages/management/structure/create-st
 import { UpdateStructureComponent } from './pages/management/structure/update-structure/update-structure.component';
 import { DeleteStructureComponent } from './pages/management/structure/delete-structure/delete-structure.component';
 import { ReadStructureComponent } from './pages/management/structure/read-structure/read-structure.component';
-import { AddPosteToStructureComponent } from './pages/management/structure/add-poste-to-structure/add-poste-to-structure.component';
 import { AddSubstructureComponent } from './pages/management/structure/add-substructure/add-substructure.component';
 import { ListPosteComponent } from './pages/management/postes/list-poste/list-poste.component';
 import { CreatePosteComponent } from './pages/management/postes/create-poste/create-poste.component';
@@ -111,6 +110,10 @@ import { SignalPbComponent } from './utils/signal-pb/signal-pb.component';
 import { HardwareComponent } from './utils/hardware/hardware.component';
 import { LoaderComponent } from './utils/loader/loader.component';
 import { LoaderSliteComponent } from './utils/loader-slite/loader-slite.component';
+import { NavTableComponent } from './utils/nav-table/nav-table.component';
+import { SearchTypeliasseComponent } from './pages/documentation/typeliasse/search-typeliasse/search-typeliasse.component';
+import { SearchLiasseComponent } from './pages/documentation/liasse/search-liasse/search-liasse.component';
+import { ListDocComponent } from './pages/documentation/document/list-doc/list-doc.component';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -201,7 +204,6 @@ const MATERIAL=[
     UpdateStructureComponent,
     DeleteStructureComponent,
     ReadStructureComponent,
-    AddPosteToStructureComponent,
     AddSubstructureComponent,
     ListPosteComponent,
     CreatePosteComponent,
@@ -228,7 +230,11 @@ const MATERIAL=[
     SignalPbComponent,
     HardwareComponent,
     LoaderComponent,
-    LoaderSliteComponent
+    LoaderSliteComponent,
+    NavTableComponent,
+    SearchTypeliasseComponent,
+    SearchLiasseComponent,
+    ListDocComponent,
   ],
   imports: [
     AppRoutingModule,    

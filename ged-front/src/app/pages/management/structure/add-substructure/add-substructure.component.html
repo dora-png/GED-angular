@@ -1,1 +1,76 @@
-<p>add-substructure works!</p>
+<h2 mat-dialog-title>Add SubStrucure to Structure</h2>
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form">
+        <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Structure Name</mat-label>
+                <input value="name" readonly matInput>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Structure Sigle</mat-label>
+                <input value="Doc type" readonly matInput>
+              </mat-form-field>
+            </div>
+            
+          </div>
+      <div cdkDropListGroup class="row">
+        <div class="col-md-5">
+          <h1> Structure</h1>
+          <div cdkDropList
+            class="example-list" 
+           (cdkDropListDropped)="onDrop($event)"  
+           [cdkDropListData]="postesList"
+          >
+            <div cdkDrag class="example-box"  *ngFor="let poste of postesList">
+              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+              {{poste}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+            <br>
+            <br>
+            <div class="example-list"  
+           >
+             <div  class="example-box" >
+                <i class="fa fa-chevron-circle-right" aria-hidden="true">ADD</i>
+             </div>
+             <div  class="example-box">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true">REMOVE</i>
+            </div>
+           </div>
+        </div>
+        <div class="col-md-5">
+          <h1> Sub structure list</h1>
+          <div cdkDropList
+           (cdkDropListDropped)="onDrop($event)" 
+           class="example-list"  
+           [cdkDropListData]="workflows"
+          >
+            <div cdkDrag class="example-box" *ngFor="let poste of workflows">
+              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+              {{poste}}
+            </div>
+          </div>
+        </div>
+      </div>
+        <!--div class="row">
+            <div class="col-md-12">
+                <div class="example-button-row" align="end">
+                    <button mat-raised-button color="accent">Accent</button>
+                    <button mat-raised-button color="warn">Warn</button>
+                  </div>
+    
+            </div>
+        </div-->
+      
+      </form>   
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  </mat-dialog-actions>
+

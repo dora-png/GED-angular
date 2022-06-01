@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-create-typeliasse',
   templateUrl: './create-typeliasse.component.html',
@@ -7,9 +6,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateTypeliasseComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor() {
+    
   }
+
+ ngOnInit(): void {
+ }
+
 
 }

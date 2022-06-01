@@ -1,1 +1,62 @@
-<p>list-typeliasse works!</p>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<div class="row">
+    <div align="end">
+        <button mat-button (click)="newTypeLiasse($event)">Add new courrier</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <mat-card>      
+          <div class="row">
+            <div class="col-md-12">
+              <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                <!-- This is the tree node template for leaf nodes -->
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                  <!-- use a disabled button to provide padding for tree leaf -->
+                  <!--button mat-icon-button (click)="openDialog()" ><mat-icon> insert_drive_file</mat-icon> {{node.name}} </button-->    
+                  <button mat-button [matMenuTriggerFor]="adminPanel"><i class="fa fa-file-word-o" aria-hidden="true"></i> {{node.name}} </button>
+                  <mat-menu #adminPanel="matMenu"> 
+                    <button mat-menu-item > Read</button>
+                    <button mat-menu-item > Desarchiver</button>
+                    <button mat-menu-item > Share with</button>
+                    <button mat-menu-item > Imprimer</button>
+                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                  </mat-menu>
+                </mat-tree-node>
+                <!-- This is the tree node template for expandable nodes -->
+                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                    <span *ngIf="node.level==0">
+                        <button mat-icon-button [matMenuTriggerFor]="typLiasse">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <mat-menu #typLiasse="matMenu"> 
+                            <button mat-menu-item (click)="openDialogUpdateLiasse($event)" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</button>
+                            <button mat-menu-item (click)="openDialogSearchLiasse($event)" > <i class="fa fa-search" aria-hidden="true"></i> Search Liasse Type</button>
+                            <button mat-menu-item (click)="openDialogHistoric($event)"> <i class="fa fa-info" aria-hidden="true"></i> Information about Type of document</button>
+                          </mat-menu>
+                    </span>
+                    <span *ngIf="node.level==1">
+                        <button mat-icon-button >
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                  <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                    <i class="fa fa-folder" aria-hidden="true" matTooltip="MENU" *ngIf="!treeControl.isExpanded(node); else showCross"></i>
+                    <ng-template #showCross>
+                        <i class="fa fa-folder-open" aria-hidden="true"></i>
+                    </ng-template>
+                        {{node.name}} 
+                </button>
+                 
+                </mat-tree-node>
+              </mat-tree>
+            </div>
+          </div>
+      </mat-card>
+    </div>
+  </div>
