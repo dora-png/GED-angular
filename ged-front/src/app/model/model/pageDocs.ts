@@ -9,15 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Liasses } from './liasses';
+import { Docs } from './docs';
 import { PageableObject } from './pageableObject';
 import { Sort } from './sort';
 
-export interface PageLiasses { 
+export interface PageDocs { 
     totalElements?: number;
     totalPages?: number;
     size?: number;
-    content?: Array<Liasses>;
+    content?: Array<Docs>;
     number?: number;
     sort?: Sort;
     first?: boolean;

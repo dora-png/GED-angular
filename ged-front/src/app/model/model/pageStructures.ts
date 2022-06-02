@@ -14,8 +14,8 @@ import { Sort } from './sort';
 import { Structures } from './structures';
 
 export interface PageStructures { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<Structures>;
     number?: number;

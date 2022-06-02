@@ -1,6 +1,7 @@
 export * from './docs';
 export * from './liasses';
 export * from './logPosteUser';
+export * from './pageDocs';
 export * from './pageLiasses';
 export * from './pageLogPosteUser';
 export * from './pagePostes';

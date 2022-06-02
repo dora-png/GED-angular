@@ -24,7 +24,6 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatSelectModule} from '@angular/material/select';
 import { NgxOrgChartModule } from 'ngx-org-chart';
 import { NgChartsModule } from 'ng2-charts';
-
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatStepperModule } from '@angular/material/stepper';
@@ -38,9 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ToastrModule } from 'ngx-toastr';
-
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { InterceptorService } from './loader/interceptor.service';
 import { NavComponent } from './nav/nav.component';
@@ -114,6 +111,11 @@ import { NavTableComponent } from './utils/nav-table/nav-table.component';
 import { SearchTypeliasseComponent } from './pages/documentation/typeliasse/search-typeliasse/search-typeliasse.component';
 import { SearchLiasseComponent } from './pages/documentation/liasse/search-liasse/search-liasse.component';
 import { ListDocComponent } from './pages/documentation/document/list-doc/list-doc.component';
+import { ListUserComponent } from './pages/management/users/list-user/list-user.component';
+import { ReadUserComponent } from './pages/management/users/read-user/read-user.component';
+import { ListArchiveComponent } from './pages/archive/list-archive/list-archive.component';
+import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courrier.component';
+import { ProfilComponent } from './pages/management/users/profil/profil.component';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -235,6 +237,11 @@ const MATERIAL=[
     SearchTypeliasseComponent,
     SearchLiasseComponent,
     ListDocComponent,
+    ListUserComponent,
+    ReadUserComponent,
+    ListArchiveComponent,
+    ListCourrierComponent,
+    ProfilComponent,
   ],
   imports: [
     AppRoutingModule,    

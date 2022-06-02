@@ -14,8 +14,8 @@ import { Sort } from './sort';
 import { WorkFlow } from './workFlow';
 
 export interface PageWorkFlow { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<WorkFlow>;
     number?: number;

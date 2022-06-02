@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs';
 import { LoaderService } from '../loader/loader.service';
+import { OpenDialogService } from '../loader/open-dialog.service';
+import { ProfilComponent } from '../pages/management/users/profil/profil.component';
 
 
 @Component({
@@ -13,7 +15,10 @@ export class NavComponent implements OnInit {
   logging: boolean = false;
   message: string | null = null;
   
-  constructor(public loaderService: LoaderService) { }
+  constructor(
+    private loaderService: LoaderService,
+    private openDialog: OpenDialogService
+    ) { }
 
   ngOnInit(): void {    
     this.listenToLogging();
@@ -42,6 +47,9 @@ export class NavComponent implements OnInit {
       .subscribe((logging) => {
         this.logging = logging;
       });
+  }
+  onProfil(){
+    this.openDialog.openDialog(ProfilComponent);
   }
 
 }

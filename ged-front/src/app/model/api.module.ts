@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { DocsControllerService } from './api/docsController.service';
 import { LiasseControllerService } from './api/liasseController.service';
 import { LogPosteUserControllerService } from './api/logPosteUserController.service';
 import { PosteControllerService } from './api/posteController.service';
@@ -18,6 +19,7 @@ import { WorkFlowControllerService } from './api/workFlowController.service';
   declarations: [],
   exports:      [],
   providers: [
+    DocsControllerService,
     LiasseControllerService,
     LogPosteUserControllerService,
     PosteControllerService,

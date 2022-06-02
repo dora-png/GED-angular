@@ -4,9 +4,8 @@
         <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
         Menu
       </mat-toolbar>
-      <mat-nav-list class="menu">      
-        <a mat-list-item color="success" routerLinkActive="active" routerLink="/" ><i class="fa fa-tachometer" aria-hidden="true"></i>Acceuil OK</a>
-        <a mat-list-item routerLinkActive="active" routerLink="/documents"  ><i class="fa fa-folder-open" aria-hidden="true"></i>Mes documents</a>
+      <mat-nav-list class="menu">
+        <a mat-list-item routerLinkActive="active" routerLink="/documentation"  ><i class="fa fa-folder-open" aria-hidden="true"></i>Mes documents</a>
         <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-envelope" aria-hidden="true"></i> Courrier</a>    
         <a mat-list-item routerLinkActive="active" routerLink="/archive" ><i class="fa fa-archive" aria-hidden="true"></i>Archive</a>  
       </mat-nav-list>
@@ -26,22 +25,21 @@
         <span  *ngIf="logging">
           <button mat-button [matMenuTriggerFor]="adminPanel"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
           <mat-menu #adminPanel="matMenu">
-            <button mat-menu-item  routerLink="/hardware"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>
-            <button mat-menu-item routerLink="/users"><i class="fa fa-users" aria-hidden="true"></i> Gestion des utilisateurs</button>
-            <button mat-menu-item [matMenuTriggerFor]="groupUser"> <i class="fa fa-lock" aria-hidden="true"></i>  Gestion des Autorisations</button>
-            <button mat-menu-item [matMenuTriggerFor]="structure"> Gestion des Structures</button>
-            <button mat-menu-item  routerLink="/workflow"><i class="fa fa-tachometer" aria-hidden="true"></i>  Workflow</button>
-            <button mat-menu-item  routerLink="/organigram"><i class="fa fa-sitemap" aria-hidden="true"></i>  Organigramme</button>
+            <button mat-menu-item  routerLink="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>  
+            <button mat-menu-item [matMenuTriggerFor]="managementdoc"><i class="fa fa-cogs" aria-hidden="true"></i> Management Application</button>
+            <button mat-menu-item [matMenuTriggerFor]="managementuser"><i class="fa fa-wrench" aria-hidden="true"></i> Management User</button>
             <button mat-menu-item  routerLink="/admin_notification"><i class="fa fa-bell " aria-hidden="true"></i>  Notification<span class="badge">2</span></button>
-            
           </mat-menu>
-          <mat-menu #groupUser="matMenu">
-            <button mat-menu-item routerLink="/role"><i class="fa fa-shield" aria-hidden="true"></i>  Rules</button>
-            <button mat-menu-item routerLink="/groupe"><i class="fa fa-users" aria-hidden="true"></i>  Groupes</button>
+          <mat-menu #managementdoc="matMenu">          
+            <button mat-menu-item  routerLink="/manage/type-of-liasse"> Type de Document</button>
+            <button mat-menu-item  routerLink="/manage/liasse"><i class="fa fa-folder" aria-hidden="true"></i> Liste des dossiers</button>
+            <button mat-menu-item routerLink="/manage/workflow"><i class="fa fa-tachometer" aria-hidden="true"></i> Workflow</button>
           </mat-menu>
-          <mat-menu #structure="matMenu">
-            <button mat-menu-item routerLink="/structure"><i class="fa fa-tachometer" aria-hidden="true"></i>   Gestion des Directions / Cellules</button>
-            <button mat-menu-item routerLink="/poste"><i class="fa fa-tachometer" aria-hidden="true"></i>   Gestion des Postes</button>
+          <mat-menu #managementuser="matMenu">
+            <button mat-menu-item routerLink="/manage/users"><i class="fa fa-users" aria-hidden="true"></i> Gestion des utilisateurs</button>
+            <button mat-menu-item routerLink="/manage/poste">  Gestion des Postes</button>
+            <button mat-menu-item routerLink="/manage/structure">  Gestion des Directions / Cellules</button>
+            <button mat-menu-item routerLink="/manage/organigram"><i class="fa fa-sitemap" aria-hidden="true"></i>  Organigramme</button>
           </mat-menu>
         </span>
         <div class="right">
@@ -55,7 +53,7 @@
           <span *ngIf="logging">
             <button mat-button [matMenuTriggerFor]="menuuser"><i class="fa fa-user" aria-hidden="true"></i></button>
             <mat-menu #menuuser="matMenu">    
-              <button mat-menu-item >Profil</button>
+              <button mat-menu-item (click)="onProfil()" >Profil</button>
               <button mat-menu-item [matMenuTriggerFor]="setting"><i class="fa fa-cogs" aria-hidden="true"></i>   Parametre</button>
               <button mat-menu-item [matMenuTriggerFor]="help"><i class="fa fa-info" aria-hidden="true"></i>  Aide et assistance</button>
               <button mat-menu-item [matMenuTriggerFor]="affichage"><i class="fa fa-paint-brush" aria-hidden="true"></i>  Affichage</button>
@@ -88,7 +86,7 @@
         <div class="container-fluid">
           <router-outlet></router-outlet>
         </div>
-          <app-footer  *ngIf="logging"></app-footer>
+<!--           <app-footer  *ngIf="logging"></app-footer> -->
       </div> 
       
       
