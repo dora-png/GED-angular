@@ -6,6 +6,7 @@ import { UpdatePosteComponent } from '../update-poste/update-poste.component';
 import { ReadPosteComponent } from '../read-poste/read-poste.component';
 import { AddSubposteComponent } from '../add-subposte/add-subposte.component';
 import { RoleToPosteComponent } from '../role-to-poste/role-to-poste.component';
+import { PosteControllerService, Postes } from '../../../../model/index';
 
 @Component({
   selector: 'app-list-poste',

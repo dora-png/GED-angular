@@ -14,8 +14,8 @@ import { PageableObject } from './pageableObject';
 import { Sort } from './sort';
 
 export interface PageLiasses { 
-    totalElements?: number;
     totalPages?: number;
+    totalElements?: number;
     size?: number;
     content?: Array<Liasses>;
     number?: number;

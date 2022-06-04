@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { PagePostes } from '../model/pagePostes';
 import { PosteRoleBean } from '../model/posteRoleBean';
 import { Postes } from '../model/postes';
+import { PostesAdduserBody } from '../model/postesAdduserBody';
 import { Structures } from '../model/structures';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -163,6 +164,64 @@ export class PosteControllerService {
         }
 
         return this.httpClient.request<any>('post',`${this.basePath}/poste/add-subposte`,
+            {
+                body: body,
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param posteName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addUser(body: PostesAdduserBody, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling addUser.');
+        }
+
+        if (posteName === null || posteName === undefined) {
+            throw new Error('Required parameter posteName was null or undefined when calling addUser.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (posteName !== undefined && posteName !== null) {
+            queryParameters = queryParameters.set('posteName', <any>posteName);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/postes/add-user`,
             {
                 body: body,
                 params: queryParameters,

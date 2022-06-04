@@ -1,1 +1,46 @@
-<p>add-poste-to-workflow works!</p>
+<h2 mat-dialog-title>Add Postes to WorkFlow {{workFlowSigle}}</h2>
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form">
+      <div cdkDropListGroup class="row">
+        <div class="col-md-4">
+            <h1> Listes des directions</h1>
+            <div class="example-list">
+              <div class="example-box" style="cursor: pointer; " (click)="selectStructure(structure)"  *ngFor="let structure of structurePage?.content">
+                {{structure.name!}} ({{structure.sigle}}) 
+              </div>
+            </div>
+          </div>
+        <div class="col-md-4">
+          <h1> Postes in Structure</h1>
+          <div cdkDropList
+            class="example-list" 
+           (cdkDropListDropped)="onDrop($event)"  
+           [cdkDropListData]="posteStructure"
+          >
+            <div cdkDrag class="example-box"  *ngFor="let poste of posteStructure">
+              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+              {{poste.name!}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h1> WorkFlow</h1>
+          <div cdkDropList
+           (cdkDropListDropped)="onDrop($event)" 
+           class="example-list"  
+           [cdkDropListData]="posteWorkFlow"
+          >
+            <div cdkDrag class="example-box" *ngFor="let poste of posteWorkFlow">
+              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+              {{poste.name!}}
+            </div>
+          </div>
+        </div>
+    </div>
+      
+      </form>   
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  </mat-dialog-actions>

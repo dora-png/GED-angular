@@ -1,27 +1,24 @@
 <nav aria-label="true">
     <ul class="pager">
       <li>
-        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <button  [disabled]="first"  mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onPreview()">
           <i class="fa fa-chevron-left"  aria-hidden="true"></i>
         </button>
       </li>              
       <li>
-        <button mat-button>  page 1/8</button>
+        <button mat-button>  page {{ pageNumber! + 1 }}/{{ totalPages }}</button>
       </li>
       <li>
-        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <button [disabled]="last" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onNext()">
           <i class="fa fa-chevron-right"  aria-hidden="true"></i>
         </button>
       </li>
       <li> 
         <button mat-button >
           Size
-          <select class="my-select-menu" style="border: none; width: auto;">
-            <option ngValue="5">5</option>
-            <option ngValue="10">10</option>
-            <option ngValue="15">15</option>
-            <option ngValue="20">20</option>
-            <option ngValue="50">50</option>
+          <select  (change)="onChangeSize()"   [(ngModel)]="size" class="my-select-menu" style="border: none; width: auto;">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
           </select>
         </button>         
       </li>

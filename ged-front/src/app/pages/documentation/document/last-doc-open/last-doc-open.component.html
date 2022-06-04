@@ -1,22 +1,63 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-  <mat-drawer-content>Main content</mat-drawer-content>
-</mat-drawer-container>
+<mat-divider></mat-divider>
+<mat-sidenav-container class="example-container" >
+  <mat-sidenav mode="side" opened>
+    <mat-toolbar>
+      <br>
+      <button [matMenuTriggerFor]="new" class="btn-1"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau</button>
+      <br>
+      <mat-menu #new="matMenu">
+        <mat-list>
+          <mat-list-item>
+            <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>  
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
+          </mat-list-item>  
+          <mat-list-item>
+            <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
+          </mat-list-item>
+        </mat-list>
+      </mat-menu>
+    </mat-toolbar>
+    <mat-nav-list class="menu">
+      <mat-tree style="padding-left: 1em;" [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <!--button mat-icon-button (click)="openDialog()" ><mat-icon> insert_drive_file</mat-icon> {{node.name}} </button-->    
+          <button mat-button ><i class="fa fa-folder" aria-hidden="true"></i> {{node.name}} </button>
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <i class="fa fa-folder" aria-hidden="true" matTooltip="MENU" *ngIf="!treeControl.isExpanded(node); else showCross"></i>
+            <ng-template #showCross>
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+            </ng-template>
+                {{node.name}} 
+        </button>
+         
+        </mat-tree-node>
+      </mat-tree>
+         
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
+      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="overflow-x: unset;">
+      <app-list-doc></app-list-doc>
+      <app-list-liasse></app-list-liasse>
+    </div>
+    
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-<!--ul class="card-wrapper">
-    <li class="card">
-      <img src='https://images.unsplash.com/photo-1611916656173-875e4277bea6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHw&ixlib=rb-1.2.1&q=80&w=400' alt=''>
-      <h3><a href="">A Super Wonderful Headline</a></h3>
-      <p>Lorem ipsum sit dolor amit</p>
-    </li>
-    <li class="card">
-      <img src='https://images.unsplash.com/photo-1611083360739-bdad6e0eb1fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHw&ixlib=rb-1.2.1&q=80&w=400' alt=''>
-      <h3><a href="">What a Fantabulous Title!</a></h3>
-      <p>Lorem ipsum sit dolor amit</p>
-    </li>
-    <li class="card">
-      <img src='https://images.unsplash.com/photo-1613230485186-2e7e0fca1253?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHw&ixlib=rb-1.2.1&q=80&w=400' alt=''>
-      <h3><a href="">Positively Terrific Title</a></h3>
-      <p>Lorem ipsum sit dolor amit</p>
-    </li>
-  </ul-->

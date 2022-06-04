@@ -9,20 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { PageableObject } from './pageableObject';
 import { Postes } from './postes';
-import { Sort } from './sort';
+import { Users } from './users';
 
-export interface PagePostes { 
-    totalPages?: number;
-    totalElements?: number;
-    size?: number;
-    content?: Array<Postes>;
-    number?: number;
-    sort?: Sort;
-    first?: boolean;
-    last?: boolean;
-    numberOfElements?: number;
-    pageable?: PageableObject;
-    empty?: boolean;
+export interface PostesAdduserBody { 
+    postes?: Postes;
+    users?: Users;
 }

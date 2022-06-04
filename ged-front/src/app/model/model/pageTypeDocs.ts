@@ -14,8 +14,8 @@ import { Sort } from './sort';
 import { TypeDocs } from './typeDocs';
 
 export interface PageTypeDocs { 
-    totalElements?: number;
     totalPages?: number;
+    totalElements?: number;
     size?: number;
     content?: Array<TypeDocs>;
     number?: number;

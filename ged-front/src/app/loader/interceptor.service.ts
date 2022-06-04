@@ -24,11 +24,12 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError<HttpEvent<HttpErrorResponse>, any>((err: HttpErrorResponse) => {
         this.loaderService.setLoading(false, request.url);
-        this.toastr.error(err.error.message, "Error "+err.status);
+        console.log(err);
+        //this.toastr.error(err.error, "Error "+err.status);
         return err;
       }))
       .pipe(
-        map((evt: any) => {          
+        map((evt: any) => {        
           if (evt instanceof HttpResponse) {
             this.loaderService.setLoading(false, request.url);
           }

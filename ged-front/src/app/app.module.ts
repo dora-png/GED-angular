@@ -116,6 +116,7 @@ import { ReadUserComponent } from './pages/management/users/read-user/read-user.
 import { ListArchiveComponent } from './pages/archive/list-archive/list-archive.component';
 import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courrier.component';
 import { ProfilComponent } from './pages/management/users/profil/profil.component';
+import { ErrorComponent } from './utils/error/error.component';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -242,6 +243,7 @@ const MATERIAL=[
     ListArchiveComponent,
     ListCourrierComponent,
     ProfilComponent,
+    ErrorComponent,
   ],
   imports: [
     AppRoutingModule,    

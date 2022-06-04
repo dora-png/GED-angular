@@ -14,6 +14,7 @@ export * from './pageWorkFlow';
 export * from './pageableObject';
 export * from './posteRoleBean';
 export * from './postes';
+export * from './postesAdduserBody';
 export * from './roles';
 export * from './sort';
 export * from './structures';
