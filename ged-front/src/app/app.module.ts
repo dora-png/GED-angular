@@ -117,6 +117,7 @@ import { ListArchiveComponent } from './pages/archive/list-archive/list-archive.
 import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courrier.component';
 import { ProfilComponent } from './pages/management/users/profil/profil.component';
 import { ErrorComponent } from './utils/error/error.component';
+import { LoginService } from './loader/login.service';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -260,6 +261,7 @@ const MATERIAL=[
 	  ApiModule.forRoot(getConfiguration)
   ],
   providers: [
+    LoginService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

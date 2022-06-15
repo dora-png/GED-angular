@@ -1,161 +1,22 @@
 <h2 mat-dialog-title>Informations about Postes</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="row">
-        <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Poste Name</mat-label>
-                <input value="Poste" readonly  matInput>
-            </mat-form-field>
-        </div>  
-        <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Createur</mat-label>
-                <input value="Groupes of Users create by" readonly  matInput>
-            </mat-form-field>
-        </div>  
-        <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Date creation</mat-label>
-                <input value="date" readonly matInput>
-            </mat-form-field>
-        </div>      
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Name</mat-label>
-                <input value="Direction" readonly  matInput>
-            </mat-form-field>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="newPosteFormGroup" class="example-form">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Structure Name</mat-label>
+            <input autocomplete="off" formControlName="name" name="name" id="name" readonly  matInput>
+          </mat-form-field>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">          
             <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Description</mat-label>
-                <textarea matInput readonly placeholder="Ex. 100 Main St">1600 Amphitheatre Pkwy</textarea>
-            </mat-form-field>
-        </div>       
-    </div>
-     
-    <br>
-    <div class="col-md-12">
-        <mat-card>
-            <div class="row">
-                <div class="col-md-12">
-                    <mat-tab-group>
-                        <mat-tab label="Historique">
-                            <br>
-                            <div class="form-group row">
-                                <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
-                                <div class="col-sm-6">
-                                  <input type="text"id="search" class="form-control" placeholder="PLACEHOLDER.FILTERtranslate">
-                                </div>
-                          
-                              </div>
-                              <div class="alert alert-danger" role="alert">
-                                not found 
-                              </div>
-                              <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Action</th>
-                                      <th scope="col">User</th>
-                                      <th scope="col">Poste</th>
-                                      <th scope="col">Date</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    
-                                    <tr>
-                                        <td>Creation</td>
-                                        <td>TOTO</td>
-                                        <td>Informaticien</td>
-                                        <td>12-01-2022 12:45:01</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Creation</td>
-                                        <td>TOTO</td>
-                                        <td>Informaticien</td>
-                                        <td>12-01-2022 12:45:01</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Creation</td>
-                                        <td>TOTO</td>
-                                        <td>Informaticien</td>
-                                        <td>12-01-2022 12:45:01</td>
-                                    </tr>                                    
-                                  </tbody>
-                                </table>
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <app-nav-table></app-nav-table>
-                                </div>
-                              </div>
-                        </mat-tab>
-                        <mat-tab label="List of Postes"> 
-                            <br>
-                            <div class="form-group row">
-                                <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
-                                <div class="col-sm-6">
-                                  <input type="text"id="search" class="form-control" placeholder="PLACEHOLDER.FILTERtranslate">
-                                </div>
-                          
-                              </div>
-                              <div class="alert alert-danger" role="alert">
-                                not found 
-                              </div>
-                              <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Poste</th>
-                                      <th scope="col">User</th>
-                                      <th scope="col">Date</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    
-                                    <tr>
-                                        <td>Rules 01</td>
-                                        <td>RORO</td>
-                                        <td>12-06-2023 12:50:59</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rules 01</td>
-                                        <td>RORO</td>
-                                        <td>12-06-2023 12:50:59</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rules 01</td>
-                                        <td>RORO</td>
-                                        <td>12-06-2023 12:50:59</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rules 01</td>
-                                        <td>RORO</td>
-                                        <td>12-06-2023 12:50:59</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rules 01</td>
-                                        <td>RORO</td>
-                                        <td>12-06-2023 12:50:59</td>
-                                    </tr>                                    
-                                  </tbody>
-                                </table>
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <app-nav-table></app-nav-table>
-                                </div>
-                              </div>
-                        </mat-tab>
-                      </mat-tab-group>
-                </div>
-            </div>
-          
-        </mat-card>
+                <mat-label>Structure Description</mat-label>
+                <textarea autocomplete="off" formControlName="description" name="description" id="description" readonly matInput></textarea>
+              </mat-form-field>
+        </div>
       </div>
-    
-     
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-</mat-dialog-actions>
-
+    </form>   
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>

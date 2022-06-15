@@ -1,23 +1,43 @@
-<h2 mat-dialog-title>Create Direction / Cellule</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="row">
+<h2 mat-dialog-title>Create Structure</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="newStructureFormGroup" class="example-form">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Structure Name</mat-label>
+            <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
+            <mat-error *ngIf="f['name'].touched && f['name'].errors">
+              {{f["name"].errors|json}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Structure Sigle</mat-label>
+            <input autocomplete="off" formControlName="sigle" name="sigle" id="sigle" required  matInput>
+            <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
+              {{f["sigle"].errors|json}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-12">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Name</mat-label>
-                <input value="name"  matInput>
-            </mat-form-field>
-        </div>       
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Description</mat-label>
-                <textarea matInput placeholder="Ex. 100 Main St"></textarea>
-            </mat-form-field>
-        </div>       
-    </div>    
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-</mat-dialog-actions>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Structure Description</mat-label>
+            <textarea autocomplete="off" formControlName="description" name="description" id="description" required matInput></textarea>
+            <mat-error *ngIf="f['description'].touched && f['description'].errors">
+              {{f["description"].errors|json}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>   
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
+      <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+      Save Structure
+    </button>
+  </mat-dialog-actions>

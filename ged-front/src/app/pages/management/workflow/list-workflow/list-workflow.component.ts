@@ -21,9 +21,11 @@ export class ListWorkflowComponent implements OnInit {
   pageWorkFlow!: PageWorkFlow;
   isEmpty: boolean = true;
   loading: boolean = false;
+  research: boolean = false;
   private valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
   private pagesize ={page: 0, size: 5};
+  
   constructor(
     private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
@@ -37,7 +39,7 @@ export class ListWorkflowComponent implements OnInit {
   }
 
   private listenToLoading(): void {
-    this.loaderService.loadingSub
+    this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
       .subscribe((loading) => {
         this.loading = loading;
@@ -46,7 +48,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private initData(){
     this.listenToLoading();
-    this.apiService.findAll(this.pagesize.page,this.pagesize.size).toPromise().then(
+    this.apiService.findAll(1,this.pagesize.page,this.pagesize.size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -62,7 +64,6 @@ export class ListWorkflowComponent implements OnInit {
       () => {
       }
     );
-
   }
 
   openDialogEdit(workFlow: WorkFlow) {
@@ -84,7 +85,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private changePageOrSize(page: number, size: number){
     this.listenToLoading();
-    this.apiService.findAll(page, size).toPromise().then(
+    this.apiService.findAll(1,page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -104,7 +105,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
     this.listenToLoading();
-    this.apiService.searchByName(name, page, size).toPromise().then(
+    this.apiService.searchByName(1,name, page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -125,7 +126,7 @@ export class ListWorkflowComponent implements OnInit {
   
   private changePageOrSizeSearchBySigle(sigle: string, page: number, size: number){
     this.listenToLoading();
-    this.apiService.searchBySigle(sigle, page, size).toPromise().then(
+    this.apiService.searchBySigle(1,sigle, page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -133,11 +134,9 @@ export class ListWorkflowComponent implements OnInit {
           this.isEmpty=false;
           this.pageWorkFlow=res;
         }
-        console.log(this.pageWorkFlow);
       }
     ).catch(
       error => {
-        console.log(error);
       }
     ).finally(
       () => {
@@ -161,23 +160,22 @@ export class ListWorkflowComponent implements OnInit {
     
   }
 
+
+
   private searchName(name: string){
     this.listenToLoading();
-    let pageData=this.pageWorkFlow;
-    this.apiService.searchByName(name).toPromise().then(
+    this.apiService.searchByName(1,name).toPromise().then(
       res => {
         if(res==null){
-          //not found
-          this.isEmpty=false;
-          this.pageWorkFlow=pageData;
+          this.research=true;
+          this.initData();
         }else{
-          this.isEmpty=false;
+          this.research=false;
           this.pageWorkFlow=res;
         }
       }
     ).catch(
       error => {
-        console.log(error);
       }
     ).finally(
       () => {
@@ -186,27 +184,25 @@ export class ListWorkflowComponent implements OnInit {
   }
   private searchSigle(name: string){
     this.listenToLoading();
-    let pageData=this.pageWorkFlow;
-    this.apiService.searchBySigle(name).toPromise().then(
+    this.apiService.searchBySigle(1,name).toPromise().then(
       res => {
         if(res==null){
-          //not found
-          this.isEmpty=false;
-          this.pageWorkFlow=pageData;
+          this.research=true;
+          this.initData();
         }else{
-          this.isEmpty=false;
+          this.research=false;
           this.pageWorkFlow=res;
         }
       }
     ).catch(
       error => {
-        console.log(error);
       }
     ).finally(
       () => {
       }
     );
   }
+
   search(event: any){
     let searchValue: string =event.target.value;
     searchValue = searchValue.trim();
@@ -219,6 +215,10 @@ export class ListWorkflowComponent implements OnInit {
       }else{
         this.toastr.error("err.error.message", "Error +err.status");
       } 
+    }else{
+      this.initData();
+      this.research=false;
+      this.searchBy = undefined;
     }
   }
 

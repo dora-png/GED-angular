@@ -2,16 +2,59 @@
   <mat-dialog-content class="mat-typography">
     <form class="example-form">
       <div cdkDropListGroup class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="!isEmpty">
             <h1> Listes des directions</h1>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                    <mat-radio-group [(ngModel)]="searchBy" [ngModelOptions]="{standalone: true}">
+                      <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                      <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
+                    </mat-radio-group>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-danger" role="alert"  *ngIf="research" >
+              not found 
+            </div>
             <div class="example-list">
-              <div class="example-box" style="cursor: pointer; " (click)="selectStructure(structure)"  *ngFor="let structure of structurePage?.content">
+              
+              <div class="example-box1 active" (click)="selectStructure(structure)"  *ngFor="let structure of structurePage?.content">
                 {{structure.name!}} ({{structure.sigle}}) 
               </div>
             </div>
+            <nav aria-label="true" align="center">
+                <ul class="pager">
+                  <li>
+                    <button  [disabled]="structurePage?.first"  mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onPreview()">
+                      <i class="fa fa-chevron-left"  aria-hidden="true"></i>
+                    </button>
+                  </li>              
+                  <li>
+                    <button mat-button>  page {{structurePage?.pageable?.pageNumber! + 1}}/{{structurePage?.totalPages!}}</button>
+                  </li>
+                  <li>
+                    <button [disabled]="structurePage?.last" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onNext()">
+                      <i class="fa fa-chevron-right"  aria-hidden="true"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
           </div>
-        <div class="col-md-4">
-          <h1> Postes in Structure</h1>
+        <div class="col-md-4"*ngIf="!isEmpty || structurePage?.empty!">
+          <h1> Postes in Structure {{nameStructure}}</h1>
           <div cdkDropList
             class="example-list" 
            (cdkDropListDropped)="onDrop($event)"  
@@ -33,6 +76,10 @@
             <div cdkDrag class="example-box" *ngFor="let poste of posteWorkFlow">
               <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
               {{poste.name!}}
+              <button mat-mini-fab color="primary" (click)="onRemovePosteInWorfFlow(poste)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+ 
             </div>
           </div>
         </div>
@@ -42,5 +89,4 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
   </mat-dialog-actions>

@@ -153,7 +153,7 @@ const routes: Routes = [
   user,
   login,
   courrier,
-  {path:"", redirectTo:"dashboard",pathMatch:"full"}
+  {path:"", redirectTo:"login",pathMatch:"full"}
 ];
 
 @NgModule({

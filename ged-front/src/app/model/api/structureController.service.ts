@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class StructureControllerService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://localhost:8082';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -279,6 +279,111 @@ export class StructureControllerService {
     /**
      * 
      * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findById2(id: number, observe?: 'body', reportProgress?: boolean): Observable<Structures>;
+    public findById2(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Structures>>;
+    public findById2(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Structures>>;
+    public findById2(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findById2.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Structures>('get',`${this.basePath}/structures/find-by-id`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param posteName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public removeSubStructures(body: Structures, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeSubStructures(body: Structures, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeSubStructures(body: Structures, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeSubStructures(body: Structures, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling removeSubStructures.');
+        }
+
+        if (posteName === null || posteName === undefined) {
+            throw new Error('Required parameter posteName was null or undefined when calling removeSubStructures.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (posteName !== undefined && posteName !== null) {
+            queryParameters = queryParameters.set('posteName', <any>posteName);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/structures/remove-sub-structure`,
+            {
+                body: body,
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param name 
      * @param page 
      * @param size 
@@ -374,6 +479,50 @@ export class StructureControllerService {
         ];
 
         return this.httpClient.request<PageStructures>('get',`${this.basePath}/structures/search-by-sigle`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param page 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public structureUnUseListe(page?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
+    public structureUnUseListe(page?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
+    public structureUnUseListe(page?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
+    public structureUnUseListe(page?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageStructures>('get',`${this.basePath}/structures/list-of-unused`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

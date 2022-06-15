@@ -11,6 +11,7 @@
  */
 import { Docs } from './docs';
 import { TypeLiasses } from './typeLiasses';
+import { Users } from './users';
 import { WorkFlow } from './workFlow';
 
 export interface Liasses { 
@@ -21,5 +22,6 @@ export interface Liasses {
     dateCreation?: Date;
     docs?: Array<Docs>;
     workflowid?: WorkFlow;
+    userid?: Users;
     typeliasse?: TypeLiasses;
 }

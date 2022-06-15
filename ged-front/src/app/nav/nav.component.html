@@ -5,6 +5,29 @@
         Menu
       </mat-toolbar>
       <mat-nav-list class="menu">
+        <a mat-list-item >
+          <br>
+          <button [matMenuTriggerFor]="new" class="btn-1"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau</button>
+          <br>
+          <mat-menu #new="matMenu">
+            <mat-list>
+              <mat-list-item>
+                <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <mat-list-item>
+                <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>  
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <mat-list-item>
+                <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
+              </mat-list-item>  
+              <mat-list-item>
+                <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
+              </mat-list-item>
+            </mat-list>
+          </mat-menu>
+        </a>
         <a mat-list-item routerLinkActive="active" routerLink="/documentation"  ><i class="fa fa-folder-open" aria-hidden="true"></i>Mes documents</a>
         <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-envelope" aria-hidden="true"></i> Courrier</a>    
         <a mat-list-item routerLinkActive="active" routerLink="/archive" ><i class="fa fa-archive" aria-hidden="true"></i>Archive</a>  

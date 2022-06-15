@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Roles } from './roles';
+import { GroupUser } from './groupUser';
 import { Structures } from './structures';
 
 export interface Postes { 
@@ -20,5 +20,5 @@ export interface Postes {
     structure?: Structures;
     posteSubalterne?: Array<Postes>;
     posteSuperieur?: Postes;
-    roles?: Array<Roles>;
+    groupslistes?: Array<GroupUser>;
 }

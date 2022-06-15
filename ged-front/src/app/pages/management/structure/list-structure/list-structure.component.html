@@ -6,69 +6,65 @@
 </div>
 <div class="row">
     <div align="end">
-        <button mat-button (click)="newStructure($event)">Add new Structure</button>
+        <button mat-button (click)="newStructure()">Add new Structure</button>
     </div>
 </div>
-list of Structure
-<div class="row">
+<app-error *ngIf="!loading && isEmpty"></app-error>
+<div  class="row" *ngIf="!loading && !isEmpty">
     <div class="col-md-12">
       <mat-card>
+        <div class="row"></div>
         <div class="form-group row">
-          <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
+          <label class="col-sm-2 col-form-label"></label>
           <div class="col-sm-6">
-            <input type="text"id="search" class="form-control" placeholder="PLACEHOLDER.FILTERtranslate">
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+              <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+            </div>
+          </div>
+          <div class="col-sm-2 col-form-label">
+            <div class="input-group">
+              <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                <mat-radio-group [(ngModel)]="searchBy">
+                  <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                  <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
+                </mat-radio-group>
+              </span>
+            </div>
+            
           </div>
     
         </div>
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" *ngIf="research" role="alert">
           not found 
         </div>
         <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Structure name</th>
-                <th scope="col">Createur</th>
+                <th scope="col">Structure Sigle</th>
+                <th scope="col">Structure Name</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Projet</td>
-                <td>Word</td>
+              <tr *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
+                <th scope="row">{{indexOfelement + 1 }}</th>
+                <td>{{structure.sigle!}}</td>
+                <td>{{structure.name!}}</td>
                 <td>
                   <button mat-button [matMenuTriggerFor]="action">Actions</button>
                   <mat-menu #action="matMenu">
-                    <button mat-menu-item  (click)="openDialogEdit($event)"> Edit</button>
-                    <button mat-menu-item  (click)="openDialogAddSubStructure($event)"> Add / Remove SubStructure</button>
-                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                    <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
+                    <button mat-menu-item (click)="openDialogAddSubStructure(structure)"> Add / Remove SubStructure</button>
+                    <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
                   </mat-menu>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>
-                  <button mat-button [matMenuTriggerFor]="action">Actions</button>
-                  <mat-menu #action="matMenu">
-                    <button mat-menu-item  (click)="openDialogEdit($event)">  Edit</button>
-                    <button mat-menu-item  (click)="openDialogAddSubStructure($event)"> Add / Remove SubStructure</button>
-                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
-                  </mat-menu>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>
-                  <button mat-button [matMenuTriggerFor]="action">Actions</button>
-                  <mat-menu #action="matMenu">
-                    <button mat-menu-item  (click)="openDialogEdit($event)">  Edit</button>
-                    <button mat-menu-item  (click)="openDialogAddSubStructure($event)"> Add / Remove SubStructure</button>
-                    <button mat-menu-item (click)="openDialogHistoric($event)"> Information about</button>
+                  <mat-menu #edit="matMenu">
+                    <button mat-menu-item (click)="openDialogEdit(structure)">  Edit Structure</button>
+                    <button mat-menu-item (click)="openDialogCreatePoste(structure)"> Create Poste</button>
+                    <button mat-menu-item (click)="openDialogListPoste(structure)"> List of here Poste</button>
                   </mat-menu>
                 </td>
               </tr>
@@ -76,7 +72,7 @@ list of Structure
           </table>
         <div class="row">
           <div class="col-md-4">
-            <app-nav-table></app-nav-table>
+            <app-nav-table [pageNumber]="pageStructures?.pageable?.pageNumber!" [first]="pageStructures?.first!" [last]="pageStructures?.last!" [size]="pageStructures?.size!" [totalPages]="pageStructures?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
           </div>
         </div>
       </mat-card>

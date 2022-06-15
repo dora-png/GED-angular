@@ -1,76 +1,86 @@
-<h2 mat-dialog-title>Add SubStrucure to Structure</h2>
+<h2 mat-dialog-title>Add Postes to WorkFlow {{StructureSigle}}</h2>
   <mat-dialog-content class="mat-typography">
-    <form class="example-form">
-        <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Name</mat-label>
-                <input value="name" readonly matInput>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Sigle</mat-label>
-                <input value="Doc type" readonly matInput>
-              </mat-form-field>
-            </div>
-            
-          </div>
+    <form class="example-form" *ngIf="!isEmpty">
       <div cdkDropListGroup class="row">
-        <div class="col-md-5">
-          <h1> Structure</h1>
-          <div cdkDropList
+        <div class="col-md-6">
+            <h1> Listes des directions inutilisée</h1>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                    <mat-radio-group [(ngModel)]="searchBy" [ngModelOptions]="{standalone: true}">
+                      <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                      <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
+                    </mat-radio-group>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-danger" role="alert"  *ngIf="research" >
+              not found 
+            </div>
+            <div cdkDropList
             class="example-list" 
            (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="postesList"
-          >
-            <div cdkDrag class="example-box"  *ngFor="let poste of postesList">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
+           [cdkDropListData]="structureListe!">          
+              <div class="example-box" cdkDrag *ngFor="let structure of structureListe">
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                {{structure.name!}} ({{structure.sigle}}) 
+              </div>
             </div>
-          </div>
+            <nav aria-label="true" align="center">
+                <ul class="pager">
+                  <li>
+                    <button  [disabled]="structurePage?.first"  mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onPreview()">
+                      <i class="fa fa-chevron-left"  aria-hidden="true"></i>
+                    </button>
+                  </li>              
+                  <li>
+                    <button mat-button>  page {{structurePage?.pageable?.pageNumber! + 1}}/{{structurePage?.totalPages!}}</button>
+                  </li>
+                  <li>
+                    <button [disabled]="structurePage?.last" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onNext()">
+                      <i class="fa fa-chevron-right"  aria-hidden="true"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
         </div>
-        <div class="col-md-2">
-            <br>
-            <br>
-            <div class="example-list"  
-           >
-             <div  class="example-box" >
-                <i class="fa fa-chevron-circle-right" aria-hidden="true">ADD</i>
-             </div>
-             <div  class="example-box">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true">REMOVE</i>
-            </div>
-           </div>
-        </div>
-        <div class="col-md-5">
-          <h1> Sub structure list</h1>
+        <div class="col-md-6">
+          <h1> WorkFlow</h1>
           <div cdkDropList
-           (cdkDropListDropped)="onDrop($event)" 
-           class="example-list"  
-           [cdkDropListData]="workflows"
-          >
-            <div cdkDrag class="example-box" *ngFor="let poste of workflows">
+           class="example-list" 
+           (cdkDropListDropped)="onDrop($event)"  
+           [cdkDropListData]="data?.sousStructure!">
+            <div cdkDrag class="example-box" *ngFor="let structure of data?.sousStructure">
               <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
+              {{structure.name!}}
+              <button mat-mini-fab color="primary" (click)="onRemoveSousStructure(structure)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+ 
             </div>
           </div>
         </div>
-      </div>
-        <!--div class="row">
-            <div class="col-md-12">
-                <div class="example-button-row" align="end">
-                    <button mat-raised-button color="accent">Accent</button>
-                    <button mat-raised-button color="warn">Warn</button>
-                  </div>
-    
-            </div>
-        </div-->
+    </div>
       
-      </form>   
+    </form>   
+    <div class="row">
+      <div class="col-md-12">
+        <app-error></app-error>
+      </div>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
   </mat-dialog-actions>
-

@@ -38,7 +38,7 @@
           </div>
     
         </div>
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" *ngIf="research" role="alert">
           not found 
         </div>
         <table class="table">
@@ -51,8 +51,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let workflow of pageWorkFlow?.content">
-                <th scope="row">{{workflow.idworkflows!}}</th>
+              <tr *ngFor="let workflow of pageWorkFlow?.content;let indexOfelement=index">
+                <th scope="row">{{indexOfelement + 1 }}</th>
                 <td>{{workflow.sigle!}}</td>
                 <td>{{workflow.name!}}</td>
                 <td>

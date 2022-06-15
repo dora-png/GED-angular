@@ -1,34 +1,37 @@
-<h2 mat-dialog-title>Add Role to Poste</h2>
+<h2 mat-dialog-title>Add Role to Poste {{posteName}}</h2>
   <mat-dialog-content class="mat-typography">
     <form class="example-form">
-        <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Poste Name</mat-label>
-                <input value="name" readonly matInput>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure</mat-label>
-                <input value="Doc type" readonly matInput>
-              </mat-form-field>
-            </div>
-            
-          </div>
       <div cdkDropListGroup class="row">
         <div class="col-md-5">
-          <h1> Roles</h1>
+          <h1> Roles To Add</h1>
           <div cdkDropList
             class="example-list" 
            (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="postesList"
+           [cdkDropListData]="groupToAddListe"
           >
-            <div cdkDrag class="example-box"  *ngFor="let poste of postesList">
+            <div cdkDrag class="example-box"  *ngFor="let roles of groupToAddListe">
               <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
+              {{roles.name!}}
             </div>
           </div>
+          
+          <nav aria-label="true" align="center">
+            <ul class="pager">
+              <li>
+                <button  [disabled]="pageRoles?.first"  mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onPreview()">
+                  <i class="fa fa-chevron-left"  aria-hidden="true"></i>
+                </button>
+              </li>              
+              <li>
+                <button mat-button>  page {{pageRoles?.pageable?.pageNumber! + 1}}/{{pageRoles?.totalPages!}}</button>
+              </li>
+              <li>
+                <button [disabled]="pageRoles?.last" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onNext()">
+                  <i class="fa fa-chevron-right"  aria-hidden="true"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
         <div class="col-md-2">
             <br>
@@ -48,25 +51,15 @@
           <div cdkDropList
            (cdkDropListDropped)="onDrop($event)" 
            class="example-list"  
-           [cdkDropListData]="workflows"
+           [cdkDropListData]="groupInPoste"
           >
-            <div cdkDrag class="example-box" *ngFor="let poste of workflows">
+            <div cdkDrag class="example-box" *ngFor="let role of groupInPoste">
               <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
+              {{role.name!}}
             </div>
           </div>
         </div>
-      </div>
-        <!--div class="row">
-            <div class="col-md-12">
-                <div class="example-button-row" align="end">
-                    <button mat-raised-button color="accent">Accent</button>
-                    <button mat-raised-button color="warn">Warn</button>
-                  </div>
-    
-            </div>
-        </div-->
-      
+      </div>      
       </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">

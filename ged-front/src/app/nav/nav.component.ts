@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
   }
 
   listenToLoading(): void {
-    this.loaderService.loadingSub
+    this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
       .subscribe((loading) => {
         this.loading = loading;

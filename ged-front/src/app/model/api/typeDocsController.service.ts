@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class TypeDocsControllerService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://localhost:8082';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -221,6 +221,53 @@ export class TypeDocsControllerService {
     /**
      * 
      * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findById1(id: number, observe?: 'body', reportProgress?: boolean): Observable<TypeDocs>;
+    public findById1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeDocs>>;
+    public findById1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeDocs>>;
+    public findById1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findById1.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<TypeDocs>('get',`${this.basePath}/typedocs/find-by-id`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param name 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -269,11 +316,14 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findBySigle2(sigle?: string, observe?: 'body', reportProgress?: boolean): Observable<TypeDocs>;
-    public findBySigle2(sigle?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeDocs>>;
-    public findBySigle2(sigle?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeDocs>>;
-    public findBySigle2(sigle?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findBySigle3(sigle: string, observe?: 'body', reportProgress?: boolean): Observable<TypeDocs>;
+    public findBySigle3(sigle: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeDocs>>;
+    public findBySigle3(sigle: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeDocs>>;
+    public findBySigle3(sigle: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (sigle === null || sigle === undefined) {
+            throw new Error('Required parameter sigle was null or undefined when calling findBySigle3.');
+        }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (sigle !== undefined && sigle !== null) {

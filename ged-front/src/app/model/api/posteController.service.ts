@@ -18,7 +18,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { PagePostes } from '../model/pagePostes';
-import { PosteRoleBean } from '../model/posteRoleBean';
 import { Postes } from '../model/postes';
 import { PostesAdduserBody } from '../model/postesAdduserBody';
 import { Structures } from '../model/structures';
@@ -30,7 +29,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class PosteControllerService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://localhost:8082';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -236,64 +235,6 @@ export class PosteControllerService {
     /**
      * 
      * 
-     * @param body 
-     * @param posteName 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public addroleposte(body: PosteRoleBean, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addroleposte(body: PosteRoleBean, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addroleposte(body: PosteRoleBean, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addroleposte(body: PosteRoleBean, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addroleposte.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling addroleposte.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.request<any>('post',`${this.basePath}/poste/role-to-poste-add`,
-            {
-                body: body,
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
      * @param id 
      * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -398,22 +339,126 @@ export class PosteControllerService {
     /**
      * 
      * 
+     * @param structure 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public findAllStructure(structure: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (structure === null || structure === undefined) {
+            throw new Error('Required parameter structure was null or undefined when calling findAllStructure.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (structure !== undefined && structure !== null) {
+            queryParameters = queryParameters.set('structure', <any>structure);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PagePostes>('get',`${this.basePath}/postes/search-by-structure`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findById3(id: number, observe?: 'body', reportProgress?: boolean): Observable<Postes>;
+    public findById3(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Postes>>;
+    public findById3(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Postes>>;
+    public findById3(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findById3.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Postes>('get',`${this.basePath}/postes/fing-by-id`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param body 
      * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public removeRoleToPoste(body: PosteRoleBean, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeRoleToPoste(body: PosteRoleBean, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeRoleToPoste(body: PosteRoleBean, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeRoleToPoste(body: PosteRoleBean, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public removeSubPoste(body: Postes, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeSubPoste(body: Postes, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeSubPoste(body: Postes, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeSubPoste(body: Postes, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling removeRoleToPoste.');
+            throw new Error('Required parameter body was null or undefined when calling removeSubPoste.');
         }
 
         if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling removeRoleToPoste.');
+            throw new Error('Required parameter posteName was null or undefined when calling removeSubPoste.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -441,72 +486,9 @@ export class PosteControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/poste/role-to-poste-remove`,
+        return this.httpClient.request<any>('put',`${this.basePath}/poste/delete-subposte`,
             {
                 body: body,
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param posteName 
-     * @param supPoste 
-     * @param subPoste 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public removeSubPoste(posteName: string, supPoste: string, subPoste: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeSubPoste(posteName: string, supPoste: string, subPoste: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeSubPoste(posteName: string, supPoste: string, subPoste: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeSubPoste(posteName: string, supPoste: string, subPoste: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling removeSubPoste.');
-        }
-
-        if (supPoste === null || supPoste === undefined) {
-            throw new Error('Required parameter supPoste was null or undefined when calling removeSubPoste.');
-        }
-
-        if (subPoste === null || subPoste === undefined) {
-            throw new Error('Required parameter subPoste was null or undefined when calling removeSubPoste.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
-        }
-        if (supPoste !== undefined && supPoste !== null) {
-            queryParameters = queryParameters.set('supPoste', <any>supPoste);
-        }
-        if (subPoste !== undefined && subPoste !== null) {
-            queryParameters = queryParameters.set('subPoste', <any>subPoste);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<any>('delete',`${this.basePath}/poste/delete-subposte`,
-            {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -1,4 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -60,7 +59,7 @@ export class CreateWorkflowComponent implements OnInit {
     body.sigle = this.f["sigle"].value;
     body.description = this.f["description"].value;
     this.newWorkflowFormGroup.reset();
-    this.apiService.add(body,"Maire").toPromise().then(
+    this.apiService.add(body,1,"Maire").toPromise().then(
       res => {
         this.toastr.success("true","Create");
         this.dialogRef.close();

@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class TypeLiasseControllerService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://localhost:8082';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -225,11 +225,14 @@ export class TypeLiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByName1(name?: string, observe?: 'body', reportProgress?: boolean): Observable<TypeLiasses>;
-    public findByName1(name?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeLiasses>>;
-    public findByName1(name?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeLiasses>>;
-    public findByName1(name?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findByName1(name: string, observe?: 'body', reportProgress?: boolean): Observable<TypeLiasses>;
+    public findByName1(name: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeLiasses>>;
+    public findByName1(name: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeLiasses>>;
+    public findByName1(name: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling findByName1.');
+        }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (name !== undefined && name !== null) {
@@ -265,14 +268,61 @@ export class TypeLiasseControllerService {
     /**
      * 
      * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findBySigle1(id: number, observe?: 'body', reportProgress?: boolean): Observable<TypeLiasses>;
+    public findBySigle1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeLiasses>>;
+    public findBySigle1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeLiasses>>;
+    public findBySigle1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findBySigle1.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<TypeLiasses>('get',`${this.basePath}/typeliasse/find-by-sigle`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param sigle 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findBySigle1(sigle?: string, observe?: 'body', reportProgress?: boolean): Observable<TypeLiasses>;
-    public findBySigle1(sigle?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeLiasses>>;
-    public findBySigle1(sigle?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeLiasses>>;
-    public findBySigle1(sigle?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findBySigle2(sigle?: string, observe?: 'body', reportProgress?: boolean): Observable<TypeLiasses>;
+    public findBySigle2(sigle?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TypeLiasses>>;
+    public findBySigle2(sigle?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TypeLiasses>>;
+    public findBySigle2(sigle?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -295,7 +345,7 @@ export class TypeLiasseControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<TypeLiasses>('get',`${this.basePath}/typeliasse/find-by-sigle`,
+        return this.httpClient.request<TypeLiasses>('get',`${this.basePath}/typeliasse/find-by-id`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

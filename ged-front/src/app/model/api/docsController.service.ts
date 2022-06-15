@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class DocsControllerService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://localhost:8082';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -65,17 +65,17 @@ export class DocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add7(body: Docs, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add7(body: Docs, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add7(body: Docs, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add7(body: Docs, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add6(body: Docs, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add6(body: Docs, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add6(body: Docs, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add6(body: Docs, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add7.');
+            throw new Error('Required parameter body was null or undefined when calling add6.');
         }
 
         if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling add7.');
+            throw new Error('Required parameter posteName was null or undefined when calling add6.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -106,53 +106,6 @@ export class DocsControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/docs/add`,
             {
                 body: body,
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param posteName 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public lastDocOpenByPoste(posteName: string, observe?: 'body', reportProgress?: boolean): Observable<Array<Docs>>;
-    public lastDocOpenByPoste(posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Docs>>>;
-    public lastDocOpenByPoste(posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Docs>>>;
-    public lastDocOpenByPoste(posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling lastDocOpenByPoste.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<Array<Docs>>('get',`${this.basePath}/docs/last-action`,
-            {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

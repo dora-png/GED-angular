@@ -1,83 +1,43 @@
-<h2 mat-dialog-title>Update WorkFlow</h2>
-  <mat-dialog-content class="mat-typography">
-    <form class="example-form">
-        <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>WorkFlow Name</mat-label>
-                <input value="name" readonly matInput>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>WorkFlow Doc type</mat-label>
-                <input value="Doc type" readonly matInput>
-              </mat-form-field>
-            </div>
-            
-          </div>
-      <div cdkDropListGroup class="row">
-        <div class="col-md-4">
-            <h1> Directions</h1>
-            <mat-form-field appearance="fill">
-                <mat-label>Structure Liste</mat-label>
-                <mat-select [formControl]="structureSelected" multiple>
-                  <mat-select-trigger>
-                    {{structureSelected.value ? structureSelected.value[0] : ''}}
-                    <span *ngIf="structureSelected.value?.length > 1" class="example-additional-selection">
-                      (+{{structureSelected.value.length - 1}} {{structureSelected.value?.length === 2 ? 'other' : 'others'}})
-                    </span>
-                  </mat-select-trigger>
-                  <mat-option *ngFor="let structure of structureList" [value]="structure">{{structure}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="row">
-                <div class="col-md-12">
-                    {{structureSelected.value}}
-                </div>
-            </div>
-          </div>
-        <div class="col-md-4">
-          <h1> Postes</h1>
-          <div cdkDropList
-            class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="postesList"
-          >
-            <div cdkDrag class="example-box"  *ngFor="let poste of postesList">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <h1> WorkFlow</h1>
-          <div cdkDropList
-           (cdkDropListDropped)="onDrop($event)" 
-           class="example-list"  
-           [cdkDropListData]="workflows"
-          >
-            <div cdkDrag class="example-box" *ngFor="let poste of workflows">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
-            </div>
-          </div>
-        </div>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="newWorkflowFormGroup" class="example-form">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>WorkFlow Name</mat-label>
+          <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
+          <mat-error *ngIf="f['name'].touched && f['name'].errors">
+            {{f["name"].errors|json}}
+          </mat-error>
+        </mat-form-field>
       </div>
-        <!--div class="row">
-            <div class="col-md-12">
-                <div class="example-button-row" align="end">
-                    <button mat-raised-button color="accent">Accent</button>
-                    <button mat-raised-button color="warn">Warn</button>
-                  </div>
-    
-            </div>
-        </div-->
-      
-      </form>   
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-  </mat-dialog-actions>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>WorkFlow Sigle</mat-label>
+          <input autocomplete="off" formControlName="sigle" name="sigle" id="sigle" required  matInput>
+          <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
+            {{f["sigle"].errors|json}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>WorkFlow Description</mat-label>
+          <textarea autocomplete="off" formControlName="description" name="description" id="description" required matInput></textarea>
+          <mat-error *ngIf="f['description'].touched && f['description'].errors">
+            {{f["description"].errors|json}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>   
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button type="button"[disabled]="newWorkflowFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
+    <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+    Save WorwkFlow
+  </button>
+</mat-dialog-actions>
 

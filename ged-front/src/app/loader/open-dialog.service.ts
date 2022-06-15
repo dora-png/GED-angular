@@ -15,26 +15,14 @@ export class OpenDialogService {
   openDialog(component: ComponentType<unknown>, data?: any) {
     let dialogConfig = new MatDialogConfig();    
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth="75%";
-    dialogConfig.maxHeight="95%";
-    dialogConfig.maxHeight="95%";
-    dialogConfig.minHeight="75%";
+    dialogConfig.minWidth="auto";
+    dialogConfig.maxHeight="100%";
+    dialogConfig.maxHeight="100%";
+    dialogConfig.minHeight="auto";
     dialogConfig.data=data;    
     const dialogRef = this.dialog.open(component,dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      if(typeof result == 'boolean'){
-        if(result){
-          if(typeof data == 'string'){            
-            this.router.navigate([data]);
-          }else{
-    
-          }
-        }else{
-  
-        }
-      }else{
 
-      }
     });
   }
 }

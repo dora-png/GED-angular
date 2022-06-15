@@ -1,5 +1,10 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from 'src/app/loader/loader.service';
+import { OpenDialogService } from 'src/app/loader/open-dialog.service';
+import { PageUsers, PosteControllerService, Postes, Users, UsersControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-set-user-to-subposte',
@@ -13,10 +18,38 @@ export class SetUserToSubposteComponent implements OnInit {
   postesList: string [] = ['User 1', 'User 2', 'User 3', 'User 4', 'User 5','User 6', 'User 7', 'User 8', 'User 9', 'User 10'];
 
   
+  posteName: string = "";
+  userToAddListe: Array<Users>=[];
+  userInPoste: Array<Users>=[];
+  pageUsers!: PageUsers;
+  workFlowSigle: string|undefined;
+  isEmpty: boolean = true;
+  loading: boolean = false;
+
    
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: Postes,
+    private loaderService: LoaderService,
+    private openDialogService: OpenDialogService,
+    private apiUsersService: UsersControllerService,   
+    private apiService: PosteControllerService,    
+    private toastr: ToastrService
+    ) {
+      this.posteName = this.data.name!;
+     }
 
   ngOnInit(): void {
+    this.apiUsersService.findAll1(1).toPromise().then(
+      resp => {
+       console.log(resp);
+      }
+    ).catch(
+      error => {
+      }
+    ).finally(
+      () => {
+      }
+    );
   }
 
 

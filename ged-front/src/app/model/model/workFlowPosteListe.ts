@@ -10,11 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface Users { 
-    iduser?: number;
-    name?: string;
-    username?: string;
-    password?: string;
-    status?: boolean;
-    dateCreation?: Date;
+export interface WorkFlowPosteListe { 
+    index?: number;
+    idPoste?: number;
+    idWorkFlow?: number;
+    exist?: boolean;
 }

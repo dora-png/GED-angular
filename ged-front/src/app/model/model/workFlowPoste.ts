@@ -17,5 +17,5 @@ export interface WorkFlowPoste {
     posteId?: Postes;
     workflowId?: WorkFlow;
     level?: number;
-    active?: boolean;
+    isactive?: boolean;
 }
