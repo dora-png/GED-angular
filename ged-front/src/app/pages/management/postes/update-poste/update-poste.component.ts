@@ -46,7 +46,7 @@ export class UpdatePosteComponent implements OnInit {
     return {
       idposte: this.data.idposte!,
       name: this.data.name!,
-      niveau: this.data.niveau!,
+     // niveau: this.data.niveau!,
       description: this.data.description!,
       posteSubalterne: this.data.posteSubalterne!,
       posteSuperieur: this.data.posteSuperieur,
@@ -61,10 +61,10 @@ export class UpdatePosteComponent implements OnInit {
     body.name = this.f["name"].value;
     body.description = this.f["description"].value;
     this.newPosteFormGroup.reset();
-    this.apiService.add5(body,"Maire").toPromise().then(
+    this.apiService.addPoste(body).toPromise().then(
       res => {
         this.toastr.success("true","Create");
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       }
     ).catch(
       error => {
@@ -77,7 +77,9 @@ export class UpdatePosteComponent implements OnInit {
       }
     );
   }
-
+  onClose(){
+    this.dialogRef.close(false);
+  }
 
 
 }

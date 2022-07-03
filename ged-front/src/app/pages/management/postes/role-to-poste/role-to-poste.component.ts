@@ -35,7 +35,7 @@ export class RoleToPosteComponent implements OnInit {
      }
 
      private init(){
-      this.apiService.findById3(this.data.idposte!).toPromise().then(
+      this.apiService.findPosteById(this.data.idposte!).toPromise().then(
         res => {
           this.groupInPoste = res?.groupslistes!;
          /* this.apiRoleService.findRoleToAdd(1, res?.idposte!).toPromise().then(
@@ -137,7 +137,7 @@ export class RoleToPosteComponent implements OnInit {
   }
 
   private onNextPage(page: number){
-    this.apiRoleService.findRoleToAdd(1, this.data.idposte!, page).toPromise().then(
+   /* this.apiRoleService.findRoleToAdd( this.data.idposte!, page).toPromise().then(
       resp => {
         if(resp==null){
           this.isEmpty=true;
@@ -154,7 +154,7 @@ export class RoleToPosteComponent implements OnInit {
     ).finally(
       () => {
       }
-    );
+    );*/
   }
 
 

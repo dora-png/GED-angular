@@ -61,26 +61,16 @@ export class LiasseControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addDocToLiasse(body: Liasses, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addDocToLiasse(body: Liasses, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addDocToLiasse(body: Liasses, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addDocToLiasse(body: Liasses, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addDocToLiasse(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addDocToLiasse(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addDocToLiasse(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addDocToLiasse(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addDocToLiasse.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling addDocToLiasse.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -106,7 +96,6 @@ export class LiasseControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/liasses/doc-to-liasses-add`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -244,10 +233,10 @@ export class LiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName7(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
-    public searchByName7(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
-    public searchByName7(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
-    public searchByName7(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchByName6(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchByName6(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchByName6(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchByName6(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -350,26 +339,16 @@ export class LiasseControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update5(body: Liasses, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update5(body: Liasses, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update5(body: Liasses, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update5(body: Liasses, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update4(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update4(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update4(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update4(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update5.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling update5.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+            throw new Error('Required parameter body was null or undefined when calling update4.');
         }
 
         let headers = this.defaultHeaders;
@@ -395,7 +374,6 @@ export class LiasseControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/liasses/update`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

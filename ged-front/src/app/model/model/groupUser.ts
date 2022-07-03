@@ -15,6 +15,7 @@ import { Roles } from './roles';
 export interface GroupUser { 
     idgroupes?: number;
     name?: string;
+    dateCreation?: Date;
     roleslistes?: Array<Roles>;
     posteslistes?: Array<Postes>;
 }

@@ -1,1 +1,117 @@
-<p>list-user works!</p>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <app-menu-manage></app-menu-manage>
+    </div>
+  </div>
+  <div class="row">
+    <div align="end">
+      <button mat-button (click)="refresf()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+      </button>
+      <button mat-button (click)="viewList()">
+        <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
+        <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+      </button>
+    </div>
+</div>
+<app-error *ngIf="!loading && isEmpty"></app-error>
+<div  class="row" *ngIf="!loading && !isEmpty">
+  <div class="col-md-12">
+    <mat-card>
+      <div class="row"></div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="col-sm-2 col-form-label">
+          <div class="input-group">
+            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+              <mat-radio-group [(ngModel)]="searchBy">
+                <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                <mat-radio-button class="example-margin" value="login">Login</mat-radio-button>
+              </mat-radio-group>
+            </span>
+          </div>
+          
+        </div>
+  
+      </div>
+      <div class="alert alert-danger" *ngIf="research" role="alert">
+        not found 
+      </div>
+      <div class="container-fluid" *ngIf="view">
+        <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-striped table-bordered table-list">
+              <thead>
+               <tr >
+                  <th >#</th>
+                  <th>name</th>
+                  <th>login</th>
+                  <th>poste</th>
+                  <th>View</th>
+                </tr> 
+               </thead>
+               <tbody>
+                <tr class="new" *ngFor="let user of userList;let indexOfelement=index" >
+                   <td>{{indexOfelement +1 }}</td>
+                   <td>{{user.nameUser!}}  </td>
+                   <td>{{user.loginUser!}} </td>
+                   <td>{{user.namePoste!}} </td>
+                   <td > <i class="fa fa-eye" (click)="openDialogProfil(user)" aria-hidden="true"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="container" *ngIf="!view">
+        <div class="row userMain">
+            <div class="col-md-3 col-sm-4" *ngFor="let user of userList;let indexOfelement=index">
+                <div class="userBlock">
+                    <div class="backgrounImg">
+                        <img src="https://preview.ibb.co/cqEz9S/photography3.jpg">
+                    </div>
+                    <div class="userImg">
+                        <img src="https://image.ibb.co/es4AG7/author4.jpg">
+                    </div>
+                    <div class="userDescription">
+                        <h5>{{user.nameUser!}} ( {{user.loginUser!}} )</h5>
+                        <p>Direction: {{user.direction!}}</p>
+                        <p>Poste: {{user.namePoste!}}</p>
+                         <a (click)="openDialogProfil(user)">
+                             <button class="btn">
+                              <span>View Profile</span>
+                             </button>
+                         </a>
+                    </div>
+                  
+                </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+
+
+
+  

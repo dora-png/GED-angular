@@ -16,6 +16,7 @@ export interface Structures {
     name?: string;
     sigle?: string;
     description?: string;
+    active?: boolean;
     postes?: Array<Postes>;
     structureSuperieur?: Structures;
     sousStructure?: Array<Structures>;

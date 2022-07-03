@@ -61,26 +61,16 @@ export class DocsControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add6(body: Docs, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add6(body: Docs, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add6(body: Docs, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add6(body: Docs, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add5(body: Docs, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add5(body: Docs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add5(body: Docs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add5(body: Docs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add6.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling add6.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+            throw new Error('Required parameter body was null or undefined when calling add5.');
         }
 
         let headers = this.defaultHeaders;
@@ -106,7 +96,6 @@ export class DocsControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/docs/add`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -181,13 +170,13 @@ export class DocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName8(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDocs>;
-    public searchByName8(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDocs>>;
-    public searchByName8(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDocs>>;
-    public searchByName8(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchByName7(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDocs>;
+    public searchByName7(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDocs>>;
+    public searchByName7(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDocs>>;
+    public searchByName7(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (sigle === null || sigle === undefined) {
-            throw new Error('Required parameter sigle was null or undefined when calling searchByName8.');
+            throw new Error('Required parameter sigle was null or undefined when calling searchByName7.');
         }
 
 
@@ -233,26 +222,16 @@ export class DocsControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update6(body: Docs, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update6(body: Docs, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update6(body: Docs, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update6(body: Docs, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update5(body: Docs, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update5(body: Docs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update5(body: Docs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update5(body: Docs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update6.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling update6.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+            throw new Error('Required parameter body was null or undefined when calling update5.');
         }
 
         let headers = this.defaultHeaders;
@@ -278,7 +257,6 @@ export class DocsControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/docs/update`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

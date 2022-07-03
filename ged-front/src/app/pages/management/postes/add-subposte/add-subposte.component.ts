@@ -1,5 +1,10 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from 'src/app/loader/loader.service';
+import { PosteControllerService, Postes } from 'src/app/model';
 
 @Component({
   selector: 'app-add-subposte',
@@ -7,53 +12,74 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-subposte.component.scss']
 })
 export class AddSubposteComponent implements OnInit {
-
-
-  workflows: string [] = ['mon poste'];
-
-  postesList: string [] = ['Poste 1', 'Poste 2', 'Poste 3', 'Poste 4', 'Poste 5','Poste 6', 'Poste 7', 'Poste 8', 'Poste 9', 'Poste 10'];
-
+  newPosteFormGroup!: FormGroup;
+  clicked: boolean= false;
   
    
-  constructor() { }
+    constructor(
+    @Inject(MAT_DIALOG_DATA) private data: Postes,
+    private loaderService: LoaderService,
+    private apiService: PosteControllerService,    
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
+    private dialogRef:  MatDialogRef<AddSubposteComponent>
+  )  {
+    this.newPosteFormGroup = formBuilder.group(
+      {
+        name: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
+        description: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]),
+        sup: new FormControl(this.data!.name),
+      }
+    );
+   }
 
   ngOnInit(): void {
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.newPosteFormGroup.controls;
+  }
 
-  onDrop(event: CdkDragDrop<string []>){
-    if(event.previousContainer==event.container){
-      if(event.container.data == this.postesList ){
-        moveItemInArray(
-          this.postesList ,
-          event.previousIndex,
-          event.currentIndex
-        );
-      }else if(event.container.data == this.workflows){
-        moveItemInArray(
-          this.workflows,
-          event.previousIndex,
-          event.currentIndex
-        );
-      }
-    }else{
-      if(event.previousContainer.data == this.postesList ){
-        transferArrayItem(
-          this.postesList,
-          this.workflows,
-          event.previousIndex,
-          event.currentIndex
-        );
-      }else if(event.previousContainer.data == this.workflows){
-        transferArrayItem(
-          this.workflows,
-          this.postesList,
-          event.previousIndex,
-          event.currentIndex
-        );
-      }
+  private initPosteBean(): Postes{
+    return {
+      idposte: undefined,
+      name: undefined,
+      active: true,
+      description: undefined,
+      posteSubalterne: undefined,
+      posteSuperieur: this.data!,
+      groupslistes: undefined,
+      structure:this.data!.structure!,
+    };
+  }
 
-    }
+  onSaveNewWorkFow(){
+    this.clicked=true;
+    let body: Postes=this.initPosteBean();
+    body.name = this.f["name"].value;
+    body.description = this.f["description"].value;
+    this.newPosteFormGroup.reset();
+    this.apiService.addSubPoste(body).toPromise().then(
+      res => {
+        this.toastr.success("true","Create");
+        this.dialogRef.close(true);
+      }
+    ).catch(
+      error => {
+        this.f["name"].setValue(body.name); 
+        this.f["description"].setValue(body.description);
+        this.f["sup"].setValue(this.data!.name);
+        this.clicked = false;
+      }
+    ).finally(
+      () => {
+      }
+    );
+  }
+  
+
+  onClose(){
+    this.dialogRef.close(false);
   }
 
 }

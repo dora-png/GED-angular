@@ -10,7 +10,7 @@ import { PosteControllerService, PagePostes, Structures, Postes } from '../../..
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { delay } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-poste',
@@ -22,6 +22,7 @@ export class ListPosteComponent implements OnInit {
   pagePostes!: PagePostes;
   isEmpty: boolean = true;
   loading: boolean = false;
+  view: boolean = false;
   structureName!: string;
   private pagesize ={page: 0, size: 5};
 
@@ -30,7 +31,8 @@ export class ListPosteComponent implements OnInit {
     private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
     private apiService: PosteControllerService,    
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogRef:  MatDialogRef<ListPosteComponent>
     ) { }
 
   ngOnInit(): void {
@@ -46,10 +48,19 @@ export class ListPosteComponent implements OnInit {
       });
   }
 
+  openDialogCreatePoste() {
+    this.openDialogService.openDialog(CreatePosteComponent, this.data)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
+  }
   
   private initData(){
     this.listenToLoading();
-    this.apiService.findAllStructure(this.data.idstructure!).toPromise().then(
+    this.apiService.findAllStructurePoste(this.data.idstructure!).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -70,7 +81,7 @@ export class ListPosteComponent implements OnInit {
   
   private changePageOrSize(page: number, size: number){
     this.listenToLoading();
-    this.apiService.findAllStructure(this.data.idstructure!,page).toPromise().then(
+    this.apiService.findAllStructurePoste(this.data.idstructure!,page).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -93,24 +104,59 @@ export class ListPosteComponent implements OnInit {
   }
  
   openDialogSetPosteUser(postes: Postes) {
-    this.openDialogService.openDialog(SetUserToSubposteComponent,postes );
+    this.openDialogService.openDialog(SetUserToSubposteComponent,postes )
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   
   openDialogAddSubPoste(postes: Postes) {
-    this.openDialogService.openDialog(AddSubposteComponent,postes);
+    this.openDialogService.openDialog(AddSubposteComponent,postes)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
   
   openDialogSetPosteRole(postes: Postes) {
-    this.openDialogService.openDialog(RoleToPosteComponent,postes);
+    this.openDialogService.openDialog(RoleToPosteComponent,postes)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   openDialogEdit(postes: Postes) {
-    this.openDialogService.openDialog(UpdatePosteComponent,postes);
+    this.openDialogService.openDialog(UpdatePosteComponent,postes)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   openDialogHistoric(postes: Postes) {
     this.openDialogService.openDialog(ReadPosteComponent,postes);
+  }
+  viewList(){
+    this.view=!this.view;
+
+  }
+  refresf(){
+    this.initData();
+  }
+
+  onClose(){
+    this.dialogRef.close(true);
   }
 
 }

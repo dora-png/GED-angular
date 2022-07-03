@@ -60,26 +60,16 @@ export class TypeLiasseControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add2(body: TypeLiasses, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add2(body: TypeLiasses, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add2(body: TypeLiasses, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add2(body: TypeLiasses, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add2(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add2(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add2(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add2(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling add2.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling add2.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -105,7 +95,6 @@ export class TypeLiasseControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/typeliasse/add`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -118,29 +107,21 @@ export class TypeLiasseControllerService {
      * 
      * 
      * @param id 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete1(id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete1(id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete1(id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete1(id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public delete1(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public delete1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public delete1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public delete1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling delete1.');
         }
 
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling delete1.');
-        }
-
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (id !== undefined && id !== null) {
             queryParameters = queryParameters.set('id', <any>id);
-        }
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -468,26 +449,16 @@ export class TypeLiasseControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update1(body: TypeLiasses, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update1(body: TypeLiasses, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update1(body: TypeLiasses, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update1(body: TypeLiasses, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update1(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update1(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update1(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update1(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling update1.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling update1.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -513,7 +484,6 @@ export class TypeLiasseControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/typeliasse/update`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

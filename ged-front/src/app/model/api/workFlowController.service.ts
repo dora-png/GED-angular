@@ -109,22 +109,17 @@ export class WorkFlowControllerService {
      * 
      * 
      * @param body 
-     * @param id 
      * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add(body: WorkFlow, id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add(body: WorkFlow, id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add(body: WorkFlow, id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add(body: WorkFlow, id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add(body: WorkFlow, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add(body: WorkFlow, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add(body: WorkFlow, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add(body: WorkFlow, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling add.');
-        }
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling add.');
         }
 
         if (posteName === null || posteName === undefined) {
@@ -132,9 +127,6 @@ export class WorkFlowControllerService {
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
         if (posteName !== undefined && posteName !== null) {
             queryParameters = queryParameters.set('posteName', <any>posteName);
         }
@@ -382,27 +374,19 @@ export class WorkFlowControllerService {
     /**
      * 
      * 
-     * @param id 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
-    public findAll(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
-    public findAll(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
-    public findAll(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling findAll.');
-        }
+    public findAll(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
+    public findAll(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
+    public findAll(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
+    public findAll(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
         }
@@ -627,21 +611,16 @@ export class WorkFlowControllerService {
     /**
      * 
      * 
-     * @param id 
      * @param name 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName(id: number, name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
-    public searchByName(id: number, name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
-    public searchByName(id: number, name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
-    public searchByName(id: number, name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling searchByName.');
-        }
+    public searchByName(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
+    public searchByName(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
+    public searchByName(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
+    public searchByName(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling searchByName.');
@@ -650,9 +629,6 @@ export class WorkFlowControllerService {
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
@@ -692,21 +668,16 @@ export class WorkFlowControllerService {
     /**
      * 
      * 
-     * @param id 
      * @param name 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchBySigle(id: number, name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
-    public searchBySigle(id: number, name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
-    public searchBySigle(id: number, name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
-    public searchBySigle(id: number, name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling searchBySigle.');
-        }
+    public searchBySigle(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageWorkFlow>;
+    public searchBySigle(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageWorkFlow>>;
+    public searchBySigle(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageWorkFlow>>;
+    public searchBySigle(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling searchBySigle.');
@@ -715,9 +686,6 @@ export class WorkFlowControllerService {
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
@@ -758,22 +726,17 @@ export class WorkFlowControllerService {
      * 
      * 
      * @param body 
-     * @param id 
      * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update(body: WorkFlow, id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update(body: WorkFlow, id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update(body: WorkFlow, id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update(body: WorkFlow, id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update(body: WorkFlow, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update(body: WorkFlow, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update(body: WorkFlow, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update(body: WorkFlow, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling update.');
-        }
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update.');
         }
 
         if (posteName === null || posteName === undefined) {
@@ -781,9 +744,6 @@ export class WorkFlowControllerService {
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
         if (posteName !== undefined && posteName !== null) {
             queryParameters = queryParameters.set('posteName', <any>posteName);
         }

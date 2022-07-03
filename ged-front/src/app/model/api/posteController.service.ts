@@ -17,9 +17,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { OrganigramStructure } from '../model/organigramStructure';
 import { PagePostes } from '../model/pagePostes';
 import { Postes } from '../model/postes';
-import { PostesAdduserBody } from '../model/postesAdduserBody';
 import { Structures } from '../model/structures';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -62,26 +62,16 @@ export class PosteControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add5(body: Postes, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add5(body: Postes, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add5(body: Postes, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add5(body: Postes, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addPoste(body: Postes, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addPoste(body: Postes, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addPoste(body: Postes, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addPoste(body: Postes, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add5.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling add5.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+            throw new Error('Required parameter body was null or undefined when calling addPoste.');
         }
 
         let headers = this.defaultHeaders;
@@ -107,7 +97,6 @@ export class PosteControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/postes/add`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -120,26 +109,16 @@ export class PosteControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addSubPoste(body: Postes, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addSubPoste(body: Postes, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addSubPoste(body: Postes, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addSubPoste(body: Postes, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addSubPoste(body: Postes, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addSubPoste(body: Postes, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addSubPoste(body: Postes, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addSubPoste(body: Postes, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addSubPoste.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling addSubPoste.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -165,7 +144,6 @@ export class PosteControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/poste/add-subposte`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -177,27 +155,30 @@ export class PosteControllerService {
     /**
      * 
      * 
-     * @param body 
-     * @param posteName 
+     * @param idpostes 
+     * @param idusers 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addUser(body: PostesAdduserBody, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addUser(body: PostesAdduserBody, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addUser(idpostes: number, idusers: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addUser(idpostes: number, idusers: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addUser(idpostes: number, idusers: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addUser(idpostes: number, idusers: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addUser.');
+        if (idpostes === null || idpostes === undefined) {
+            throw new Error('Required parameter idpostes was null or undefined when calling addUser.');
         }
 
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling addUser.');
+        if (idusers === null || idusers === undefined) {
+            throw new Error('Required parameter idusers was null or undefined when calling addUser.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+        if (idpostes !== undefined && idpostes !== null) {
+            queryParameters = queryParameters.set('idpostes', <any>idpostes);
+        }
+        if (idusers !== undefined && idusers !== null) {
+            queryParameters = queryParameters.set('idusers', <any>idusers);
         }
 
         let headers = this.defaultHeaders;
@@ -213,16 +194,10 @@ export class PosteControllerService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
         return this.httpClient.request<any>('post',`${this.basePath}/postes/add-user`,
             {
-                body: body,
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -236,29 +211,21 @@ export class PosteControllerService {
      * 
      * 
      * @param id 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete4(id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete4(id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete4(id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete4(id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deletePoste(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deletePoste(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deletePoste(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deletePoste(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete4.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling delete4.');
+            throw new Error('Required parameter id was null or undefined when calling deletePoste.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (id !== undefined && id !== null) {
             queryParameters = queryParameters.set('id', <any>id);
-        }
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -295,10 +262,10 @@ export class PosteControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll6(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
-    public findAll6(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
-    public findAll6(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
-    public findAll6(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllPoste(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public findAllPoste(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public findAllPoste(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public findAllPoste(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -345,13 +312,13 @@ export class PosteControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
-    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
-    public findAllStructure(structure: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
-    public findAllStructure(structure: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllStructurePoste(structure: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public findAllStructurePoste(structure: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public findAllStructurePoste(structure: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public findAllStructurePoste(structure: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (structure === null || structure === undefined) {
-            throw new Error('Required parameter structure was null or undefined when calling findAllStructure.');
+            throw new Error('Required parameter structure was null or undefined when calling findAllStructurePoste.');
         }
 
 
@@ -400,13 +367,13 @@ export class PosteControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findById3(id: number, observe?: 'body', reportProgress?: boolean): Observable<Postes>;
-    public findById3(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Postes>>;
-    public findById3(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Postes>>;
-    public findById3(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findPosteById(id: number, observe?: 'body', reportProgress?: boolean): Observable<Postes>;
+    public findPosteById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Postes>>;
+    public findPosteById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Postes>>;
+    public findPosteById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling findById3.');
+            throw new Error('Required parameter id was null or undefined when calling findPosteById.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -443,27 +410,186 @@ export class PosteControllerService {
     /**
      * 
      * 
-     * @param body 
-     * @param posteName 
+     * @param idGroup 
+     * @param page 
+     * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public removeSubPoste(body: Postes, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeSubPoste(body: Postes, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeSubPoste(body: Postes, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeSubPoste(body: Postes, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findPosteToAdd(idGroup: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public findPosteToAdd(idGroup: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public findPosteToAdd(idGroup: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public findPosteToAdd(idGroup: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling removeSubPoste.');
+        if (idGroup === null || idGroup === undefined) {
+            throw new Error('Required parameter idGroup was null or undefined when calling findPosteToAdd.');
         }
 
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling removeSubPoste.');
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idGroup !== undefined && idGroup !== null) {
+            queryParameters = queryParameters.set('idGroup', <any>idGroup);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PagePostes>('get',`${this.basePath}/poste/cant-be-add`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param idGroup 
+     * @param name 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findPosteToAddByName(idGroup: number, name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public findPosteToAddByName(idGroup: number, name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public findPosteToAddByName(idGroup: number, name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public findPosteToAddByName(idGroup: number, name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (idGroup === null || idGroup === undefined) {
+            throw new Error('Required parameter idGroup was null or undefined when calling findPosteToAddByName.');
+        }
+
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling findPosteToAddByName.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idGroup !== undefined && idGroup !== null) {
+            queryParameters = queryParameters.set('idGroup', <any>idGroup);
+        }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PagePostes>('get',`${this.basePath}/poste/cant-be-add-name`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public ogranigramme1(id: number, observe?: 'body', reportProgress?: boolean): Observable<OrganigramStructure>;
+    public ogranigramme1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<OrganigramStructure>>;
+    public ogranigramme1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<OrganigramStructure>>;
+    public ogranigramme1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling ogranigramme1.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<OrganigramStructure>('get',`${this.basePath}/postes/organigram`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public removeSubPoste(body: Postes, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeSubPoste(body: Postes, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeSubPoste(body: Postes, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeSubPoste(body: Postes, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling removeSubPoste.');
         }
 
         let headers = this.defaultHeaders;
@@ -489,7 +615,6 @@ export class PosteControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/poste/delete-subposte`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -507,11 +632,14 @@ export class PosteControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
-    public searchByName6(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchPosteByName(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public searchPosteByName(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public searchPosteByName(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public searchPosteByName(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling searchPosteByName.');
+        }
 
 
 
@@ -562,17 +690,17 @@ export class PosteControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
-    public searchByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
-    public searchByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
-    public searchByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchPosteByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PagePostes>;
+    public searchPosteByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PagePostes>>;
+    public searchPosteByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PagePostes>>;
+    public searchPosteByStructureAndNiveau(structures: Structures, niveau: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (structures === null || structures === undefined) {
-            throw new Error('Required parameter structures was null or undefined when calling searchByStructureAndNiveau.');
+            throw new Error('Required parameter structures was null or undefined when calling searchPosteByStructureAndNiveau.');
         }
 
         if (niveau === null || niveau === undefined) {
-            throw new Error('Required parameter niveau was null or undefined when calling searchByStructureAndNiveau.');
+            throw new Error('Required parameter niveau was null or undefined when calling searchPosteByStructureAndNiveau.');
         }
 
 
@@ -621,26 +749,16 @@ export class PosteControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update4(body: Postes, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update4(body: Postes, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update4(body: Postes, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update4(body: Postes, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updatePoste(body: Postes, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updatePoste(body: Postes, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updatePoste(body: Postes, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updatePoste(body: Postes, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update4.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling update4.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+            throw new Error('Required parameter body was null or undefined when calling updatePoste.');
         }
 
         let headers = this.defaultHeaders;
@@ -666,7 +784,6 @@ export class PosteControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/postes/update`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

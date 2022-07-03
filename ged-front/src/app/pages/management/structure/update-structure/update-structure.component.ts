@@ -50,7 +50,8 @@ export class UpdateStructureComponent implements OnInit {
       description: undefined,
       postes: this.data.postes!,
       sousStructure: this.data.sousStructure!,
-      structureSuperieur: this.data.structureSuperieur!
+      structureSuperieur: this.data.structureSuperieur!,
+      active: true
     };
   }
 
@@ -61,22 +62,22 @@ export class UpdateStructureComponent implements OnInit {
     body.sigle = this.f["sigle"].value;
     body.description = this.f["description"].value;
     this.newStructureFormGroup.reset();
-    this.apiService.update3(body,"Maire").toPromise().then(
+    this.apiService.update3(body).subscribe(
       res => {
         this.toastr.success("true","Create");
-        this.dialogRef.close();
-      }
-    ).catch(
+        this.dialogRef.close(true);
+      },
       error => {
         this.f["sigle"].setValue(body.sigle); 
         this.f["name"].setValue(body.name); 
         this.f["description"].setValue(body.description);
         this.clicked = false;
       }
-    ).finally(
-      () => {
-      }
     );
+  }
+
+  onClose(){
+    this.dialogRef.close(false);
   }
 
 }

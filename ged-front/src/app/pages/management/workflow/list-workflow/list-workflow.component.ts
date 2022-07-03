@@ -20,8 +20,9 @@ export class ListWorkflowComponent implements OnInit {
 
   pageWorkFlow!: PageWorkFlow;
   isEmpty: boolean = true;
-  loading: boolean = false;
+  loading: boolean = true;
   research: boolean = false;
+  view: boolean = false;
   private valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
   private pagesize ={page: 0, size: 5};
@@ -48,7 +49,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private initData(){
     this.listenToLoading();
-    this.apiService.findAll(1,this.pagesize.page,this.pagesize.size).toPromise().then(
+    this.apiService.findAll(this.pagesize.page,this.pagesize.size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -67,7 +68,13 @@ export class ListWorkflowComponent implements OnInit {
   }
 
   openDialogEdit(workFlow: WorkFlow) {
-    this.openDialogService.openDialog(UpdateWorkflowComponent, workFlow);
+    this.openDialogService.openDialog(UpdateWorkflowComponent, workFlow)
+      .afterClosed()
+      .subscribe(result => {
+        if(result){
+          this.refresf();
+        }
+      });
   }
 
   openDialogHistoric(workFlow: WorkFlow) {
@@ -75,17 +82,29 @@ export class ListWorkflowComponent implements OnInit {
   }
 
   newWorkflow() {
-    this.openDialogService.openDialog(CreateWorkflowComponent);
+    this.openDialogService.openDialog(CreateWorkflowComponent)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   openDialogAddPoste(workFlow: WorkFlow) {
-    this.openDialogService.openDialog(AddPosteToWorkflowComponent, workFlow);
+    this.openDialogService.openDialog(AddPosteToWorkflowComponent, workFlow)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
   
 
   private changePageOrSize(page: number, size: number){
     this.listenToLoading();
-    this.apiService.findAll(1,page, size).toPromise().then(
+    this.apiService.findAll(page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -105,7 +124,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
     this.listenToLoading();
-    this.apiService.searchByName(1,name, page, size).toPromise().then(
+    this.apiService.searchByName(name, page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -126,7 +145,7 @@ export class ListWorkflowComponent implements OnInit {
   
   private changePageOrSizeSearchBySigle(sigle: string, page: number, size: number){
     this.listenToLoading();
-    this.apiService.searchBySigle(1,sigle, page, size).toPromise().then(
+    this.apiService.searchBySigle(sigle, page, size).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -164,7 +183,7 @@ export class ListWorkflowComponent implements OnInit {
 
   private searchName(name: string){
     this.listenToLoading();
-    this.apiService.searchByName(1,name).toPromise().then(
+    this.apiService.searchByName(name).toPromise().then(
       res => {
         if(res==null){
           this.research=true;
@@ -182,9 +201,10 @@ export class ListWorkflowComponent implements OnInit {
       }
     );
   }
+
   private searchSigle(name: string){
     this.listenToLoading();
-    this.apiService.searchBySigle(1,name).toPromise().then(
+    this.apiService.searchBySigle(name).toPromise().then(
       res => {
         if(res==null){
           this.research=true;
@@ -220,6 +240,16 @@ export class ListWorkflowComponent implements OnInit {
       this.research=false;
       this.searchBy = undefined;
     }
+  }
+
+  viewList(){
+    this.view=!this.view;
+
+  }
+
+  refresf(){
+    this.initData();
+
   }
 
 }

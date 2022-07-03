@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Add Group</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="newGroupFormGroup" class="example-form">
+        <div  class="row">
+            <div class="col-md-12">            
+                <div class="example-list" >          
+                <div class="example-box" >
+                    <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Structure Name</mat-label>
+                    <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
+                    <mat-error *ngIf="f['name'].touched && f['name'].errors">
+                        {{f["name"].errors|json}}
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                </div>
+            </div>
+        </div>   
+    </form>   
+    
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button type="button"[disabled]="newGroupFormGroup.invalid" (click)="onSaveNewGroup()" class="btn btn-success">
+      <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+      Save Structure
+    </button>
+  </mat-dialog-actions>

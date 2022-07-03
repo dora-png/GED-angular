@@ -1,1 +1,22 @@
-<ngx-org-chart [nodes]="nodes" direction="vertical" (itemClick)="test($event)"></ngx-org-chart>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <app-menu-manage></app-menu-manage>
+    </div>
+</div>
+<br>
+<mat-divider></mat-divider>
+<br>
+
+<app-error *ngIf="!loading && isEmpty"></app-error>
+<div class="row"  *ngIf="!loading && !isEmpty">
+  <div class="col-md-12">
+    <ngx-org-chart [nodes]="nodes" direction="vertical" (itemClick)="test($event)"></ngx-org-chart>
+  </div>
+</div>
+

@@ -1,41 +1,20 @@
 <mat-drawer-container  class="sidenav-container" [hasBackdrop]="'true'">
-    <mat-drawer #drawer [mode]="'side'">
+    <mat-drawer  #drawer [mode]="'side'">
       <mat-toolbar  style="background-color: aqua;">
         <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
         Menu
       </mat-toolbar>
       <mat-nav-list class="menu">
-        <a mat-list-item >
-          <br>
-          <button [matMenuTriggerFor]="new" class="btn-1"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau</button>
-          <br>
-          <mat-menu #new="matMenu">
-            <mat-list>
-              <mat-list-item>
-                <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
-              </mat-list-item>
-              <mat-divider></mat-divider>
-              <mat-list-item>
-                <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>  
-              </mat-list-item>
-              <mat-divider></mat-divider>
-              <mat-list-item>
-                <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
-              </mat-list-item>  
-              <mat-list-item>
-                <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
-              </mat-list-item>
-            </mat-list>
-          </mat-menu>
-        </a>
-        <a mat-list-item routerLinkActive="active" routerLink="/documentation"  ><i class="fa fa-folder-open" aria-hidden="true"></i>Mes documents</a>
-        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-envelope" aria-hidden="true"></i> Courrier</a>    
-        <a mat-list-item routerLinkActive="active" routerLink="/archive" ><i class="fa fa-archive" aria-hidden="true"></i>Archive</a>  
+        <a mat-list-item routerLinkActive="active"  routerLink="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>     
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
       <mat-toolbar style="background-color: aqua;">
-        <button *ngIf="logging"
+        <button *ngIf="isLogged"
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
@@ -44,36 +23,19 @@
           <ng-template #showCross>
             <i class="fa fa-times" aria-hidden="true" matTooltip="CLOSE" aria-label="Side nav toggle icon"></i>
           </ng-template>
-        </button>
-        <span  *ngIf="logging">
-          <button mat-button [matMenuTriggerFor]="adminPanel"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
-          <mat-menu #adminPanel="matMenu">
-            <button mat-menu-item  routerLink="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button>  
-            <button mat-menu-item [matMenuTriggerFor]="managementdoc"><i class="fa fa-cogs" aria-hidden="true"></i> Management Application</button>
-            <button mat-menu-item [matMenuTriggerFor]="managementuser"><i class="fa fa-wrench" aria-hidden="true"></i> Management User</button>
-            <button mat-menu-item  routerLink="/admin_notification"><i class="fa fa-bell " aria-hidden="true"></i>  Notification<span class="badge">2</span></button>
-          </mat-menu>
-          <mat-menu #managementdoc="matMenu">          
-            <button mat-menu-item  routerLink="/manage/type-of-liasse"> Type de Document</button>
-            <button mat-menu-item  routerLink="/manage/liasse"><i class="fa fa-folder" aria-hidden="true"></i> Liste des dossiers</button>
-            <button mat-menu-item routerLink="/manage/workflow"><i class="fa fa-tachometer" aria-hidden="true"></i> Workflow</button>
-          </mat-menu>
-          <mat-menu #managementuser="matMenu">
-            <button mat-menu-item routerLink="/manage/users"><i class="fa fa-users" aria-hidden="true"></i> Gestion des utilisateurs</button>
-            <button mat-menu-item routerLink="/manage/poste">  Gestion des Postes</button>
-            <button mat-menu-item routerLink="/manage/structure">  Gestion des Directions / Cellules</button>
-            <button mat-menu-item routerLink="/manage/organigram"><i class="fa fa-sitemap" aria-hidden="true"></i>  Organigramme</button>
-          </mat-menu>
+        </button> 
+        <span  *ngIf="isLogged">
+          <button mat-button routerLink="/manage/index"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
         </span>
         <div class="right">
           <span class="title">GED</span>
-          <span *ngIf="logging">
+          <span *ngIf="isLogged">
             <button mat-button ><i class="fa fa-bell " aria-hidden="true"><span class="badge">2</span></i></button>
           </span>
-          <span *ngIf="logging">
+          <span *ngIf="isLogged">
             <button mat-button ><i class="fa fa-search" aria-hidden="true"></i></button>
           </span>
-          <span *ngIf="logging">
+          <span *ngIf="isLogged">
             <button mat-button [matMenuTriggerFor]="menuuser"><i class="fa fa-user" aria-hidden="true"></i></button>
             <mat-menu #menuuser="matMenu">    
               <button mat-menu-item (click)="onProfil()" >Profil</button>
@@ -105,11 +67,13 @@
       
      
   
-      <div class="content-wrapper">
+      <div class="content-wrapper" >
+        <div class="loader-container" *ngIf="!loading">
+          <app-loader style="top: 50%; left:50%;" ></app-loader>
+        </div>
         <div class="container-fluid">
           <router-outlet></router-outlet>
         </div>
-<!--           <app-footer  *ngIf="logging"></app-footer> -->
       </div> 
       
       

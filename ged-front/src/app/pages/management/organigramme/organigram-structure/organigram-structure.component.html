@@ -1,27 +1,15 @@
-<h2 mat-dialog-title>Create Direction / Cellule</h2>
+<h2 mat-dialog-title>Organigramme Direction / Cellule</h2>
 <mat-dialog-content class="mat-typography">
-    <div class="row">
-        <div class="col-md-6">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Name</mat-label>
-                <input value="name"  matInput>
-            </mat-form-field>
-        </div>   
-        
-        <div class="col-md-6">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure sigle</mat-label>
-                <input value="name"  matInput>
-            </mat-form-field>
-        </div>      
-    </div>
-    
-    <div class="row">
-        <div class="col-md-12">
-            <ngx-org-chart [nodes]="nodes" direction="vertical" (itemClick)="test($event)"></ngx-org-chart>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
 
-        </div>
-    </div>  
+    <app-error *ngIf="!loading && isEmpty"></app-error>
+    <div class="row"  *ngIf="!loading && !isEmpty">
+    <div class="col-md-12">
+        <ngx-org-chart [nodes]="nodes" direction="vertical" (itemClick)="test($event)"></ngx-org-chart>
+    </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCloseModal()">Cancel</button>

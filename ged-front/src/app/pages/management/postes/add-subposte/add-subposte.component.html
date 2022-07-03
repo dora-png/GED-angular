@@ -1,75 +1,48 @@
 <h2 mat-dialog-title>Add SubPoste to Poste</h2>
   <mat-dialog-content class="mat-typography">
-    <form class="example-form">
-        <div class="row">
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Poste Name</mat-label>
-                <input value="name" readonly matInput>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure</mat-label>
-                <input value="Doc type" readonly matInput>
-              </mat-form-field>
-            </div>
-            
-          </div>
-      <div cdkDropListGroup class="row">
-        <div class="col-md-5">
-          <h1> Poste</h1>
-          <div cdkDropList
-            class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="postesList"
-          >
-            <div cdkDrag class="example-box"  *ngFor="let poste of postesList">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
-            </div>
-          </div>
+    <form [formGroup]="newPosteFormGroup" class="example-form">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Poste Name</mat-label>
+            <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
+            <mat-error *ngIf="f['name'].touched && f['name'].errors">
+              {{f["name"].errors|json}}
+            </mat-error>
+          </mat-form-field>
         </div>
-        <div class="col-md-2">
-            <br>
-            <br>
-            <div class="example-list">
-             <div  class="example-box" >
-                <i class="fa fa-chevron-circle-right" aria-hidden="true">ADD</i>
-             </div>
-             <div  class="example-box">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true">REMOVE</i>
-            </div>
-           </div>
-        </div>
-        <div class="col-md-5">
-          <h1> Sub poste list</h1>
-          <div cdkDropList
-           (cdkDropListDropped)="onDrop($event)" 
-           class="example-list"  
-           [cdkDropListData]="workflows"
-          >
-            <div cdkDrag class="example-box" *ngFor="let poste of workflows">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste}}
-            </div>
-          </div>
+        <div class="col-md-6">          
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Poste Description</mat-label>
+                <textarea autocomplete="off" formControlName="description" name="description" id="description" required matInput></textarea>
+                <mat-error *ngIf="f['description'].touched && f['description'].errors">
+                  {{f["description"].errors|json}}
+                </mat-error>
+              </mat-form-field>
         </div>
       </div>
-        <!--div class="row">
-            <div class="col-md-12">
-                <div class="example-button-row" align="end">
-                    <button mat-raised-button color="accent">Accent</button>
-                    <button mat-raised-button color="warn">Warn</button>
-                  </div>
-    
-            </div>
-        </div-->
+
+
+    <div class="row">
+      <div class="col-md-12">            
+        <div class="example-list" >          
+          <div class="example-box" >
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Poste Superieur</mat-label>
+              <input autocomplete="off" formControlName="sup" name="sup" id="sup" readonly  matInput>
+            </mat-form-field>
+          </div>
+        </div>
+    </div>
+    </div>
       
-      </form>   
+    </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button type="button"[disabled]="newPosteFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
+      <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+      Save Poste
+    </button>
   </mat-dialog-actions>
 

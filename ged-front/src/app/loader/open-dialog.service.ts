@@ -21,8 +21,9 @@ export class OpenDialogService {
     dialogConfig.minHeight="auto";
     dialogConfig.data=data;    
     const dialogRef = this.dialog.open(component,dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
+    return dialogRef;
+   /* dialogRef.afterClosed().subscribe(result => {
+      return true;
+    });*/
   }
 }

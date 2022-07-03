@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { OrganigramSystem } from '../model/organigramSystem';
 import { PageStructures } from '../model/pageStructures';
 import { Structures } from '../model/structures';
 
@@ -60,26 +61,16 @@ export class StructureControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add4(body: Structures, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add4(body: Structures, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add4(body: Structures, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add4(body: Structures, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add4(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add4(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add4(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add4(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling add4.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling add4.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -105,7 +96,6 @@ export class StructureControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/structures/add`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -118,26 +108,16 @@ export class StructureControllerService {
      * 
      * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addSubStructures(body: Structures, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addSubStructures(body: Structures, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addSubStructures(body: Structures, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addSubStructures(body: Structures, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addSubStructures(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addSubStructures(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addSubStructures(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addSubStructures(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addSubStructures.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling addSubStructures.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -163,7 +143,6 @@ export class StructureControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/structures/add-sub-structure`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -176,29 +155,21 @@ export class StructureControllerService {
      * 
      * 
      * @param id 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete3(id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete3(id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete3(id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete3(id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public delete3(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public delete3(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public delete3(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public delete3(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling delete3.');
         }
 
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling delete3.');
-        }
-
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (id !== undefined && id !== null) {
             queryParameters = queryParameters.set('id', <any>id);
-        }
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -326,27 +297,53 @@ export class StructureControllerService {
     /**
      * 
      * 
-     * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public removeSubStructures(body: Structures, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeSubStructures(body: Structures, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeSubStructures(body: Structures, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeSubStructures(body: Structures, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public ogranigramme(observe?: 'body', reportProgress?: boolean): Observable<OrganigramSystem>;
+    public ogranigramme(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<OrganigramSystem>>;
+    public ogranigramme(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<OrganigramSystem>>;
+    public ogranigramme(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<OrganigramSystem>('get',`${this.basePath}/structures/list-of-unused`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public removeSubStructures(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeSubStructures(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeSubStructures(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeSubStructures(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling removeSubStructures.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling removeSubStructures.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -372,7 +369,6 @@ export class StructureControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/structures/remove-sub-structure`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -492,71 +488,17 @@ export class StructureControllerService {
     /**
      * 
      * 
-     * @param page 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public structureUnUseListe(page?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
-    public structureUnUseListe(page?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
-    public structureUnUseListe(page?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
-    public structureUnUseListe(page?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (page !== undefined && page !== null) {
-            queryParameters = queryParameters.set('page', <any>page);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<PageStructures>('get',`${this.basePath}/structures/list-of-unused`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
      * @param body 
-     * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update3(body: Structures, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update3(body: Structures, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update3(body: Structures, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update3(body: Structures, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update3(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update3(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update3(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update3(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling update3.');
-        }
-
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling update3.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
         }
 
         let headers = this.defaultHeaders;
@@ -582,7 +524,6 @@ export class StructureControllerService {
         return this.httpClient.request<any>('put',`${this.basePath}/structures/update`,
             {
                 body: body,
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

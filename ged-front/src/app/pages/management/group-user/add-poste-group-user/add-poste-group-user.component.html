@@ -1,0 +1,109 @@
+<h2 mat-dialog-title>Add/ remove Poste to Groupe</h2>
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form">
+        
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Group Name</mat-label>
+            <input value="groupName" readonly matInput>
+          </mat-form-field>
+        </div>
+        
+      </div>
+
+      <div cdkDropListGroup class="row">
+        <div class="col-md-5">
+          <div>
+            <h1> Poste List</h1>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+              <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+            </div>
+          </div>
+    
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12 col-form-label">
+            <div class="input-group">
+              <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                <mat-radio-group [(ngModel)]="searchBy" [ngModelOptions]="{standalone: true}">
+                  <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                </mat-radio-group>
+              </span>
+            </div>
+            
+          </div>
+    
+        </div>
+        <div class="alert alert-danger" *ngIf="research" role="alert">
+          not found 
+        </div>
+            <div cdkDropList
+            class="example-list" 
+           (cdkDropListDropped)="onDrop($event)"  
+           [cdkDropListData]="listPoste">
+              <div cdkDrag class="example-box"  *ngFor="let poste of listPoste;let indexOfelement=index">
+                {{poste.name!}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <app-nav-table [pageNumber]="pagePoste?.pageable?.pageNumber!" [first]="pagePoste?.first!" [last]="pagePoste?.last!" [size]="pagePoste?.size!" [totalPages]="pagePoste?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+              </div>
+            </div>
+          </div>
+        </div>        
+        <div class="col-md-2">
+          <br>
+          <br>
+          <div class="example-list"  
+         >
+           <div  class="example-box" >
+              <i class="fa fa-chevron-circle-right" aria-hidden="true">ADD</i>
+           </div>
+           <div  class="example-box">
+              <i class="fa fa-chevron-circle-left" aria-hidden="true">REMOVE</i>
+          </div>
+         </div>
+      </div>
+        <div class="col-md-5">
+          <h1> Current User</h1>
+          <div cdkDropList
+         (cdkDropListDropped)="onDrop($event)" 
+         class="example-list"  
+         [cdkDropListData]="currentPoste"
+        >
+            <div class="example-box1" cdkDrag *ngFor="let poste of currentPoste;let indexOfelement=index">
+              <div class="example-custom-placeholder" *cdkDragPlaceholder style="align-content: space-between;">
+                <span style="align-content: space-between;">
+                  {{ poste.name! }}
+                </span>
+                <div class="example-handle" style="color: red;">
+                  <i class="fa fa-trash-o" aria-hidden="true"(click)="onRemove(poste)"></i>
+                </div>
+              </div>
+              <span>
+                {{ poste.name! }}
+              </span>
+              <div class="example-handle" style="color: red; cursor: pointer;">
+                <i class="fa fa-trash-o" aria-hidden="true" (click)="onRemove(poste)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      
+      </form>   
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  </mat-dialog-actions>

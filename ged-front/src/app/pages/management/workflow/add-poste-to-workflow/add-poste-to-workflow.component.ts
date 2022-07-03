@@ -119,10 +119,13 @@ export class AddPosteToWorkflowComponent implements OnInit {
   private onRemoveData(workFlowPosteListe: Array<WorkFlowPosteListe>,posteName: string){
     this.apiServiceWorkFlow.removePosteToWorkFlow(workFlowPosteListe).toPromise().then(
       res => {
+        this.toastr.success("OK");
 
       }
     ).catch(
       error => {
+        
+        this.toastr.error("OK");
       }
     ).finally(
       () => {
@@ -134,10 +137,12 @@ export class AddPosteToWorkflowComponent implements OnInit {
   private onDragPosteAction(workFlowPosteListe: Array<WorkFlowPosteListe>,posteName: string){
     this.apiServiceWorkFlow.addPosteToWorkFlow(workFlowPosteListe).toPromise().then(
       res => {
+        this.toastr.success("OK");
 
       }
     ).catch(
       error => {
+        this.toastr.error("OK");
       }
     ).finally(
       () => {
@@ -359,6 +364,10 @@ export class AddPosteToWorkflowComponent implements OnInit {
       this.research=false;
       this.searchBy = undefined;
     }
+  }
+
+  onClose(){
+    this.dialogRef.close(true);
   }
 
 

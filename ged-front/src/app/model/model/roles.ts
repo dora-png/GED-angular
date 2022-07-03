@@ -9,6 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { GroupUser } from './groupUser';
 
 export interface Roles { 
     idroles?: number;
@@ -17,4 +18,5 @@ export interface Roles {
     read?: boolean;
     update?: boolean;
     _delete?: boolean;
+    groupUserlistes?: Array<GroupUser>;
 }

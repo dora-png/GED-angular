@@ -48,7 +48,8 @@ export class CreateStructureComponent implements OnInit {
       description: undefined,
       postes: undefined,
       sousStructure: undefined,
-      structureSuperieur: undefined
+      structureSuperieur: undefined,
+      active: true
     };
   }
 
@@ -59,10 +60,10 @@ export class CreateStructureComponent implements OnInit {
     body.sigle = this.f["sigle"].value;
     body.description = this.f["description"].value;
     this.newStructureFormGroup.reset();
-    this.apiService.add4(body,"Maire").toPromise().then(
+    this.apiService.add4(body).toPromise().then(
       res => {
         this.toastr.success("true","Create");
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       }
     ).catch(
       error => {
@@ -76,6 +77,8 @@ export class CreateStructureComponent implements OnInit {
       }
     );
   }
-
+  onClose(){
+    this.dialogRef.close(false);
+  }
 
 }

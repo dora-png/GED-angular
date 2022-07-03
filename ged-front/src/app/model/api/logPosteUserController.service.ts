@@ -60,22 +60,22 @@ export class LogPosteUserControllerService {
     /**
      * 
      * 
-     * @param users 
+     * @param idUser 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public currentPosteOfUser(users: Users, observe?: 'body', reportProgress?: boolean): Observable<Postes>;
-    public currentPosteOfUser(users: Users, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Postes>>;
-    public currentPosteOfUser(users: Users, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Postes>>;
-    public currentPosteOfUser(users: Users, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public currentPosteOfUser(idUser: number, observe?: 'body', reportProgress?: boolean): Observable<Postes>;
+    public currentPosteOfUser(idUser: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Postes>>;
+    public currentPosteOfUser(idUser: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Postes>>;
+    public currentPosteOfUser(idUser: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (users === null || users === undefined) {
-            throw new Error('Required parameter users was null or undefined when calling currentPosteOfUser.');
+        if (idUser === null || idUser === undefined) {
+            throw new Error('Required parameter idUser was null or undefined when calling currentPosteOfUser.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (users !== undefined && users !== null) {
-            queryParameters = queryParameters.set('users', <any>users);
+        if (idUser !== undefined && idUser !== null) {
+            queryParameters = queryParameters.set('idUser', <any>idUser);
         }
 
         let headers = this.defaultHeaders;
@@ -94,6 +94,53 @@ export class LogPosteUserControllerService {
         ];
 
         return this.httpClient.request<Postes>('get',`${this.basePath}/logposteuser/currentposte`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param idPoste 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public currentUserOfPoste(idPoste: number, observe?: 'body', reportProgress?: boolean): Observable<Users>;
+    public currentUserOfPoste(idPoste: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Users>>;
+    public currentUserOfPoste(idPoste: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Users>>;
+    public currentUserOfPoste(idPoste: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (idPoste === null || idPoste === undefined) {
+            throw new Error('Required parameter idPoste was null or undefined when calling currentUserOfPoste.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idPoste !== undefined && idPoste !== null) {
+            queryParameters = queryParameters.set('idPoste', <any>idPoste);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Users>('get',`${this.basePath}/logposteuser/currentuser`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

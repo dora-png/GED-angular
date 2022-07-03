@@ -1,5 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { delay } from 'rxjs';
+import { LoaderService } from 'src/app/loader/loader.service';
+import { OrganigramSystem, PosteControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-organigram-structure',
@@ -8,73 +11,49 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 })
 export class OrganigramStructureComponent implements OnInit {
 
+  loading: boolean = false;
+  isEmpty: boolean = true;
+  nodes: any = [];
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef:  MatDialogRef<OrganigramStructureComponent>
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef:  MatDialogRef<OrganigramStructureComponent>,
+    private apiService: PosteControllerService,
+    private loaderService: LoaderService
   ) { }
   ngOnInit(): void {
+    this.initData();
     
   }
-  nodes: any = [
-    {
-      name: 'Sundar Pichai',
-      cssClass: 'ngx-org-ceo',
-      image: '../../../../../assets/node.svg',
-      title: 'Chief Executive Officer',
-      childs: [
-        {
-          name: 'Thomas Kurian',
-          cssClass: 'ngx-org-ceo',
-          image: '../../../../../assets/node.svg',
-          title: 'CEO, Google Cloud',
-        },
-        {
-          name: 'Susan Wojcicki',
-          cssClass: 'ngx-org-ceo',
-          image: '../../../../../assets/node.svg',
-          title: 'CEO, YouTube',
-          childs: [
-            {
-              name: 'Beau Avril',
-              cssClass: 'ngx-org-head',
-              image: '../../../../../assets/node.svg',
-              title: 'Global Head of Business Operations',
-              childs: []
-            },
-            {
-              name: 'Tara Walpert Levy',
-              cssClass: 'ngx-org-vp',
-              image: '../../../../../assets/node.svg',
-              title: 'VP, Agency and Brand Solutions',
-              childs: []
-            },
-            {
-              name: 'Ariel Bardin',
-              cssClass: 'ngx-org-vp',
-              image: '../../../../../assets/node.svg',
-              title: 'VP, Product Management',
-              childs: []
-            }
-          ]
-        },
-        {
-          name: 'Jeff Dean',
-          cssClass: 'ngx-org-head',
-          image: '../../../../../assets/node.svg',
-          title: 'Head of Artificial Intelligence',
-          childs: [
-            {
-              name: 'David Feinberg',
-              cssClass: 'ngx-org-ceo',
-              image: '../../../../../assets/node.svg',
-              title: 'CEO, Google Health',
-              childs: []
-            }
-          ]
+
+  private listenToLoading(): void {
+    this.loaderService.getSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
+  }
+
+  private initData(){
+    this.listenToLoading();
+    this.apiService.ogranigramme1(this.data.id).toPromise().then(
+      res => {
+        if(res==null){
+          this.isEmpty=true;
+        }else{
+          this.isEmpty=false;
+          this.nodes.push(res);
         }
-      ]
-    }
-  ];
+      }
+    ).catch(
+      error => {
+      }
+    ).finally(
+      () => {
+      }
+    );
+  }
+ 
   test(event: any){}
   onCloseModal(){
     this.dialogRef.close();

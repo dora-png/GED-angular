@@ -20,9 +20,9 @@ export interface PageLiasses {
     content?: Array<Liasses>;
     number?: number;
     sort?: Sort;
+    pageable?: PageableObject;
     first?: boolean;
     last?: boolean;
     numberOfElements?: number;
-    pageable?: PageableObject;
     empty?: boolean;
 }

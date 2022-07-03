@@ -1,5 +1,7 @@
 export * from './docsController.service';
 import { DocsControllerService } from './docsController.service';
+export * from './groupUserController.service';
+import { GroupUserControllerService } from './groupUserController.service';
 export * from './liasseController.service';
 import { LiasseControllerService } from './liasseController.service';
 export * from './logPosteUserController.service';
@@ -18,4 +20,4 @@ export * from './usersController.service';
 import { UsersControllerService } from './usersController.service';
 export * from './workFlowController.service';
 import { WorkFlowControllerService } from './workFlowController.service';
-export const APIS = [DocsControllerService, LiasseControllerService, LogPosteUserControllerService, PosteControllerService, RolesControllerService, StructureControllerService, TypeDocsControllerService, TypeLiasseControllerService, UsersControllerService, WorkFlowControllerService];
+export const APIS = [DocsControllerService, GroupUserControllerService, LiasseControllerService, LogPosteUserControllerService, PosteControllerService, RolesControllerService, StructureControllerService, TypeDocsControllerService, TypeLiasseControllerService, UsersControllerService, WorkFlowControllerService];

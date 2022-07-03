@@ -45,7 +45,7 @@ export class CreatePosteComponent implements OnInit {
     return {
       idposte: undefined,
       name: undefined,
-      niveau: undefined,
+      active: true,
       description: undefined,
       posteSubalterne: undefined,
       posteSuperieur: undefined,
@@ -60,10 +60,10 @@ export class CreatePosteComponent implements OnInit {
     body.name = this.f["name"].value;
     body.description = this.f["description"].value;
     this.newPosteFormGroup.reset();
-    this.apiService.add5(body,"Maire").toPromise().then(
+    this.apiService.addPoste(body).toPromise().then(
       res => {
         this.toastr.success("true","Create");
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       }
     ).catch(
       error => {
@@ -77,6 +77,8 @@ export class CreatePosteComponent implements OnInit {
     );
   }
 
-
+  onClose(){
+    this.dialogRef.close(false);
+  }
 
 }

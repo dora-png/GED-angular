@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoginService } from 'src/app/loader/login.service';
 import { Users } from 'src/app/model';
 
@@ -14,6 +16,8 @@ export class LoginComponent implements OnInit {
   clicked: boolean=true;
 
   constructor(
+    private auth: AuthenticationService,
+    private router: Router,
     private formBuilder: FormBuilder,
     private http: LoginService
     ) { 
@@ -26,6 +30,7 @@ export class LoginComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.auth.disableHeaderBar();
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -38,8 +43,8 @@ export class LoginComponent implements OnInit {
     user.password = this.f["password"].value;
     this.http.login(user).toPromise().then(
       response=>{
-        console.log(response);
-        this.clicked=!this.clicked;
+        this.auth.enableHeaderBar();
+        this.router.navigate(['manage/workflow']);
       }
     ).catch(
       error=>{        

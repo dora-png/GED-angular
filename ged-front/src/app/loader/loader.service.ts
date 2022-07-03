@@ -10,6 +10,7 @@ export class LoaderService {
   postSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   putSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   delSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  refreshSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isloggingSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   /**
    * Contains in-progress loading requests
@@ -18,9 +19,25 @@ export class LoaderService {
   postMap: Map<string, boolean> = new Map<string, boolean>();
   putMap: Map<string, boolean> = new Map<string, boolean>();
   delMap: Map<string, boolean> = new Map<string, boolean>();
+  refreshMap: Map<string, boolean> = new Map<string, boolean>();
   loggingMap: Map<string, boolean> = new Map<string, boolean>();
 
   constructor() { }
+
+  setRefreshLoading(refresh: boolean, url: string): void {
+    if (!url) {
+      throw new Error('The request URL must be provided to the LoadingService.setLoading function');
+    }
+    if (refresh === true) {
+      this.refreshMap.set(url, refresh);
+      this.refreshSub.next(true);
+    }else if (refresh === false && this.refreshMap.has(url)) {
+      this.refreshMap.delete(url);
+    }
+    if (this.refreshMap.size === 0) {
+      this.refreshSub.next(false);
+    }
+  }
   
   setLogging(logging: boolean, url: string): void {
     if (!url) {

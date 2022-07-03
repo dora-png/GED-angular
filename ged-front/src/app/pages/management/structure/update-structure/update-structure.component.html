@@ -34,10 +34,10 @@
     </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button  (click)="onClose()">Cancel</button>
     <button type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
       <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
-      Save WorwkFlow
+      Save Structure
     </button>
   </mat-dialog-actions>
   

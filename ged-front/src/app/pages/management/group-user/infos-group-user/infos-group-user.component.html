@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Informations about {{nameGroup}}</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="newGroupFormGroup" class="example-form">
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Groupe Name</mat-label>
+                    <input formControlName="name" name="name" id="name" readonly matInput>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Group date creation</mat-label>
+                    <input [ngModel]="date | date: 'd/MMMM/y'" [ngModelOptions]="{standalone: true} " id="sigle" readonly matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-tab-group animationDuration="2000ms">
+                    <mat-tab label="Liste des Postes" *ngIf="posteslistesEmpty">
+                        <div class="example-list" >
+                            <div class="example-box" *ngFor="let poste of posteslistesList">
+                             {{poste.name!}}
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Liste des roles" *ngIf="roleslistesEmpty">
+                        <div class="example-list" >
+                            <div class="example-box" *ngFor="let role of roleslistesList">
+                             {{role.name!}}
+                            </div>
+                        </div>
+                    </mat-tab>
+                  </mat-tab-group>
+                
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button  (click)="onClose()" cdkFocusInitial>Cancel</button>
+</mat-dialog-actions>

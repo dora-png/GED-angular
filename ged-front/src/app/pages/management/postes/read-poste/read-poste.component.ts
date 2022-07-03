@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Postes } from 'src/app/model';
 
 @Component({
@@ -20,6 +20,7 @@ export class ReadPosteComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Postes,
     private formBuilder: FormBuilder,
+    private dialogRef:  MatDialogRef<ReadPosteComponent>
   ) { 
     this.newPosteFormGroup = formBuilder.group(
       {
@@ -36,7 +37,7 @@ export class ReadPosteComponent implements OnInit {
     return {
       idposte: this.data.idposte!,
       name: this.data.name!,
-      niveau: this.data.niveau!,
+     // niveau: this.data.niveau!,
       description: this.data.description!,
       posteSubalterne: this.data.posteSubalterne!,
       posteSuperieur: this.data.posteSuperieur,
@@ -44,7 +45,9 @@ export class ReadPosteComponent implements OnInit {
       structure:this.data.structure!,
     };
   }
-
+  onClose(){
+    this.dialogRef.close(false);
+  }
 
 
 }

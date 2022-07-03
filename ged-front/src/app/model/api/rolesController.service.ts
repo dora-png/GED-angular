@@ -58,27 +58,19 @@ export class RolesControllerService {
     /**
      * 
      * 
-     * @param posteId 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll5(posteId: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
-    public findAll5(posteId: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
-    public findAll5(posteId: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
-    public findAll5(posteId: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (posteId === null || posteId === undefined) {
-            throw new Error('Required parameter posteId was null or undefined when calling findAll5.');
-        }
+    public findAll5(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
+    public findAll5(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
+    public findAll5(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
+    public findAll5(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteId !== undefined && posteId !== null) {
-            queryParameters = queryParameters.set('posteId', <any>posteId);
-        }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
         }
@@ -115,34 +107,26 @@ export class RolesControllerService {
     /**
      * 
      * 
-     * @param posteId 
-     * @param posteToAddRole 
+     * @param idGroup 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findRoleToAdd(posteId: number, posteToAddRole: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
-    public findRoleToAdd(posteId: number, posteToAddRole: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
-    public findRoleToAdd(posteId: number, posteToAddRole: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
-    public findRoleToAdd(posteId: number, posteToAddRole: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findRoleToAdd(idGroup: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
+    public findRoleToAdd(idGroup: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
+    public findRoleToAdd(idGroup: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
+    public findRoleToAdd(idGroup: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (posteId === null || posteId === undefined) {
-            throw new Error('Required parameter posteId was null or undefined when calling findRoleToAdd.');
-        }
-
-        if (posteToAddRole === null || posteToAddRole === undefined) {
-            throw new Error('Required parameter posteToAddRole was null or undefined when calling findRoleToAdd.');
+        if (idGroup === null || idGroup === undefined) {
+            throw new Error('Required parameter idGroup was null or undefined when calling findRoleToAdd.');
         }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteId !== undefined && posteId !== null) {
-            queryParameters = queryParameters.set('posteId', <any>posteId);
-        }
-        if (posteToAddRole !== undefined && posteToAddRole !== null) {
-            queryParameters = queryParameters.set('posteToAddRole', <any>posteToAddRole);
+        if (idGroup !== undefined && idGroup !== null) {
+            queryParameters = queryParameters.set('idGroup', <any>idGroup);
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
@@ -180,29 +164,89 @@ export class RolesControllerService {
     /**
      * 
      * 
-     * @param posteId 
+     * @param idGroup 
      * @param name 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName5(posteId: number, name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
-    public searchByName5(posteId: number, name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
-    public searchByName5(posteId: number, name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
-    public searchByName5(posteId: number, name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findRoleToAddName(idGroup: number, name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
+    public findRoleToAddName(idGroup: number, name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
+    public findRoleToAddName(idGroup: number, name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
+    public findRoleToAddName(idGroup: number, name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (posteId === null || posteId === undefined) {
-            throw new Error('Required parameter posteId was null or undefined when calling searchByName5.');
+        if (idGroup === null || idGroup === undefined) {
+            throw new Error('Required parameter idGroup was null or undefined when calling findRoleToAddName.');
         }
 
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling findRoleToAddName.');
+        }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (posteId !== undefined && posteId !== null) {
-            queryParameters = queryParameters.set('posteId', <any>posteId);
+        if (idGroup !== undefined && idGroup !== null) {
+            queryParameters = queryParameters.set('idGroup', <any>idGroup);
         }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageRoles>('get',`${this.basePath}/roles/cant-be-add-name`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param name 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchByName5(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageRoles>;
+    public searchByName5(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageRoles>>;
+    public searchByName5(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageRoles>>;
+    public searchByName5(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling searchByName5.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }

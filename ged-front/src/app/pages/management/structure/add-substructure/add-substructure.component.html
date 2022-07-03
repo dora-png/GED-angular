@@ -1,86 +1,67 @@
-<h2 mat-dialog-title>Add Postes to WorkFlow {{StructureSigle}}</h2>
+<h2 mat-dialog-title>Add SubStructure to {{StructureSigle}}</h2>
   <mat-dialog-content class="mat-typography">
-    <form class="example-form" *ngIf="!isEmpty">
-      <div cdkDropListGroup class="row">
-        <div class="col-md-6">
-            <h1> Listes des directions inutilisée</h1>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon1">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                  </span>
-                  <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-                </div>
+    <form [formGroup]="newStructureFormGroup" class="example-form">
+      <div  class="row">
+        <div class="col-md-6">            
+            <div class="example-list" >          
+              <div class="example-box" >
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Structure Name</mat-label>
+                  <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
+                  <mat-error *ngIf="f['name'].touched && f['name'].errors">
+                    {{f["name"].errors|json}}
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="input-group">
-                  <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                    <mat-radio-group [(ngModel)]="searchBy" [ngModelOptions]="{standalone: true}">
-                      <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-                      <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
-                    </mat-radio-group>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="alert alert-danger" role="alert"  *ngIf="research" >
-              not found 
-            </div>
-            <div cdkDropList
-            class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="structureListe!">          
-              <div class="example-box" cdkDrag *ngFor="let structure of structureListe">
-                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                {{structure.name!}} ({{structure.sigle}}) 
-              </div>
-            </div>
-            <nav aria-label="true" align="center">
-                <ul class="pager">
-                  <li>
-                    <button  [disabled]="structurePage?.first"  mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onPreview()">
-                      <i class="fa fa-chevron-left"  aria-hidden="true"></i>
-                    </button>
-                  </li>              
-                  <li>
-                    <button mat-button>  page {{structurePage?.pageable?.pageNumber! + 1}}/{{structurePage?.totalPages!}}</button>
-                  </li>
-                  <li>
-                    <button [disabled]="structurePage?.last" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="onNext()">
-                      <i class="fa fa-chevron-right"  aria-hidden="true"></i>
-                    </button>
-                  </li>
-                </ul>
-              </nav>
         </div>
-        <div class="col-md-6">
-          <h1> WorkFlow</h1>
-          <div cdkDropList
-           class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="data?.sousStructure!">
-            <div cdkDrag class="example-box" *ngFor="let structure of data?.sousStructure">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{structure.name!}}
-              <button mat-mini-fab color="primary" (click)="onRemoveSousStructure(structure)">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-              </button>
- 
+        <div class="col-md-6">            
+          <div class="example-list" >          
+            <div class="example-box" >
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Structure Sigle</mat-label>
+                <input autocomplete="off" formControlName="sigle" name="sigle" id="sigle" required  matInput>
+                <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
+                  {{f["sigle"].errors|json}}
+                </mat-error>
+              </mat-form-field>
             </div>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">            
+          <div class="example-list" >          
+            <div class="example-box" >
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Structure Description</mat-label>
+                <textarea autocomplete="off" formControlName="description" name="description" id="description" required matInput></textarea>
+                <mat-error *ngIf="f['description'].touched && f['description'].errors">
+                  {{f["description"].errors|json}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+      </div>
+      <div class="col-md-6">            
+        <div class="example-list" >          
+          <div class="example-box" >
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Structure Superieur</mat-label>
+              <input autocomplete="off" formControlName="sup" name="sup" id="sup" readonly  matInput>
+            </mat-form-field>
           </div>
         </div>
     </div>
+    </div>
       
     </form>   
-    <div class="row">
-      <div class="col-md-12">
-        <app-error></app-error>
-      </div>
-    </div>
+    
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
+      <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+      Save Structure
+    </button>
   </mat-dialog-actions>

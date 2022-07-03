@@ -16,7 +16,7 @@ export interface Postes {
     idposte?: number;
     name?: string;
     description?: string;
-    niveau?: number;
+    active?: boolean;
     structure?: Structures;
     posteSubalterne?: Array<Postes>;
     posteSuperieur?: Postes;

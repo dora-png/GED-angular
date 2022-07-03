@@ -118,6 +118,17 @@ import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courr
 import { ProfilComponent } from './pages/management/users/profil/profil.component';
 import { ErrorComponent } from './utils/error/error.component';
 import { LoginService } from './loader/login.service';
+import { AuthenticationService } from './loader/authentication.service';
+import { LocalDaoService } from './loader/local-dao.service';
+import { ManageIndexComponent } from './pages/management/manage-index/manage-index.component';
+import { MenuManageComponent } from './pages/management/menu-manage/menu-manage.component';
+import { ListGroupUserComponent } from './pages/management/group-user/list-group-user/list-group-user.component';
+import { AddGroupUserComponent } from './pages/management/group-user/add-group-user/add-group-user.component';
+import { UpdateGroupUserComponent } from './pages/management/group-user/update-group-user/update-group-user.component';
+import { InfosGroupUserComponent } from './pages/management/group-user/infos-group-user/infos-group-user.component';
+import { AddRoleGroupUserComponent } from './pages/management/group-user/add-role-group-user/add-role-group-user.component';
+import { AddPosteGroupUserComponent } from './pages/management/group-user/add-poste-group-user/add-poste-group-user.component';
+import { AuthGuard } from './loader/auth-guard-service';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -245,6 +256,14 @@ const MATERIAL=[
     ListCourrierComponent,
     ProfilComponent,
     ErrorComponent,
+    ManageIndexComponent,
+    MenuManageComponent,
+    ListGroupUserComponent,
+    AddGroupUserComponent,
+    UpdateGroupUserComponent,
+    InfosGroupUserComponent,
+    AddRoleGroupUserComponent,
+    AddPosteGroupUserComponent,
   ],
   imports: [
     AppRoutingModule,    
@@ -261,7 +280,10 @@ const MATERIAL=[
 	  ApiModule.forRoot(getConfiguration)
   ],
   providers: [
+    AuthenticationService,
+    LocalDaoService,
     LoginService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

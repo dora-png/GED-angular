@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { DocsControllerService } from './api/docsController.service';
+import { GroupUserControllerService } from './api/groupUserController.service';
 import { LiasseControllerService } from './api/liasseController.service';
 import { LogPosteUserControllerService } from './api/logPosteUserController.service';
 import { PosteControllerService } from './api/posteController.service';
@@ -20,6 +21,7 @@ import { WorkFlowControllerService } from './api/workFlowController.service';
   exports:      [],
   providers: [
     DocsControllerService,
+    GroupUserControllerService,
     LiasseControllerService,
     LogPosteUserControllerService,
     PosteControllerService,

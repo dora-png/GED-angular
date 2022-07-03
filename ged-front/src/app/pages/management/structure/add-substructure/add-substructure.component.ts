@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { PageStructures, StructureControllerService, Structures } from 'src/app/model';
+import { StructureControllerService, Structures } from 'src/app/model';
 @Component({
   selector: 'app-add-substructure',
   templateUrl: './add-substructure.component.html',
@@ -12,299 +13,83 @@ import { PageStructures, StructureControllerService, Structures } from 'src/app/
 })
 export class AddSubstructureComponent implements OnInit {
 
-
-  structurePage?: PageStructures;
-  structureListe?: Array<Structures>;
+  newStructureFormGroup!: FormGroup;
+  clicked: boolean= false;
+ 
   StructureSigle: string|undefined;
   isEmpty: boolean = true;
-  nameStructure: string = "";
   loading: boolean = false;
-  research: boolean = false;
-  private valueToSearch!: string;
-  searchBy: 'name' | 'sigle' | undefined;
 
   
    
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Structures,
+    @Inject(MAT_DIALOG_DATA) private data: Structures,
     private dialogRef:  MatDialogRef<AddSubstructureComponent>,    
     private openDialogService: OpenDialogService,
-    private apiServiceStructure: StructureControllerService,     
+    private apiService: StructureControllerService, 
+    private formBuilder: FormBuilder,    
     private toastr: ToastrService
-  ) { }
+  ) { 
+    this.newStructureFormGroup = formBuilder.group(
+      {
+        name: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
+        sigle: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
+        description: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]),
+        sup: new FormControl(this.data!.name),
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.StructureSigle = this.data.sigle;
-    this.initWorkFlowPoste();
   }
-  onRemoveSousStructure(structure: Structures){
-    let structures: Structures={
-      idstructure: this.data.idstructure,
-      name: this.data.name,
-      sigle: this.data.sigle,
-      description: this.data.description,
-      postes: this.data.postes,
-      sousStructure: [structure],
-      structureSuperieur: this.data.structureSuperieur,
+  get f(): { [key: string]: AbstractControl } {
+    return this.newStructureFormGroup.controls;
+  }
+  private initStructureBean(): Structures{
+    return {
+      idstructure: undefined,
+      name: undefined,
+      sigle: undefined,
+      description: undefined,
+      postes: undefined,
+      sousStructure: undefined,
+      structureSuperieur: this.data
     };
-   this.onRemoveData(structures,"Maire");
   }
 
-  private initStructureList(){
-    this.apiServiceStructure.structureUnUseListe().toPromise().then(
+  onSaveNewWorkFow(){
+    this.clicked=true;
+    let body: Structures=this.initStructureBean();
+    body.name = this.f["name"].value;
+    body.sigle = this.f["sigle"].value;
+    body.description = this.f["description"].value;
+    body.structureSuperieur=this.data;
+    this.newStructureFormGroup.reset();
+    this.apiService.addSubStructures(body).toPromise().then(
       res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.structurePage=res;
-          this.structureListe = this.structurePage!.content!;
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1);
-          if(this.structureListe.length<=0){
-            this.isEmpty=true;
-          }else{
-            this.isEmpty=false;
-          }
-        }
-        
+        this.toastr.success("true","Create");
+        this.dialogRef.close(true);
       }
     ).catch(
       error => {
+        console.log(error);
+        this.f["sigle"].setValue(body.sigle); 
+        this.f["name"].setValue(body.name); 
+        this.f["description"].setValue(body.description);
+        this.f["sup"].setValue(this.data!.name);
+        this.clicked = false;
       }
     ).finally(
       () => {
       }
     );
   }
-
-  private initWorkFlowPoste(){
-    this.initStructureList();
+  onClose(){
+    this.dialogRef.close(false);
   }
-
-   private onRemoveData(structure: Structures,posteName: string){
-   this.apiServiceStructure.removeSubStructures(structure,posteName).toPromise().then(
-      res => {
-        this.toastr.success('Update', "Ok");
-        this.data.sousStructure!.splice(this.data.sousStructure!.findIndex(poste => poste.idstructure! === structure.idstructure),1);
-      }
-    ).catch(
-      error => {
-        this.toastr.error('Update', "KO");
-      }
-    ).finally(
-      () => {
-      }
-    );
-
-  }
+ 
 
 
-
-  onDrop(event: CdkDragDrop<Structures []>){
-    if(event.previousContainer==event.container){
-
-    }else{
-      if(event.previousContainer.data == this.structureListe ){
-        transferArrayItem(
-          this.structureListe,
-          this.data.sousStructure!,
-          event.previousIndex,
-          event.currentIndex
-        );
-        let structures: Structures={
-          idstructure: this.data.idstructure,
-          name: this.data.name,
-          sigle: this.data.sigle,
-          description: this.data.description,
-          postes: this.data.postes,
-          sousStructure: [this.structureListe[event.previousIndex]],
-          structureSuperieur: this.data.structureSuperieur,
-        };
-        this.onDragPosteAction(structures,"Maire",event.currentIndex);   
-      }
-
-    }
-  }
-
-  private onDragPosteAction(structures: Structures,posteName: string,index:number){
-    this.apiServiceStructure.addSubStructures(structures,posteName).toPromise().then(
-      res => {
-        this.toastr.success('Update', "Ok");
-      }
-    ).catch(
-      error => {
-        this.toastr.error('Update', "KO");
-        this.structureListe?.push(
-          this.data.sousStructure![index]
-        );
-        this.data.sousStructure!.splice(this.data.sousStructure!.findIndex(structure => structure.idstructure === this.data.sousStructure![index].idstructure),1);
-      }
-    ).finally(
-      () => {
-      }
-    );
-
-  }
-
-  private onNextPage(page: number){
-    this.apiServiceStructure.structureUnUseListe(page).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.structurePage=res;
-          this.structureListe = this.structurePage!.content!;
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1);
-        }
-        
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  onNext(){
-    if(this.searchBy==null){
-      this.onNextPage(this.structurePage?.pageable?.pageNumber!+1);
-    }else{
-      if(this.valueToSearch.length!>0){
-        if(this.searchBy =="name"){
-          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+1);
-        }else if(this.searchBy =="sigle"){        
-          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+1);
-        }else{
-          this.toastr.error("err.error.message", "Error +err.status");
-        }
-      }
-    }
-
-  }
-
-  onPreview(){
-    if(this.searchBy==null){
-      this.onNextPage(this.structurePage?.pageable?.pageNumber!-1);
-    }else{
-      if(this.valueToSearch.length!>0){
-        if(this.searchBy =="name"){
-          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!-1);
-        }else if(this.searchBy =="sigle"){        
-          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!-1);
-        }else{
-          this.toastr.error("err.error.message", "Error +err.status");
-        }
-      }
-    }
-  }
-
-  private searchName(name: string){
-    this.apiServiceStructure.searchByName4(name).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res; 
-          this.structureListe = this.structurePage!.content!;
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1);     
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  private searchSigle(name: string){
-    this.apiServiceStructure.searchBySigle3(name).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res;
-          this.structureListe = this.structurePage!.content!; 
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1);     
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  private searchNamePage(name: string, page: number){
-    this.apiServiceStructure.searchByName4(name, page).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res; 
-          this.structureListe = this.structurePage!.content!;   
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1);  
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  private searchSiglePage(sigle: string, page: number){
-    this.apiServiceStructure.searchBySigle3(sigle, page).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res;  
-          this.structureListe = this.structurePage!.content!; 
-          this.structureListe.splice(this.structureListe.findIndex(poste => poste.idstructure! === this.data.idstructure!),1); 
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="sigle"){        
-        this.searchSigle(this.valueToSearch);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      } 
-    }else{
-      this.initStructureList();
-      this.research=false;
-      this.searchBy = undefined;
-    }
-  }
 
 }

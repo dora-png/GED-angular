@@ -15,10 +15,16 @@ import { ListUserComponent } from './pages/management/users/list-user/list-user.
 import { SignalPbComponent } from './utils/signal-pb/signal-pb.component';
 import { ListArchiveComponent } from './pages/archive/list-archive/list-archive.component';
 import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courrier.component';
+import { ManageIndexComponent } from './pages/management/manage-index/manage-index.component';
+import { ListGroupUserComponent } from './pages/management/group-user/list-group-user/list-group-user.component';
+import { AuthGuard } from './loader/auth-guard-service';
+import { ErrorComponent } from './utils/error/error.component';
+
 
 const spb: Route={
   path: 'signal-problem',
   component: SignalPbComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Signaler un probleme',
     breadcrumb: [
@@ -26,9 +32,14 @@ const spb: Route={
     ]
   }
 };
+const defaultRoute: Route = {
+  path: '**',
+  component: LoginComponent//change
+};
 const help: Route={
   path: 'help',
   component: HelpPageComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'HELP',
     breadcrumb: [
@@ -36,19 +47,33 @@ const help: Route={
     ]
   }
 };
+
+const group: Route={
+  path: 'manage/security',
+  component: ListGroupUserComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: 'Roles & Groupes',
+    breadcrumb: [
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
+    ]
+  }
+};
 const organigram: Route={
   path: 'manage/organigram',
   component: OrganigramComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Organigram',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
 const dashboard: Route={
   path: 'dashboard',
   component: DashboardComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Dashboard'
   }
@@ -56,16 +81,18 @@ const dashboard: Route={
 const liasse: Route={
   path: 'manage/liasse',
   component: ListLiasseComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Liste des Documents',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
 const documentation: Route={
   path: 'documentation',
   component: LastDocOpenComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Accueil'
   }
@@ -73,6 +100,7 @@ const documentation: Route={
 const archive: Route={
   path: 'archive',
   component: ListArchiveComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Archive'
   }
@@ -80,6 +108,7 @@ const archive: Route={
 const courrier: Route={
   path: 'courrier',
   component: ListCourrierComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Courrier'
   }
@@ -87,20 +116,22 @@ const courrier: Route={
 const structure: Route={
   path: 'manage/structure',
   component: ListStructureComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Liste des Structures',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
 const user: Route={
   path: 'manage/users',
   component: ListUserComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Liste des Users',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
@@ -111,16 +142,29 @@ const login: Route={
 const poste: Route={
   path: 'manage/poste',
   component: ListPosteComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Liste des Postes',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
 const workflow: Route={
   path: 'manage/workflow',
   component: ListWorkflowComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: 'Liste des Workflows',
+    breadcrumb: [
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
+    ]
+  }
+};
+const index: Route={
+  path: 'manage/index',
+  component: ManageIndexComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Liste des Workflows',
     breadcrumb: [
@@ -131,10 +175,11 @@ const workflow: Route={
 const typeLiasse: Route={
   path: 'manage/type-of-liasse',
   component: ListTypeliasseComponent,
+  canActivate:[AuthGuard],
   data: {
     title: 'Type de Documents',
     breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
+      { routerLink: '/manage/index', text: 'Dashboard Management' }
     ]
   }
 };
@@ -143,6 +188,7 @@ const routes: Routes = [
   typeLiasse,
   dashboard,
   liasse,
+  group,
   documentation,
   structure,
   poste,
@@ -153,7 +199,9 @@ const routes: Routes = [
   user,
   login,
   courrier,
-  {path:"", redirectTo:"login",pathMatch:"full"}
+  index,
+  {path:"", redirectTo:"login",pathMatch:"full"},
+  defaultRoute
 ];
 
 @NgModule({

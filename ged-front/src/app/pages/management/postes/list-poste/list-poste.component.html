@@ -1,34 +1,71 @@
 <h2 mat-dialog-title>LISTE POSTE IN Structure {{structureName}}</h2>
   <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div align="end">
+        <button mat-button >
+          <i class="fa fa-refresh" *ngIf="!loading && !isEmpty" (click)="refresf()" aria-hidden="true"></i>
+        </button>
+        <button mat-button (click)="viewList()" *ngIf="!loading && !isEmpty" >
+          <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
+          <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+        </button>
+          <button mat-button  *ngIf="isEmpty">
+            <i class="fa fa-plus-circle" (click)="openDialogCreatePoste()" aria-hidden="true"></i>
+          </button>
+      </div>
+  </div>
     <app-error *ngIf="!loading && isEmpty"></app-error>
     <div  class="row" *ngIf="!loading && !isEmpty">
         <div class="col-md-12">
           <mat-card>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Poste Name</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
-                    <th scope="row">{{indexOfelement + 1 }}</th>
-                    <td>{{postes.name!}}</td>
-                    <td>
-                      <button mat-button [matMenuTriggerFor]="action">Actions</button>
-                      <mat-menu #action="matMenu">
-                        <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
-                        <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add / remove sub Poste</button>
-                        <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
-                        <button mat-menu-item (click)="openDialogSetPosteRole(postes)"> Add / Remove Role</button>
-                        <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
-                      </mat-menu>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="container-fluid" *ngIf="view">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="example-list">
+                    <div class="example-box" *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
+                      <div class="form-group" mat-button [matMenuTriggerFor]="action">
+                          <div class="input-group">
+                            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                              Name: 
+                            </span>
+                            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                              {{postes.name!}}
+                            </span>
+                          </div>
+                  
+                      </div>                   
+                    <mat-menu #action="matMenu">
+                      <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
+                      <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add sub Poste</button>
+                      <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
+                      <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
+                      <button mat-menu-item > Delete</button>
+                    </mat-menu>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container bootstrap snippet"  *ngIf="!view">
+              <div class="row">
+                <div class="col-lg-2 col-sm-6" *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
+                  <div class="circle-tile ">
+                    <a [matMenuTriggerFor]="action"><div class="circle-tile-heading light-gray"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                    <mat-menu #action="matMenu">
+                      <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
+                      <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add sub Poste</button>
+                      <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
+                      <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
+                    </mat-menu>
+                    <div class="circle-tile-content dark-gray">
+                      <div class="circle-tile-description text-faded"> Name</div>
+                      <div class="circle-tile-number text-faded ">{{postes.name!}}</div>
+                      <a class="circle-tile-footer" ><i class="fa fa-close text-red"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div> 
             <div class="row">
               <div class="col-md-12">
                 <app-nav-table [pageNumber]="pagePostes?.pageable?.pageNumber!" [first]="pagePostes?.first!" [last]="pagePostes?.last!" [size]="pagePostes?.size!" [totalPages]="pagePostes?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
@@ -37,7 +74,12 @@
           </mat-card>
         </div>
       </div>
+
+
+
+      
+        
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="onClose()">Cancel</button>
   </mat-dialog-actions>

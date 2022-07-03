@@ -8,7 +8,6 @@ import { LoaderService } from 'src/app/loader/loader.service';
 import { PageStructures, StructureControllerService, Structures } from 'src/app/model';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
-import { CreatePosteComponent } from '../../postes/create-poste/create-poste.component';
 import { ListPosteComponent } from '../../postes/list-poste/list-poste.component';
 
 @Component({
@@ -23,6 +22,7 @@ export class ListStructureComponent implements OnInit {
   isEmpty: boolean = true;
   loading: boolean = false;
   research: boolean = false;
+  view: boolean = false;
   private valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
   private pagesize ={page: 0, size: 5};
@@ -46,6 +46,8 @@ export class ListStructureComponent implements OnInit {
       });
   }
 
+
+
   
   private initData(){
     this.listenToLoading();
@@ -68,26 +70,48 @@ export class ListStructureComponent implements OnInit {
   }
 
   newStructure() {
-    this.openDialogService.openDialog(CreateStructureComponent);
+    this.openDialogService.openDialog(CreateStructureComponent)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   openDialogAddSubStructure(strucure: Structures) {
-    this.openDialogService.openDialog(AddSubstructureComponent, strucure);
+    this.openDialogService.openDialog(AddSubstructureComponent, strucure)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
   openDialogEdit(strucure: Structures) {
-    this.openDialogService.openDialog(UpdateStructureComponent, strucure);
+    this.openDialogService.openDialog(UpdateStructureComponent, strucure)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   openDialogHistoric(strucure: Structures) {
     this.openDialogService.openDialog(ReadStructureComponent, strucure);
   }
 
-  openDialogCreatePoste(strucure: Structures) {
-    this.openDialogService.openDialog(CreatePosteComponent, strucure);
-  }
+
 
   openDialogListPoste(strucure: Structures) {
-    this.openDialogService.openDialog(ListPosteComponent, strucure);
+    this.openDialogService.openDialog(ListPosteComponent, strucure)
+        .afterClosed()
+        .subscribe(result => {
+          if(result){
+            this.refresf();
+          }
+        });
   }
 
   private changePageOrSize(page: number, size: number){
@@ -224,6 +248,15 @@ export class ListStructureComponent implements OnInit {
       this.research=false;
       this.searchBy = undefined;
     }
+  }
+
+  viewList(){
+    this.view=!this.view;
+
+  }
+
+  refresf(){
+    this.initData();
   }
 
 

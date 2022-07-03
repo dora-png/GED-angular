@@ -25,7 +25,9 @@ export class ReadStructureComponent implements OnInit {
    
   constructor(    
     @Inject(MAT_DIALOG_DATA) private data: Structures,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    
+    private dialogRef:  MatDialogRef<ReadStructureComponent>
   ) { 
     
     this.nameStructure = this.data.name!;
@@ -57,6 +59,10 @@ export class ReadStructureComponent implements OnInit {
     }
   }
   ngOnInit() {
+  }
+
+  onClose(){
+    this.dialogRef.close(false);
   }
   
 
