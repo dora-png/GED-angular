@@ -19,167 +19,176 @@ import { ManageIndexComponent } from './pages/management/manage-index/manage-ind
 import { ListGroupUserComponent } from './pages/management/group-user/list-group-user/list-group-user.component';
 import { AuthGuard } from './loader/auth-guard-service';
 import { ErrorComponent } from './utils/error/error.component';
+import * as constant from './loader/constante';
 
 
 const spb: Route={
-  path: 'signal-problem',
+  path: constant.spb,
   component: SignalPbComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Signaler un probleme',
+    title: constant.spbName,
     breadcrumb: [
-      { routerLink: '/documentation', text: 'Acceuil' }
+      { routerLink: constant.documentationPath, text: constant.documentationName }
     ]
   }
 };
 const defaultRoute: Route = {
-  path: '**',
+  path: constant.defaultRoute,
   component: LoginComponent//change
 };
 const help: Route={
-  path: 'help',
+  path: constant.help,
   component: HelpPageComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'HELP',
+    title: constant.helpName,
     breadcrumb: [
-      { routerLink: '/documentation', text: 'Acceuil' }
+      { routerLink: constant.documentationPath, text: constant.documentationName }
     ]
   }
 };
 
 const group: Route={
-  path: 'manage/security',
+  path: constant.group,
   component: ListGroupUserComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Roles & Groupes',
+    title: constant.groupName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const organigram: Route={
-  path: 'manage/organigram',
+  path: constant.organigram,
   component: OrganigramComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Organigram',
+    title: constant.organigramName,    
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const dashboard: Route={
-  path: 'dashboard',
+  path: constant.dashboard,
   component: DashboardComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Dashboard'
+    title: constant.dashboardName,
+    breadcrumb: [
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
+    ]
   }
 };
 const liasse: Route={
-  path: 'manage/liasse',
+  path: constant.liasse,
   component: ListLiasseComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Documents',
+    title: constant.liasseName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const documentation: Route={
-  path: 'documentation',
+  path: constant.documentation,
   component: LastDocOpenComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Accueil'
+    title: constant.documentationName
   }
 };
 const archive: Route={
-  path: 'archive',
+  path: constant.archive,
   component: ListArchiveComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Archive'
+    title: constant.archiveName,
+    breadcrumb: [
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
+    ]
   }
+  
 };
 const courrier: Route={
-  path: 'courrier',
+  path: constant.courrier,
   component: ListCourrierComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Courrier'
+    title: constant.courrierName,
+    breadcrumb: [
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
+    ]
   }
+  
 };
 const structure: Route={
-  path: 'manage/structure',
+  path: constant.structure,
   component: ListStructureComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Structures',
+    title: constant.structureName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const user: Route={
-  path: 'manage/users',
+  path: constant.user,
   component: ListUserComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Users',
+    title: constant.userName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const login: Route={
-  path: 'login',
+  path: constant.login,
   component: LoginComponent
 };
 const poste: Route={
-  path: 'manage/poste',
+  path: constant.poste,
   component: ListPosteComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Postes',
+    title: constant.posteName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const workflow: Route={
-  path: 'manage/workflow',
+  path: constant.workflow,
   component: ListWorkflowComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Workflows',
+    title: constant.workflowName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
 const index: Route={
-  path: 'manage/index',
+  path: constant.manageIndex,
   component: ManageIndexComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Liste des Workflows',
-    breadcrumb: [
-      { routerLink: '/dashboard', text: 'Dashboard' }
-    ]
+    title: constant.manageName
   }
 };
 const typeLiasse: Route={
-  path: 'manage/type-of-liasse',
+  path: constant.typeLiasse,
   component: ListTypeliasseComponent,
   canActivate:[AuthGuard],
   data: {
-    title: 'Type de Documents',
+    title: constant.typeLiasseName,
     breadcrumb: [
-      { routerLink: '/manage/index', text: 'Dashboard Management' }
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
     ]
   }
 };
@@ -200,7 +209,7 @@ const routes: Routes = [
   login,
   courrier,
   index,
-  {path:"", redirectTo:"login",pathMatch:"full"},
+  {path:constant.tokenDefaultValue, redirectTo: constant.loginPath, pathMatch: constant.full},
   defaultRoute
 ];
 

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoginService } from 'src/app/loader/login.service';
 import { Users } from 'src/app/model';
+import * as constant from '../../loader/constante';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
     private auth: AuthenticationService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private http: LoginService
+    private http: LoginService,
+    private toast: ToastrService
     ) { 
       this.loginFormGroup = formBuilder.group(
         {
@@ -39,20 +42,15 @@ export class LoginComponent implements OnInit {
   onLogin(){
     this.clicked=!this.clicked;
     let user: Users = this.initUserBean();
-    user.username = this.f["username"].value;
-    user.password = this.f["password"].value;
-    this.http.login(user).toPromise().then(
+    user.username = this.f[constant.username].value;
+    user.password = this.f[constant.password].value;
+    this.http.login(user).subscribe(
       response=>{
         this.auth.enableHeaderBar();
-        this.router.navigate(['manage/workflow']);
-      }
-    ).catch(
-      error=>{        
-        console.log(error);
+        this.router.navigate([constant.manageIndex]);
+      }, error=>{       
+        this.toast.warning(error.error,constant.warning)
         this.clicked=!this.clicked;
-      }
-    ).finally(
-      () => {
       }
     );
   }

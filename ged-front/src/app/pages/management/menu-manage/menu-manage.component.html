@@ -1,15 +1,15 @@
 <div class="container">
 	<div class="row">
-                <button type="button" routerLink="/manage/type-of-liasse" class="btn btn-info btn-sm btn3d"><i class="fa fa-folder" aria-hidden="true"></i> Type de Dossiers</button>
-                <button type="button" routerLink="/archive" class="btn btn-info btn-sm btn3d"> Archives</button>
-                <button type="button" routerLink="/courrier" class="btn btn-info btn-sm btn3d"> courrier</button>
-                <button type="button" routerLink="/manage/type-of-liasse" class="btn btn-info btn-sm btn3d"><i class="fa fa-folder" aria-hidden="true"></i> Dossiers</button>
-                <button type="button" routerLink="/manage/liasse" class="btn btn-info btn-sm btn3d"><i class="fa fa-file" aria-hidden="true"></i> Documents</button>
-                <button type="button" routerLink="/manage/workflow" class="btn btn-info btn-sm btn3d"><i class="fa fa-tachometer" aria-hidden="true"></i> Workflows</button>
-                <button type="button" routerLink="/manage/users" class="btn btn-info btn-sm btn3d"><i class="fa fa-users " aria-hidden="true"></i> Utilisateurs</button>
-                <button type="button" routerLink="/manage/structure" class="btn btn-info btn-sm btn3d">Directions / Cellules</button>
-                <button type="button" routerLink="/manage/organigram" class="btn btn-info btn-sm btn3d"><i class="fa fa-sitemap " aria-hidden="true"></i> Organigramme</button>
-                <button type="button" routerLink="/admin_notification" class="btn btn-info btn-sm btn3d"><i class="fa fa-bell" aria-hidden="true"></i> Notification<span class="badge">2</span></button>
-                <button type="button" routerLink="/manage/security" class="btn btn-info btn-sm btn3d"><i class="fa fa-lock" aria-hidden="true"></i> Roles et Groupes</button>
+                <button type="button" [routerLink]="constantes.typeLiassePath" *ngIf="onHasRole(constantes.rtl)" class="btn btn-info btn-sm btn3d"><i class="fa fa-folder" aria-hidden="true"></i> Type de Dossiers</button>
+                <button type="button" [routerLink]="constantes.archivePath" *ngIf="onHasRole(constantes.rli)" class="btn btn-info btn-sm btn3d"> Archives</button>
+                <button type="button" [routerLink]="constantes.courrierPath" *ngIf="onHasRole(constantes.rli)" class="btn btn-info btn-sm btn3d"> courrier</button>
+                <button type="button" [routerLink]="constantes.liassePath" *ngIf="onHasRole(constantes.rli)" class="btn btn-info btn-sm btn3d"><i class="fa fa-folder" aria-hidden="true"></i> Dossiers</button>
+                <button type="button" [routerLink]="constantes.documentationPath" *ngIf="onHasRole(constantes.rdo)" class="btn btn-info btn-sm btn3d"><i class="fa fa-file" aria-hidden="true"></i> Documents</button>
+                <button type="button" [routerLink]="constantes.workflowPath" *ngIf="onHasRole(constantes.rwf)" class="btn btn-info btn-sm btn3d"><i class="fa fa-tachometer" aria-hidden="true"></i> Workflows</button>
+                <button type="button" [routerLink]="constantes.userPath" *ngIf="onHasRole(constantes.rus)" class="btn btn-info btn-sm btn3d"><i class="fa fa-users " aria-hidden="true"></i> Utilisateurs</button>
+                <button type="button" [routerLink]="constantes.structurePath" *ngIf="onHasRole(constantes.rst)" class="btn btn-info btn-sm btn3d">Directions / Cellules</button>
+                <button type="button" [routerLink]="constantes.organigramPath" *ngIf="onHasRole(constantes.rst)" class="btn btn-info btn-sm btn3d"><i class="fa fa-sitemap " aria-hidden="true"></i> Organigramme</button>
+                <button type="button" [routerLink]="constantes.notificationPath" class="btn btn-info btn-sm btn3d"><i class="fa fa-bell" aria-hidden="true"></i> Notification<span class="badge">2</span></button>
+                <button type="button" [routerLink]="constantes.groupPath" *ngIf="onHasRole(constantes.rro)" class="btn btn-info btn-sm btn3d"><i class="fa fa-lock" aria-hidden="true"></i> Roles et Groupes</button>
 	</div>
 </div>

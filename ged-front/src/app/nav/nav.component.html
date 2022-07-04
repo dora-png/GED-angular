@@ -5,11 +5,11 @@
         Menu
       </mat-toolbar>
       <mat-nav-list class="menu">
-        <a mat-list-item routerLinkActive="active"  routerLink="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>     
+        <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>     
         <mat-divider></mat-divider>
-        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
+        <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
         <mat-divider></mat-divider>
-        <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
+        <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
@@ -24,8 +24,8 @@
             <i class="fa fa-times" aria-hidden="true" matTooltip="CLOSE" aria-label="Side nav toggle icon"></i>
           </ng-template>
         </button> 
-        <span  *ngIf="isLogged">
-          <button mat-button routerLink="/manage/index"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
+        <span  *ngIf="isLogged && onHasRole(constantes.admin)">
+          <button mat-button [routerLink]="constantes.manageIndexPath"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
         </span>
         <div class="right">
           <span class="title">GED</span>
@@ -42,16 +42,15 @@
               <button mat-menu-item [matMenuTriggerFor]="setting"><i class="fa fa-cogs" aria-hidden="true"></i>   Parametre</button>
               <button mat-menu-item [matMenuTriggerFor]="help"><i class="fa fa-info" aria-hidden="true"></i>  Aide et assistance</button>
               <button mat-menu-item [matMenuTriggerFor]="affichage"><i class="fa fa-paint-brush" aria-hidden="true"></i>  Affichage</button>
-              <button mat-menu-item ><i class="fa fa-sign-out" aria-hidden="true"></i>   Se deconnecter</button>
+              <button mat-menu-item (click)="onLogOut()"><i class="fa fa-sign-out" aria-hidden="true"></i>   Se deconnecter</button>
             </mat-menu>
             <mat-menu #setting="matMenu">
-              <button mat-menu-item><i class="fa fa-cog" aria-hidden="true"></i>Parametres generaux</button>
-              <button mat-menu-item><i class="fa fa-history" aria-hidden="true"></i>   Historique</button>
+              <button mat-menu-item ><i class="fa fa-cog" aria-hidden="true"></i>Parametres generaux</button>
               <button mat-menu-item [matMenuTriggerFor]="language"><i class="fa fa-language" aria-hidden="true"></i>   Langue</button>
             </mat-menu>
             <mat-menu #help="matMenu">
-              <button mat-menu-item><i class="fa fa-question" aria-hidden="true"></i>    Page d'aide</button>
-              <button mat-menu-item><i class="fa fa-wrench" aria-hidden="true"></i>   Signaler un probleme</button>
+              <button mat-menu-item [routerLink]="constantes.helpPath"><i class="fa fa-question" aria-hidden="true"></i>    Page d'aide</button>
+              <button mat-menu-item [routerLink]="constantes.spbPath"><i class="fa fa-wrench" aria-hidden="true"></i>   Signaler un probleme</button>
             </mat-menu>
             <mat-menu #affichage="matMenu">
               <button mat-menu-item><i class="fa fa-moon-o" aria-hidden="true"></i> Sombre</button>

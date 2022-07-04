@@ -5,10 +5,10 @@ import {
   HttpEvent,
   HttpInterceptor, HttpResponse, HttpErrorResponse
 } from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators'
-import { finalize, Observable } from 'rxjs';
-import { LoaderService } from './loader.service';
-import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+import * as constant from './constante';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,37 +17,32 @@ export class InterceptorService implements HttpInterceptor {
 
 
   constructor(
-    private loaderService: LoaderService,    
-    private toastr: ToastrService) { }
+    private authenticationService: AuthenticationService
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    if(request.method==="post"){
-      this.loaderService.setGetLoading(true, request.url);
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        return event;
-      }));
-    }else if(request.method==="put"){
-      this.loaderService.setGetLoading(true, request.url);
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        return event;
-      }));
-      
-    }else if(request.method==="delete"){
-      this.loaderService.setGetLoading(true, request.url);
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        return event;
-      }));     
-    }else if(request.method==="get"){
-      this.loaderService.setGetLoading(true, request.url);
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        return event;
-      }));
-    }else{
-      return next.handle(request).pipe(map((event: HttpEvent<any>) => {
-        return event;
-      }));
+    if (this.authenticationService.getToken() !=constant.tokenDefaultValue ) {
+        request = request.clone({
+          setHeaders: { Authorization: this.authenticationService.getToken() }
+        });
     }
-
+    return next.handle(request).pipe(
+      map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            if(event.headers.has(constant.headerAuthori) && event.headers.has(constant.headerAuthori) != null ) {
+              this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)
+            }
+          }
+          if (event instanceof HttpErrorResponse) {
+            
+         // console.log(event);
+            if(event.headers.has(constant.headerAuthori) && event.headers.has(constant.headerAuthori) != null ) {
+              this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)
+            }
+          }
+          return event;
+        }
+      )
+    );
   }
 }

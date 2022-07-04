@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { AuthenticationService } from "./authentication.service";
+import * as constant from './constante';
 
 @Injectable()
 export class AuthGuard implements CanActivate  {
@@ -16,12 +17,16 @@ export class AuthGuard implements CanActivate  {
                 this.isConnected = isConnected;              
             }
         );
+        //console.log(route);
         this.authService.emitUserConnected();
         if(this.isConnected){
             return true;
         }else{
+           // return true;
+            
+       // console.log(route);
             this.authenticationService.logout();
-            this.router.navigate(['/login']);
+            this.router.navigate([constant.loginPath]);
 
         }
         throw new Error("Method not implemented.");

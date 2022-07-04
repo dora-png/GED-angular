@@ -9,6 +9,9 @@ import { PageStructures, StructureControllerService, Structures } from 'src/app/
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { ListPosteComponent } from '../../postes/list-poste/list-poste.component';
+import * as constante from '../../../../loader/constante';
+import { HttpStatusCode } from '../../../../loader/status-code';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 
 @Component({
   selector: 'app-list-structure',
@@ -30,7 +33,8 @@ export class ListStructureComponent implements OnInit {
   constructor(
     private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
-    private apiService: StructureControllerService,    
+    private apiService: StructureControllerService,
+    private auth: AuthenticationService,    
     private toastr: ToastrService
     ) { }
 
@@ -51,7 +55,7 @@ export class ListStructureComponent implements OnInit {
   
   private initData(){
     this.listenToLoading();
-    this.apiService.findAll4().toPromise().then(
+    this.apiService.findAll4().subscribe(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -59,12 +63,15 @@ export class ListStructureComponent implements OnInit {
           this.isEmpty=false;
           this.pageStructures=res;
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.isEmpty=true;
+          this.toastr.warning(error.error,constante.warning);
+          this.auth.onLogOut5S();
+        }else{
+
+        }
+        console.log(error)
       }
     );
   }

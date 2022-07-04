@@ -4,6 +4,8 @@ import { AuthenticationService } from '../loader/authentication.service';
 import { LoaderService } from '../loader/loader.service';
 import { OpenDialogService } from '../loader/open-dialog.service';
 import { ProfilComponent } from '../pages/management/users/profil/profil.component';
+import * as constante from '../loader/constante';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +14,7 @@ import { ProfilComponent } from '../pages/management/users/profil/profil.compone
 })
 export class NavComponent implements OnInit {
   isLogged: boolean = false;
-  
+  constantes: any = constante;
   loading: boolean = true;
   private isLoggedSubscription: Subscription | undefined;
   logging: boolean = false;
@@ -21,6 +23,7 @@ export class NavComponent implements OnInit {
   constructor(
     private loaderService: LoaderService,
     private auth: AuthenticationService,
+    private route: Router,
     private openDialog: OpenDialogService
     ) {
       
@@ -32,9 +35,13 @@ export class NavComponent implements OnInit {
         this.isLogged=isLogged;
       }
     );  
-   /* this.listenToLogging();
-    this.listenToLoading();*/
   }
+
+  onHasRole(role:string): boolean{
+    return this.auth.getRoles(role);
+  }
+
+
 
   listenToLoading(): void {
     this.loaderService.getSub
@@ -43,25 +50,13 @@ export class NavComponent implements OnInit {
         this.loading = loading;
       });
   }
-
-  /*listenToLogging(): void {
-    this.loaderService.isloggingSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((logging) => {
-        this.logging = logging;
-      });
-  }
-
-  listenToMessage(): void {
-    this.loaderService.isloggingSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((logging) => {
-        this.logging = logging;
-      });
-  }*/
   onProfil(){
     this.openDialog.openDialog(ProfilComponent);
   }
+  onLogOut(){
+    this.auth.logout();
+  }
+  
 
 
 

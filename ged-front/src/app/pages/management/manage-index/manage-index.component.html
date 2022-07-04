@@ -18,44 +18,44 @@
                     <div class="row">
                         <div class="col-md-12">
                           <!-- dblue -->
-                          <a routerLink="/dashboard" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />DashBoard </a>
+                          <a [routerLink]="constantes.dashboardPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />DashBoard </a>
                         </div>
                     </div>
                     <br/>
-                        <div class="row">
+                        <div class="row"  *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)">
                             <div class="col-md-12">
                                 <h3>
                                     <i class="fa fa-cogs" aria-hidden="true"></i> Management Application
                                 </h3>                                
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)">
                             <div class="col-md-12">
                               <!-- dblue -->
-                              <a routerLink="/archive" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Archive </a>
-                              <a routerLink="/courrier" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Courrier </a>
-                              <a routerLink="/manage/type-of-liasse" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Type de Dossiers  </a>
-                              <a routerLink="/manage/type-of-liasse" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Dossiers  </a>
-                              <a routerLink="/manage/liasse" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-file fa-4x" aria-hidden="true"></i> <br />Documents </a>
-                              <a routerLink="/manage/workflow" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Workflows </a>
+                              <a [routerLink]="constantes.archivePath" *ngIf="onHasRole(constantes.rli)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Archive </a>
+                              <a [routerLink]="constantes.courrierPath" *ngIf="onHasRole(constantes.rli)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Courrier </a>
+                              <a [routerLink]="constantes.typeLiassePath" *ngIf="onHasRole(constantes.rtl)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Type de Dossiers  </a>
+                              <a [routerLink]="constantes.liassePath" *ngIf="onHasRole(constantes.rli)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Dossiers  </a>
+                              <a [routerLink]="constantes.documentationPath" *ngIf="onHasRole(constantes.rdo)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-file fa-4x" aria-hidden="true"></i> <br />Documents </a>
+                              <a [routerLink]="constantes.workflowPath" *ngIf="onHasRole(constantes.rwf)" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Workflows </a>
                             </div>
                         </div>
                         <br/>
                         
-                        <div class="row">
+                        <div class="row" *ngIf="onHasRole(constantes.rus) || onHasRole(constantes.rst) || onHasRole(constantes.rro)">
                             <div class="col-md-12">
                                 <h3>
                                     <i class="fa fa-cogs" aria-hidden="true"></i> Management User
                                 </h3>                                
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="onHasRole(constantes.rus) || onHasRole(constantes.rst) || onHasRole(constantes.rro)">
                             <div class="col-md-12">
-                              <a routerLink="/manage/users" class="btn btn-dred btn-lg" role="button"><i class="fa fa-users fa-4x" aria-hidden="true"></i> <br />Utilisateurs  </a>
-                              <a routerLink="/manage/structure" class="btn btn-dred btn-lg" role="button"><i class="fa fa-users fa-4x" aria-hidden="true"></i> <br />Directions / <br/> Cellules  </a>
-                              <a routerLink="/manage/organigram" class="btn btn-dred btn-lg" role="button"><i class="fa fa-sitemap fa-4x" aria-hidden="true"></i> <br />Organigramme  </a>
-                              <a routerLink="/manage/security" class="btn btn-dred btn-lg" role="button"><i class="fa fa-lock fa-4x" aria-hidden="true"></i> <br />Roles & Groupes  </a>
-                              <a routerLink="/admin_notification" class="btn btn-dred btn-lg" role="button"><i class="fa fa-bell fa-4x" aria-hidden="true"></i> <br />Notification<span class="badge">2</span>  </a>
+                              <a [routerLink]="constantes.userPath" *ngIf="onHasRole(constantes.rus)" class="btn btn-dred btn-lg" role="button"><i class="fa fa-users fa-4x" aria-hidden="true"></i> <br />Utilisateurs  </a>
+                              <a [routerLink]="constantes.structurePath" *ngIf="onHasRole(constantes.rst)" class="btn btn-dred btn-lg" role="button"><i class="fa fa-users fa-4x" aria-hidden="true"></i> <br />Directions / <br/> Cellules  </a>
+                              <a [routerLink]="constantes.organigramPath" *ngIf="onHasRole(constantes.rst)" class="btn btn-dred btn-lg" role="button"><i class="fa fa-sitemap fa-4x" aria-hidden="true"></i> <br />Organigramme  </a>
+                              <a [routerLink]="constantes.groupPath" *ngIf="onHasRole(constantes.rro)" class="btn btn-dred btn-lg" role="button"><i class="fa fa-lock fa-4x" aria-hidden="true"></i> <br />Roles & Groupes  </a>
+                              <a [routerLink]="constantes.notificationPath" class="btn btn-dred btn-lg" role="button"><i class="fa fa-bell fa-4x" aria-hidden="true"></i> <br />Notification<span class="badge">2</span>  </a>
                             </div>
                         </div>
                         <!--div class="row">
