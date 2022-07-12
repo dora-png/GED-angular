@@ -481,7 +481,7 @@ export class TypeLiasseControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/typeliasse/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/typeliasse/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

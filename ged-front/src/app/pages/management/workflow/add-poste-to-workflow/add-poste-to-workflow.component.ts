@@ -1,11 +1,11 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { JsonPipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import * as constante from '../../../../loader/constante';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { WorkFlowControllerService, StructureControllerService, WorkFlow, PageStructures, Postes, Structures, WorkFlowPoste, WorkFlowPosteListe } from '../../../../model/index';
+import { WorkFlowControllerService, StructureControllerService, WorkFlow, PageStructures, Postes, Structures, WorkFlowPoste } from '../../../../model/index';
+import { HttpStatusCode } from 'src/app/loader/status-code';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 
 
 @Component({
@@ -16,24 +16,27 @@ import { WorkFlowControllerService, StructureControllerService, WorkFlow, PageSt
 export class AddPosteToWorkflowComponent implements OnInit {
 
   structurePage?: PageStructures;
-  workFlowPoste: Array<WorkFlowPoste>=[];
-  posteWorkFlow: Array<Postes>=[];
-  posteStructure: Array<Postes>=[];
+  constantes: any = constante;
+  posteStructureEmpty: boolean = constante.falseValue;
+  workFlowPostesEmpty: boolean = constante.trueValue;
+  workFlowPostes: WorkFlowPoste[]=constante.arrayEmpty;
+  posteStructure: Postes[]=constante.arrayEmpty;
   workFlowSigle: string|undefined;
-  isEmpty: boolean = true;
-  nameStructure: string = "";
-  loading: boolean = false;
-  research: boolean = false;
-  private valueToSearch!: string;
+  isEmpty: boolean = constante.trueValue;
+  nameStructure: string = constante.tokenDefaultValue;
+  loading: boolean = constante.falseValue;
+  research: boolean = constante.falseValue;
+  workflowEdited: boolean = constante.falseValue;
+  valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
 
   
    
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: WorkFlow,
-    private dialogRef:  MatDialogRef<AddPosteToWorkflowComponent>,    
-    private openDialogService: OpenDialogService,
-    private apiServiceWorkFlow: WorkFlowControllerService, 
+    private dialogRef:  MatDialogRef<AddPosteToWorkflowComponent>,
+    private apiServiceWorkFlow: WorkFlowControllerService,    
+    private auth: AuthenticationService,  
     private apiServiceStructure: StructureControllerService,     
     private toastr: ToastrService
   ) { }
@@ -42,206 +45,177 @@ export class AddPosteToWorkflowComponent implements OnInit {
     this.workFlowSigle = this.data.sigle;
     this.initWorkFlowPoste();
   }
-  onRemovePosteInWorfFlow(postee: Postes){
-    this.posteWorkFlow.splice(this.posteWorkFlow.findIndex(poste => poste.idposte === postee.idposte),1);
-    let workFlowPosteListe: Array<WorkFlowPosteListe>=[]; 
-    workFlowPosteListe.push(
-      {
-        exist: false,
-        index: 0,
-        idWorkFlow: this.data!.idworkflows!,
-        idPoste: postee.idposte!
-      }
-    );
-    this.posteWorkFlow.forEach(
-      (postes: Postes, index:number)=>{
-        workFlowPosteListe.push(
-          {
-            exist: true,
-            index: index,
-            idWorkFlow: this.data!.idworkflows!,
-            idPoste: postes.idposte!
-          }
-        );
-      }
-    );   
-    this.onRemoveData(workFlowPosteListe,"Maire");
+  onRemovePosteInWorfFlow(workFlowPoste: WorkFlowPoste){
+    this.onRemoveData(workFlowPoste);
   }
 
-  private initStructureList(){
-    this.apiServiceStructure.findAll4().toPromise().then(
+  addPoste(poste: Postes){
+    if(this.workFlowPostes.length <= constante.pageInit){
+      let workFlowPoste : WorkFlowPoste = {
+        idworkflowposte: undefined,
+        posteId: poste,
+        workflowId: this.data,
+        dateCreation: undefined,
+        isactive: constante.trueValue,
+        level:constante.pageInit + 1
+      };
+      this.workFlowPostes.push(workFlowPoste);
+    }else{
+      let workFlowPoste : WorkFlowPoste = {
+        idworkflowposte: undefined,
+        posteId: poste,
+        workflowId: this.data,
+        dateCreation: undefined,
+        isactive: constante.trueValue,
+        level:this.workFlowPostes.length+1
+      };
+      this.workFlowPostes.push(workFlowPoste);
+    }    
+    this.workflowEdited = constante.trueValue;
+    this.workFlowPostesEmpty = constante.trueValue;    
+  }
+
+  private initStructureList(page: number, size: number){
+    this.apiServiceStructure.findAll4(page, size).subscribe(
       res => {
-        if(res==null){
-          this.isEmpty=true;
+        if(res==constante.nullValue){
+          this.toastr.info("Vous ne disposez d'aucune Direction / cellule",constante.infos);
+          this.dialogRef.close(constante.falseValue);
         }else{
-          this.isEmpty=false;
+          this.isEmpty=constante.falseValue;
           this.structurePage=res;
-        }
-        
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+        }        
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
     );
   }
 
-  private initWorkFlow(){
-    this.apiServiceWorkFlow.allPosteInWorkFlow(this.data.idworkflows!,1).toPromise().then(
+  private initWorkFlow(page: number, size: number){
+    this.apiServiceWorkFlow.allPosteInWorkFlow(this.data.idworkflows!,page, size).subscribe(
       res => {
-        if(res==null){
-
+        if(res==constante.nullValue){
+          this.toastr.info("ce workflow n'a pas de poste pour effectuer les taches",constante.infos);
+          this.workFlowPostesEmpty =  constante.falseValue;
+          this.workFlowPostes = constante.arrayEmpty;       
         }else{
-          this.workFlowPoste = res.content!;
-          res.content!.forEach(
-            (workflowPoste: WorkFlowPoste)=>{
-              this.posteWorkFlow.push(workflowPoste.posteId!);
-            }
-          );
+          this.workFlowPostesEmpty =  constante.trueValue;
+          this.workFlowPostes = res.content!;
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
     );
   }
 
   private initWorkFlowPoste(){
-    this.initStructureList();
-    this.initWorkFlow();
+    this.initStructureList(constante.pageInit, constante.sizeInit);
+    this.initWorkFlow(constante.pageInit, constante.sizeInit);
   }
 
-  private onRemoveData(workFlowPosteListe: Array<WorkFlowPosteListe>,posteName: string){
-    this.apiServiceWorkFlow.removePosteToWorkFlow(workFlowPosteListe).toPromise().then(
+  private onRemoveData(workFlowPoste: WorkFlowPoste){
+    this.apiServiceWorkFlow.removePosteToWorkFlow(workFlowPoste).subscribe(
       res => {
-        this.toastr.success("OK");
-
-      }
-    ).catch(
-      error => {
-        
-        this.toastr.error("OK");
-      }
-    ).finally(
-      () => {
-      }
-    );
-
-  }
-
-  private onDragPosteAction(workFlowPosteListe: Array<WorkFlowPosteListe>,posteName: string){
-    this.apiServiceWorkFlow.addPosteToWorkFlow(workFlowPosteListe).toPromise().then(
-      res => {
-        this.toastr.success("OK");
-
-      }
-    ).catch(
-      error => {
-        this.toastr.error("OK");
-      }
-    ).finally(
-      () => {
-      }
-    );
-
-  }
-
-
-  onDrop(event: CdkDragDrop<Postes []>){
-    let a=this.posteStructure;
-    if(event.previousContainer==event.container){
-      if(event.container.data == this.posteWorkFlow ){
-        moveItemInArray(
-          this.posteWorkFlow ,
-          event.previousIndex,
-          event.currentIndex
-        );
-        if(event.previousIndex==event.currentIndex){         
+        this.toastr.success(constante.tokenDefaultValue,constante.update);
+        this.workflowEdited = constante.trueValue;
+        this.initWorkFlow(constante.pageInit, constante.sizeInit);
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
         }else{
-          let workFlowPosteListe: Array<WorkFlowPosteListe>=[];
-          this.posteWorkFlow.forEach(
-            (postes: Postes, index:number)=>{
-              workFlowPosteListe.push(
-                {
-                  exist: true,
-                  index: index,
-                  idWorkFlow: this.data!.idworkflows!,
-                  idPoste: postes.idposte!
-                }
-              );
-            }
-          );
-          this.onDragPosteAction(workFlowPosteListe,"Maire");
-        }
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
-    }else{
-      if(event.previousContainer.data == this.posteStructure ){
-        transferArrayItem(
-          this.posteStructure,
-          this.posteWorkFlow,
-          event.previousIndex,
-          event.currentIndex
-        );
-        let workFlowPosteListe: Array<WorkFlowPosteListe>=[];
-        this.posteWorkFlow.forEach(
-          (postes: Postes, index:number)=>{
-            workFlowPosteListe.push(
-              {
-                exist: true,
-                index: index,
-                idWorkFlow: this.data!.idworkflows!,
-                idPoste: postes.idposte!
-              }
-            );
-          }
-        );
-        this.onDragPosteAction(workFlowPosteListe,"Maire");        
-      }
+    );
 
+  }
+
+  private onDragPosteAction(){
+    this.apiServiceWorkFlow.addPosteToWorkFlow(this.workFlowPostes).subscribe(
+      res => {
+        this.toastr.success(constante.tokenDefaultValue,constante.update);
+        this.posteStructureEmpty = constante.falseValue;
+        this.workFlowPostesEmpty = constante.trueValue;
+        this.workFlowPostes =constante.arrayEmpty;
+        this.posteStructure =constante.arrayEmpty;
+        this.isEmpty = constante.trueValue;
+        this.nameStructure = constante.tokenDefaultValue;
+        this.loading = constante.falseValue;
+        this.research = constante.falseValue;
+        this.workflowEdited = constante.falseValue;
+        this.dialogRef.close(constante.trueValue);
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+          this.posteStructureEmpty = constante.falseValue;
+          this.workFlowPostesEmpty = constante.trueValue;
+          this.workFlowPostes =constante.arrayEmpty;
+          this.posteStructure =constante.arrayEmpty;
+          this.isEmpty = constante.trueValue;
+          this.nameStructure = constante.tokenDefaultValue;
+          this.loading = constante.falseValue;
+          this.research = constante.falseValue;
+          this.workflowEdited = constante.falseValue;
+          this.dialogRef.close(constante.falseValue);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
+      }
+    );
+
+  }
+
+
+  selectStructure(structure:Structures){
+    if(structure.postes!.length <= constante.pageInit){
+      this.toastr.info("La structure "+structure.name!+" ne contient auccun poste.",constante.infos);
+      this.posteStructureEmpty = constante.falseValue;
+    }else{
+      this.posteStructureEmpty = constante.trueValue;
+      this.posteStructure = structure.postes!;
+      this.nameStructure = structure.name!;
     }
   }
 
-  selectStructure(structure:Structures){
-    this.posteStructure = structure.postes!;
-    this.nameStructure = structure.name!;
-  }
-
   private onNextPage(page: number){
-    this.apiServiceStructure.findAll4(page).toPromise().then(
+    this.apiServiceStructure.findAll4(page, constante.sizeInit).subscribe(
       res => {
-        if(res==null){
-          this.isEmpty=true;
+        if(res==constante.nullValue){
+          this.isEmpty=constante.trueValue;
         }else{
-          this.isEmpty=false;
+          this.isEmpty=constante.falseValue;
           this.structurePage=res;
         }
         
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
     );
   }
 
   onNext(){
-    if(this.searchBy==null){
-      this.onNextPage(this.structurePage?.pageable?.pageNumber!+1);
+    if(this.searchBy==constante.nullValue){
+      this.onNextPage(this.structurePage?.pageable?.pageNumber!+constante.one);
     }else{
-      if(this.valueToSearch.length!>0){
-        if(this.searchBy =="name"){
-          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+1);
-        }else if(this.searchBy =="sigle"){        
-          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+1);
+      if(this.valueToSearch.length!>constante.pageInit){
+        if(this.searchBy ==constante.nameSearchValue){
+          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+constante.one);
+        }else if(this.searchBy ==constante.sigleSearchValue){        
+          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+constante.one);
         }else{
-          this.toastr.error("err.error.message", "Error +err.status");
+          this.toastr.error("err.error.message", constante.error);
         }
       }
     }
@@ -249,125 +223,114 @@ export class AddPosteToWorkflowComponent implements OnInit {
   }
 
   onPreview(){
-    if(this.searchBy==null){
-      this.onNextPage(this.structurePage?.pageable?.pageNumber!-1);
+    if(this.searchBy==constante.nullValue){
+      this.onNextPage(this.structurePage?.pageable?.pageNumber!-constante.one);
     }else{
-      if(this.valueToSearch.length!>0){
-        if(this.searchBy =="name"){
-          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!-1);
-        }else if(this.searchBy =="sigle"){        
-          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!-1);
+      if(this.valueToSearch.length!>constante.pageInit){
+        if(this.searchBy ==constante.nameSearchValue){
+          this.searchNamePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+constante.one);
+        }else if(this.searchBy ==constante.sigleSearchValue){        
+          this.searchSiglePage(this.valueToSearch!, this.structurePage?.pageable?.pageNumber!+constante.one);
         }else{
-          this.toastr.error("err.error.message", "Error +err.status");
+          this.toastr.error("err.error.message", constante.error);
         }
       }
     }
   }
 
-  private searchName(name: string){
-    console.log(name);
-    this.apiServiceStructure.searchByName4(name).toPromise().then(
+  private searchName(name: string,page: number, size: number){
+    this.apiServiceStructure.searchByName4(name, page, size).subscribe(
       res => {
-        
-    console.log(res);
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
+        if(res==constante.nullValue){
+          this.research=constante.trueValue;
+          //this.initStructureList();
         }else{
-          this.research=false;
+          this.research=constante.falseValue;
           this.structurePage=res;      
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
     );
   }
 
-  private searchSigle(name: string){
-    this.apiServiceStructure.searchBySigle3(name).toPromise().then(
+  private searchSigle(name: string,page: number, size: number){
+    this.apiServiceStructure.searchBySigle3(name, page, size).subscribe(
       res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
+        if(res==constante.nullValue){
+          this.research=constante.trueValue;
+          //this.initStructureList();
         }else{
-          this.research=false;
+          this.research=constante.falseValue;
           this.structurePage=res;      
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }        
       }
     );
   }
 
   private searchNamePage(name: string, page: number){
-    this.apiServiceStructure.searchByName4(name, page).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res;      
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchName(name, page, constante.sizeInit);
   }
 
   private searchSiglePage(sigle: string, page: number){
-    this.apiServiceStructure.searchBySigle3(sigle, page).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initStructureList();
-        }else{
-          this.research=false;
-          this.structurePage=res;      
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchSigle(sigle, page, constante.sizeInit);
   }
 
   search(event: any){
     let searchValue: string =event.target.value;
     searchValue = searchValue.trim();
-    if(searchValue.length!>0){
+    if(searchValue.length!>constante.pageInit){
       this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="sigle"){        
-        this.searchSigle(this.valueToSearch);
+      if(this.searchBy ==constante.nameSearchValue){
+        this.searchName(this.valueToSearch, constante.pageInit, constante.sizeInit);
+      }else if(this.searchBy ==constante.sigleSearchValue){        
+        this.searchSigle(this.valueToSearch, constante.pageInit, constante.sizeInit);
       }else{
-        this.toastr.error("err.error.message", "Error +err.status");
+        this.toastr.error("err.error.message", constante.error);
       } 
     }else{
-      this.initStructureList();
-      this.research=false;
+      //this.initStructureList();
+      this.research=constante.falseValue;
       this.searchBy = undefined;
     }
   }
 
   onClose(){
-    this.dialogRef.close(true);
+    this.posteStructureEmpty = constante.falseValue;
+    this.workFlowPostesEmpty = constante.trueValue;
+    this.workFlowPostes =constante.arrayEmpty;
+    this.posteStructure =constante.arrayEmpty;
+    this.isEmpty = constante.trueValue;
+    this.nameStructure = constante.tokenDefaultValue;
+    this.loading = constante.falseValue;
+    this.research = constante.falseValue;
+    this.workflowEdited = constante.falseValue;
+    this.dialogRef.close(constante.falseValue);
+  }
+
+  onSave(){
+    this.onDragPosteAction();
+  }
+
+  drop(event: CdkDragDrop<WorkFlowPoste[]>) { 
+    moveItemInArray(this.workFlowPostes, event.previousIndex, event.currentIndex);   
+    if(event.currentIndex!=event.previousIndex){
+      this.workflowEdited = constante.trueValue;
+      let currentLevel: number = this.workFlowPostes[event.currentIndex].level!;
+      let previousLevel: number = this.workFlowPostes[event.previousIndex].level!;
+      this.workFlowPostes[event.currentIndex].level = previousLevel;
+      this.workFlowPostes[event.previousIndex].level = currentLevel;
+    }   
   }
 
 

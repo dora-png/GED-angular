@@ -254,7 +254,7 @@ export class DocsControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/docs/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/docs/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -311,7 +311,7 @@ export class DocsControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/docs/update-setter`,
+        return this.httpClient.request<any>('post',`${this.basePath}/docs/update-setter`,
             {
                 body: body,
                 params: queryParameters,

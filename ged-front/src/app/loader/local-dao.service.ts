@@ -18,67 +18,7 @@ export class LocalDaoService {
     }
     return true;
   }
-/*
-  saveToken (data: any, force: boolean = true, stringify: boolean = true): boolean {
-    this.clearMemory();
-    if (this.saveAuthorizationToken(data.accessToken) && this.saveAuthentificationToken(data.authentification)) {
-      if(this.setSession().employee.isFirstConnection == true){
-        this.save('empl_to_define_identifiers', this.setSession());
-        return this.setSession().employee.isFirstConnection;
-      }else{      
-        this.save('empl_temp', this.setSession());
-        return this.setSession().employee.isFirstConnection;
-      }
-    }   
-  }
 
-
-  private saveAuthorizationToken (data: string, force: boolean = true, stringify: boolean = true): boolean {
-    if (localStorage.getItem(this.accessTonken) != null && !force) {
-      return false;
-    }
-    if (stringify) {
-      localStorage.setItem(this.accessTonken, JSON.stringify(data));
-    } else {
-      localStorage.setItem(this.accessTonken, data);
-    }  
-    return true; 
-  }
-
-  private saveAuthentificationToken (data: string, force: boolean = true, stringify: boolean = true): boolean {
-    if (localStorage.getItem(this.userToken) != null && !force) {
-      return false;
-    }
-    if (stringify) {
-      localStorage.setItem(this.userToken, JSON.stringify(data));
-    } else {
-      localStorage.setItem(this.userToken, data);
-    }
-    return true;
-  }
-
-  private setSession(): models.GlobalEmployee{
-    const helper = new JwtHelperService();
-    const decodedUserToken = helper.decodeToken(this.getUserToken());
-    const decodedAccessToken = helper.decodeToken(this.getAccessToken());
-    let globalEmployee: models.GlobalEmployee = {
-      employee: decodedUserToken.employee,
-      rightsList: decodedAccessToken.rightsList
-    };
-    return globalEmployee;
-  }
-  getUserSession(){
-    return this.setSession();
-  }
-
-  existToken():boolean {
-    if(localStorage.getItem(this.userToken) && localStorage.getItem(this.accessTonken)){
-      return true;
-    }
-    return false;
-  }
-
- */
   existSession():boolean {
     if(sessionStorage.getItem("currentEmployee")){
       return true;

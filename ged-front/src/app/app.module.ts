@@ -129,6 +129,14 @@ import { InfosGroupUserComponent } from './pages/management/group-user/infos-gro
 import { AddRoleGroupUserComponent } from './pages/management/group-user/add-role-group-user/add-role-group-user.component';
 import { AddPosteGroupUserComponent } from './pages/management/group-user/add-poste-group-user/add-poste-group-user.component';
 import { AuthGuard } from './loader/auth-guard-service';
+import { ListEmptyComponent } from './utils/list-empty/list-empty.component';
+import { FolderComponent } from './pages/home/folder/folder.component';
+import { FilesComponent } from './pages/home/files/files.component';
+import { HomeComponent } from './pages/home/home/home.component';
+import { UploadFileComponent } from './utils/upload-file/upload-file.component';
+import { UploadFolderComponent } from './utils/upload-folder/upload-folder.component';
+import { AddFolderComponent } from './utils/add-folder/add-folder.component';
+import { DetailsComponent } from './pages/home/details/details.component';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -264,6 +272,14 @@ const MATERIAL=[
     InfosGroupUserComponent,
     AddRoleGroupUserComponent,
     AddPosteGroupUserComponent,
+    ListEmptyComponent,
+    FolderComponent,
+    FilesComponent,
+    HomeComponent,
+    UploadFileComponent,
+    UploadFolderComponent,
+    AddFolderComponent,
+    DetailsComponent,
   ],
   imports: [
     AppRoutingModule,    

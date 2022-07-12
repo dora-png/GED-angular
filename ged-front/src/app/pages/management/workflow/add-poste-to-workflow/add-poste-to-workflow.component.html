@@ -53,30 +53,37 @@
                 </ul>
               </nav>
           </div>
-        <div class="col-md-4"*ngIf="!isEmpty || structurePage?.empty!">
+        <div class="col-md-4"*ngIf="posteStructureEmpty">
           <h1> Postes in Structure {{nameStructure}}</h1>
-          <div cdkDropList
+          <div
             class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="posteStructure"
           >
-            <div cdkDrag class="example-box"  *ngFor="let poste of posteStructure">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            <div  class="example-box"  *ngFor="let poste of posteStructure">
               {{poste.name!}}
+              
+              <button  mat-mini-fab style="background-color: green;" (click)="addPoste(poste)">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="workFlowPostesEmpty">
           <h1> WorkFlow</h1>
-          <div cdkDropList
-           (cdkDropListDropped)="onDrop($event)" 
-           class="example-list"  
-           [cdkDropListData]="posteWorkFlow"
-          >
-            <div cdkDrag class="example-box" *ngFor="let poste of posteWorkFlow">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              {{poste.name!}}
-              <button mat-mini-fab color="primary" (click)="onRemovePosteInWorfFlow(poste)">
+          <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+            <div  class="example-box" *ngFor="let workFlowPoste of workFlowPostes" cdkDrag>
+              <div class="example-custom-placeholder" *cdkDragPlaceholder>
+                {{workFlowPoste.posteId!.name!}}
+              <button mat-icon-button>
+                {{ workFlowPoste.level! }}
+              </button>
+              <button disabled mat-mini-fab color="primary" >
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+              </div>
+              <button mat-icon-button>
+                {{ workFlowPoste.level! }} -> {{workFlowPoste.posteId!.name!}}
+              </button>
+              <button mat-mini-fab color="primary" (click)="onRemovePosteInWorfFlow(workFlowPoste)">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
  
@@ -84,9 +91,10 @@
           </div>
         </div>
     </div>
-      
+    
       </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-button [disabled]="!workflowEdited" (click)="onSave()">save</button>
   </mat-dialog-actions>

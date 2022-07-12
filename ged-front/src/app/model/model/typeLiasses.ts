@@ -17,4 +17,5 @@ export interface TypeLiasses {
     sigle?: string;
     description?: string;
     liasses?: Array<Liasses>;
+    dateCreation?: Date;
 }

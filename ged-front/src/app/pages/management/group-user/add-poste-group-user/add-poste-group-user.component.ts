@@ -1,11 +1,13 @@
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { OpenDialogService } from 'src/app/loader/open-dialog.service';
+import * as constante from '../../../../loader/constante';
 import { GroupUser, GroupUserControllerService, PagePostes, PosteControllerService, Postes } from 'src/app/model';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
+import { HttpStatusCode } from 'src/app/loader/status-code';
 
 @Component({
   selector: 'app-add-poste-group-user',
@@ -16,6 +18,7 @@ export class AddPosteGroupUserComponent implements OnInit {
 
 
   isEmpty: boolean = true;
+  groupPosteEdited: boolean = constante.falseValue;
   loading: boolean = false;
   research: boolean = false;
   view: boolean = false;
@@ -30,7 +33,9 @@ export class AddPosteGroupUserComponent implements OnInit {
    
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: GroupUser,
+    private dialogRef:  MatDialogRef<AddPosteGroupUserComponent>,
     private loaderService: LoaderService,
+    private auth: AuthenticationService,  
     private apiGroupsService: GroupUserControllerService,   
     private apiService: PosteControllerService,    
     private toastr: ToastrService
@@ -167,40 +172,60 @@ export class AddPosteGroupUserComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<Postes []>){
-    if(event.previousContainer==event.container){
-    }else{
+    if(event.previousContainer!=event.container){
       if(event.previousContainer.data == this.listPoste ){
-        let groupToAdd: GroupUser={
-          dateCreation:this.data.dateCreation,
-          idgroupes:this.data.idgroupes,
-          name:this.data.name,
-          posteslistes:[],
-          roleslistes:this.data.roleslistes
-        };
-        groupToAdd.posteslistes?.push(this.listPoste[event.previousIndex]);
-
-        this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
-          response=>{
-            this.toastr.success("Added", "OK");
-            transferArrayItem(
-              this.listPoste,
-              this.currentPoste,
-              event.previousIndex,
-              event.currentIndex
-            );
-          },
-          error=>{
-            this.toastr.info(error.error.message, "Infos");
-          }
+        transferArrayItem(
+          this.listPoste,
+          this.currentPoste,
+          event.previousIndex,
+          event.currentIndex
         );
-
+        this.groupPosteEdited = constante.trueValue;
       }
-
     }
   }
 
   onRemove(poste: Postes){
-
+    this.data.posteslistes = [];
+    this.data.posteslistes.push(poste);
+    this.apiGroupsService.removePosteToGroup(this.data).subscribe(
+      response=>{
+        this.toastr.success("", constante.update);
+        this.initData(0,5);
+      },
+      error=>{
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+          this.dialogRef.close(constante.falseValue);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
+      }
+    );
+  }
+  onClose(){
+    this.isEmpty = constante.trueValue;
+    this.loading = constante.falseValue;
+    this.research = constante.falseValue;
+    this.groupPosteEdited = constante.falseValue;
+    this.dialogRef.close(constante.trueValue);
   }
 
+  onSave(){
+    this.data.posteslistes = this.currentPoste;
+    this.apiGroupsService.addPosteToGroup(this.data).subscribe(
+      response=>{
+        this.toastr.success("", constante.update);
+        this.dialogRef.close(constante.trueValue);       
+      },
+      error=>{
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+          this.dialogRef.close(constante.falseValue);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
+      }
+    );
+  }
 }

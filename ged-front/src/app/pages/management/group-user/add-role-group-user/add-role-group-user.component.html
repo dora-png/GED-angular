@@ -84,16 +84,16 @@
                 <span style="align-content: space-between;">
                   {{ role.name! }}
                 </span>
-                <div class="example-handle" style="color: red;">
-                  <i class="fa fa-trash-o" aria-hidden="true"(click)="onRemove(role)"></i>
-                </div>
+                <button mat-mini-fab color="warn" >
+                  <i class="fa fa-trash-o" aria-hidden="true" ></i>
+                </button>
               </div>
               <span>
                 {{ role.name! }}
               </span>
-              <div class="example-handle" style="color: red; cursor: pointer;">
-                <i class="fa fa-trash-o" aria-hidden="true" (click)="onRemove(role)"></i>
-              </div>
+              <button mat-mini-fab (click)="onRemove(role)" color="warn" >
+                <i class="fa fa-trash-o" aria-hidden="true" ></i>
+              </button>
             </div>
           </div>
         </div>
@@ -104,5 +104,6 @@
       </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onClose()">Install</button>
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-button [disabled]="!groupRoleEdited" (click)="onSave()">save</button>
   </mat-dialog-actions>

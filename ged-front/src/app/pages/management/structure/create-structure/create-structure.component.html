@@ -5,18 +5,18 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Structure Name</mat-label>
-            <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
-            <mat-error *ngIf="f['name'].touched && f['name'].errors">
-              {{f["name"].errors|json}}
+            <input autocomplete="off" [formControlName]="constantes.nameSearchValue" name="name" id="name" required  matInput>
+            <mat-error *ngIf="f[constantes.nameSearchValue].touched && f[constantes.nameSearchValue].errors">
+              {{f[constantes.nameSearchValue].errors|json}}
             </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Structure Sigle</mat-label>
-            <input autocomplete="off" formControlName="sigle" name="sigle" id="sigle" required  matInput>
-            <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
-              {{f["sigle"].errors|json}}
+            <input autocomplete="off" [formControlName]="constantes.sigleSearchValue" name="sigle" id="sigle" required  matInput>
+            <mat-error *ngIf="f[constantes.sigleSearchValue].touched && f[constantes.sigleSearchValue].errors">
+              {{f[constantes.sigleSearchValue].errors|json}}
             </mat-error>
           </mat-form-field>
         </div>
@@ -25,9 +25,9 @@
         <div class="col-md-12">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Structure Description</mat-label>
-            <textarea autocomplete="off" formControlName="description" name="description" id="description" required matInput></textarea>
-            <mat-error *ngIf="f['description'].touched && f['description'].errors">
-              {{f["description"].errors|json}}
+            <textarea autocomplete="off" [formControlName]="constantes.description" name="description" id="description" required matInput></textarea>
+            <mat-error *ngIf="f[constantes.description].touched && f[constantes.description].errors">
+              {{f[constantes.description].errors|json}}
             </mat-error>
           </mat-form-field>
         </div>
@@ -35,9 +35,9 @@
     </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onClose()">Cancel</button>
-    <button type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewWorkFow()" class="btn btn-success">
-      <i *ngIf="clicked" class='fa fa-spinner fa-spin '></i> 
+    <button mat-button *ngIf="clicked"><i class='fa fa-spinner fa-spin fa-4x '></i> </button>    
+    <button mat-button *ngIf="!clicked" (click)="onClose()">Cancel</button>
+    <button *ngIf="!clicked" type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewStructure()" class="btn btn-success">
       Save Structure
     </button>
   </mat-dialog-actions>

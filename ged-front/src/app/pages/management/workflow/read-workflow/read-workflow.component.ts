@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { WorkFlowControllerService, WorkFlow, WorkFlowPoste, Liasses } from 'src/app/model';
+import * as constante from '../../../../loader/constante';
 
 @Component({
   selector: 'app-read-workflow',
@@ -14,13 +15,14 @@ import { WorkFlowControllerService, WorkFlow, WorkFlowPoste, Liasses } from 'src
 export class ReadWorkflowComponent implements OnInit {
 
   newWorkflowFormGroup!: FormGroup;  
-  workFlowPosteList: Array<WorkFlowPoste>=[];
-  clicked: boolean= false;
-  isValid: boolean=true;
-  liassesList: Array<Liasses>=[];
-  liasseEmpty: boolean=false;
-  workFlowPosteEmpty: boolean=false;
-  nameWorkflow: string="";
+  workFlowPosteList: Array<WorkFlowPoste>=constante.arrayEmpty;
+  constantes: any = constante;
+  clicked: boolean= constante.falseValue;
+  isValid: boolean=constante.trueValue;
+  liassesList: Array<Liasses>=constante.arrayEmpty;
+  liasseEmpty: boolean=constante.falseValue;
+  workFlowPosteEmpty: boolean=constante.falseValue;
+  nameWorkflow: string=constante.tokenDefaultValue;
   
   
    
@@ -40,30 +42,25 @@ export class ReadWorkflowComponent implements OnInit {
         description: new FormControl(this.data.description!, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]),
       }
     );
-    if(this.data.liasses!.length<0){
-      this.liasseEmpty=false;
+    if(this.data.liasses!.length<constante.pageInit){
+      this.liasseEmpty=constante.falseValue;
     }else{
-      this.liasseEmpty=false;
+      this.liasseEmpty=constante.trueValue;
       this.liassesList=this.data.liasses!;
     }
   }
 
   ngOnInit(): void {
-    this.apiService.allPosteInWorkFlow(this.data.idworkflows!,1).toPromise().then(
+    this.apiService.allPosteInWorkFlow(this.data.idworkflows!).subscribe(
       res => {
-        if(res==null){
-          this.workFlowPosteEmpty=false;
+        if(res==constante.nullValue){
+          this.workFlowPosteEmpty=constante.falseValue;
         }else{          
-          this.workFlowPosteEmpty=true;
+          this.workFlowPosteEmpty=constante.trueValue;
           this.workFlowPosteList = res.content!;
         }
-      }
-    ).catch(
-      error => {
+      },error => {
        
-      }
-    ).finally(
-      () => {
       }
     );
   }

@@ -20,4 +20,5 @@ export interface Structures {
     postes?: Array<Postes>;
     structureSuperieur?: Structures;
     sousStructure?: Array<Structures>;
+    dateCreation?: Date;
 }

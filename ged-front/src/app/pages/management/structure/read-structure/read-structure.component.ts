@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { LoaderService } from 'src/app/loader/loader.service';
+import * as constante from '../../../../loader/constante';
 import { Postes, Structures } from 'src/app/model';
 
 @Component({
@@ -19,14 +18,13 @@ export class ReadStructureComponent implements OnInit {
   sousStructureList: Array<Structures>=[];
   sousStructureEmpty: boolean=false;
   structurePosteEmpty: boolean=false;
-  nameStructure: string="";
-  
+  nameStructure: string=constante.tokenDefaultValue;  
+  constantes: any = constante;
   
    
   constructor(    
     @Inject(MAT_DIALOG_DATA) private data: Structures,
     private formBuilder: FormBuilder,
-    
     private dialogRef:  MatDialogRef<ReadStructureComponent>
   ) { 
     
@@ -54,7 +52,7 @@ export class ReadStructureComponent implements OnInit {
     if(this.data.structureSuperieur==null){
       this.structureSupEmpty=false;
     }else{
-      this.newStructureFormGroup.controls['structureSup'].setValue(this.data.structureSuperieur!.name+"("+this.data.structureSuperieur!.sigle+")");
+      this.newStructureFormGroup.controls[constante.structureSup].setValue(this.data.structureSuperieur!.name+constante.paranteseO+this.data.structureSuperieur!.sigle+constante.paranteseF);
       this.structureSupEmpty=true;
     }
   }

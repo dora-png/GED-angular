@@ -376,7 +376,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/group/delete-poste`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/delete-poste`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -423,7 +423,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/group/delete-rome`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/delete-rome`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -527,7 +527,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/group/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

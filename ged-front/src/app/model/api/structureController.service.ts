@@ -521,7 +521,7 @@ export class StructureControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/structures/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/structures/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

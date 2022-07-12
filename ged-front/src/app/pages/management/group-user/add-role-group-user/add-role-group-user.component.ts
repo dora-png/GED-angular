@@ -4,7 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
+import * as constante from '../../../../loader/constante';
 import { GroupUser, GroupUserControllerService, PageRoles, Roles, RolesControllerService } from 'src/app/model';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
+import { HttpStatusCode } from 'src/app/loader/status-code';
 
 @Component({
   selector: 'app-add-role-group-user',
@@ -16,6 +19,7 @@ export class AddRoleGroupUserComponent implements OnInit {
 
   isEmpty: boolean = true;
   loading: boolean = false;
+  groupRoleEdited: boolean = constante.falseValue;
   research: boolean = false;
   view: boolean = false;
   currentRoles: Roles[] = [];
@@ -31,7 +35,8 @@ export class AddRoleGroupUserComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: GroupUser,
     private loaderService: LoaderService,
     private apiGroupsService: GroupUserControllerService,   
-    private apiService: RolesControllerService,    
+    private apiService: RolesControllerService,
+    private auth: AuthenticationService,    
     private toastr: ToastrService,
     private dialogRef:  MatDialogRef<AddRoleGroupUserComponent>
     ) {
@@ -166,42 +171,74 @@ export class AddRoleGroupUserComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<Roles []>){
-    if(event.previousContainer==event.container){
-    }else{
+    if(event.previousContainer!=event.container){
       if(event.previousContainer.data == this.listRoles ){
-        let groupToAdd: GroupUser={
-          dateCreation:this.data.dateCreation,
-          idgroupes:this.data.idgroupes,
-          name:this.data.name,
-          posteslistes:this.data.posteslistes,
-          roleslistes:[]
-        };
-        groupToAdd.roleslistes?.push(this.listRoles[event.previousIndex]);
+        transferArrayItem(
+          this.listRoles,
+          this.currentRoles,
+          event.previousIndex,
+          event.currentIndex
+        );
+        this.groupRoleEdited = constante.trueValue;
 
-        this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
+        /*this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
           response=>{
             this.toastr.success("Added", "OK");
-            transferArrayItem(
-              this.listRoles,
-              this.currentRoles,
-              event.previousIndex,
-              event.currentIndex
-            );
+            
           },
           error=>{
             this.toastr.info(error.error.message, "Infos");
           }
-        );
+        );*/
 
       }
 
     }
   }
 
-  onRemove(poste: Roles){
-
+ 
+  
+  onRemove(role: Roles){
+    this.data.roleslistes = [];
+    this.data.roleslistes.push(role);
+    this.apiGroupsService.removeRoleToGroup(this.data).subscribe(
+      response=>{
+        this.toastr.success("", constante.update);
+        this.initData(0,5);
+      },
+      error=>{
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+          this.dialogRef.close(constante.falseValue);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
+      }
+    );
   }
   onClose(){
-    this.dialogRef.close(true);
+    this.isEmpty = constante.trueValue;
+    this.loading = constante.falseValue;
+    this.research = constante.falseValue;
+    this.groupRoleEdited = constante.falseValue;
+    this.dialogRef.close(constante.trueValue);
+  }
+
+  onSave(){
+    this.data.roleslistes = this.currentRoles;
+    this.apiGroupsService.addRoleToGroup(this.data).subscribe(
+      response=>{
+        this.toastr.success("", constante.update);
+        this.dialogRef.close(constante.trueValue);       
+      },
+      error=>{
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+          this.dialogRef.close(constante.falseValue);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
+      }
+    );
   }
 }

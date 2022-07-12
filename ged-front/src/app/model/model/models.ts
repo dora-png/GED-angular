@@ -23,7 +23,7 @@ export * from './sort';
 export * from './structures';
 export * from './typeDocs';
 export * from './typeLiasses';
+export * from './uploadBody';
 export * from './users';
 export * from './workFlow';
 export * from './workFlowPoste';
-export * from './workFlowPosteListe';

@@ -18,4 +18,5 @@ export interface WorkFlowPoste {
     workflowId?: WorkFlow;
     level?: number;
     isactive?: boolean;
+    dateCreation?: Date;
 }

@@ -5,6 +5,7 @@ import * as constant from './constante';
 import { Users } from '../model';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthenticationService {
@@ -19,7 +20,11 @@ export class AuthenticationService {
     private roles : string[] = [];
     rolesSubject = new Subject<string []>();
 
-    constructor(private localDaoService: LocalDaoService, private route: Router) {
+    private login : string = "";
+    loginSubject = new Subject<string >();
+
+    constructor(private localDaoService: LocalDaoService, private route: Router,    
+        private toastr: ToastrService) {
         this.isUserConnected = false;
      }
 
@@ -35,6 +40,10 @@ export class AuthenticationService {
         this.rolesSubject.next(this.roles);
     }
 
+    emitLogin(){
+        this.loginSubject.next(this.login);
+    }
+
     logout() {
         this.localDaoService.removeData(constant.currentEmployee);
         this.isUserConnected = false;
@@ -44,6 +53,8 @@ export class AuthenticationService {
         this.roles = [];
         this.emitRoles();
         this.route.navigate([constant.loginPath]);
+        this.login = "";
+        this.emitLogin();
     }
     
 
@@ -53,8 +64,7 @@ export class AuthenticationService {
     }
 
     disableHeaderBar() {
-        this.isUserConnected = false;
-        this.emitUserConnected();
+        this.logout();
     }
 
     isConnected(): boolean {
@@ -85,9 +95,16 @@ export class AuthenticationService {
             this.enableHeaderBar();
             return true;
         }else{
-            this.disableHeaderBar();
             return false;
         }
+    }
+
+    saveUserLogin(data: string):boolean{
+            let token:string = data;
+            const helper = new JwtHelperService();
+            const decodedUserToken = helper.decodeToken(token);
+            this.setlogin(decodedUserToken.sub);
+            return true;
     }
 
     getToken(): string{
@@ -97,9 +114,13 @@ export class AuthenticationService {
     }
 
     private setRoles(roles: string[]){
-        console.log(roles);
         this.roles=roles;
         this.emitRoles();
+    }
+
+    private setlogin(login: string){
+        this.login=login;
+        this.emitLogin();
     }
 
     getRoles(role: string): boolean{
@@ -118,7 +139,8 @@ export class AuthenticationService {
         return roles;
     }
 
-    onLogOut5S(){
+    onLogOut5S(message: string){
+        this.toastr.warning(message,constant.warning);
         setTimeout(()=>{
             this.logout();
           }, 5000);

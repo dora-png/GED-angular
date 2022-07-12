@@ -21,4 +21,5 @@ export interface Postes {
     posteSubalterne?: Array<Postes>;
     posteSuperieur?: Postes;
     groupslistes?: Array<GroupUser>;
+    dateCreation?: Date;
 }

@@ -481,7 +481,7 @@ export class TypeDocsControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/typeDocs/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/typeDocs/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

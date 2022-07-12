@@ -19,6 +19,7 @@ export interface Docs {
     description?: string;
     path?: string;
     cantset?: string;
+    dateCreation?: Date;
     typedoc?: TypeDocs;
     liasse?: Liasses;
 }

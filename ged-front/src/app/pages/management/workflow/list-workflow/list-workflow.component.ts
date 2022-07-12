@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkFlowControllerService, WorkFlow, PageWorkFlow } from '../../../../model/index';
-
+import * as constante from '../../../../loader/constante';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
 import { CreateWorkflowComponent } from '../create-workflow/create-workflow.component';
 import { ReadWorkflowComponent } from '../read-workflow/read-workflow.component';
@@ -9,6 +9,8 @@ import { LoaderService } from 'src/app/loader/loader.service';
 import { delay } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AddPosteToWorkflowComponent } from '../add-poste-to-workflow/add-poste-to-workflow.component';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
+import { HttpStatusCode } from '../../../../loader/status-code';
 
 
 @Component({
@@ -19,50 +21,64 @@ import { AddPosteToWorkflowComponent } from '../add-poste-to-workflow/add-poste-
 export class ListWorkflowComponent implements OnInit {
 
   pageWorkFlow!: PageWorkFlow;
-  isEmpty: boolean = true;
-  loading: boolean = true;
-  research: boolean = false;
-  view: boolean = false;
-  private valueToSearch!: string;
+  isEmpty: boolean = constante.trueValue;
+  loading: boolean = constante.trueValue;
+  loadingOther: boolean = constante.falseValue;
+  view: boolean = constante.falseValue;
+  constantes: any = constante;
+  valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
-  private pagesize ={page: 0, size: 5};
   
   constructor(
     private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
-    private apiService: WorkFlowControllerService,    
+    private apiService: WorkFlowControllerService,   
+    private auth: AuthenticationService,   
     private toastr: ToastrService
     ) { }
 
-  ngOnInit(): void {
-    
-    this.initData();
-  }
+    ngOnInit(): void {
+      this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
+    }
+  
+    onHasRole(role:string): boolean{
+      return this.auth.getRoles(role);
+    }
 
-  private listenToLoading(): void {
-    this.loaderService.getSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
-  }
+    private listenToLoading(init: boolean): void {
+      if(init){      
+        this.loaderService.getSub
+        .pipe(delay(this.constantes.pageInit)) 
+        .subscribe((loading) => {
+          this.loading = loading;
+        });
+      }else{
+        this.loaderService.getSub
+        .pipe(delay(this.constantes.pageInit)) 
+        .subscribe((loading) => {
+          this.loadingOther = loading;
+        });
+      }
+      
+    }
 
-  private initData(){
-    this.listenToLoading();
-    this.apiService.findAll(this.pagesize.page,this.pagesize.size).toPromise().then(
+  private initData(page: number, size: number, init: boolean){
+    this.listenToLoading(init);
+    this.apiService.findAll(page,size).subscribe(
       res => {
-        if(res==null){
+        if(res==constante.nullValue){
           this.isEmpty=true;
         }else{
           this.isEmpty=false;
           this.pageWorkFlow=res;
         }
-      }
-    ).catch(
+      },
       error => {
-      }
-    ).finally(
-      () => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
       }
     );
   }
@@ -103,142 +119,88 @@ export class ListWorkflowComponent implements OnInit {
   
 
   private changePageOrSize(page: number, size: number){
-    this.listenToLoading();
-    this.apiService.findAll(page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageWorkFlow=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.initData(page,size,this.constantes.falseValue);
   }
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchByName(name, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageWorkFlow=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchName(name, page, size);
   }
 
   
   private changePageOrSizeSearchBySigle(sigle: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchBySigle(sigle, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageWorkFlow=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchSigle(sigle, page, size);
   }
 
-  changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
+  changePageAndSize(event: {page: number, size: number}){    
+    if(this.searchBy==constante.nullValue){
       this.changePageOrSize(event.page, event.size);
     }else{
-      if(this.searchBy =="name"){
+      if(this.searchBy ==this.constantes.nameSearchValue){
         this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else if(this.searchBy =="sigle"){        
+      }else if(this.searchBy ==this.constantes.sigleSearchValue){       
         this.changePageOrSizeSearchBySigle(this.valueToSearch!, event.page, event.size);
       }else{
-        this.toastr.error("err.error.message", "Error +err.status");
+        this.toastr.error(constante.tokenDefaultValue, this.constantes.error);
       }
-
-    }
-    
+    }    
   }
 
 
 
-  private searchName(name: string){
-    this.listenToLoading();
-    this.apiService.searchByName(name).toPromise().then(
+  private searchName(name: string, page: number, size: number){
+    this.listenToLoading(this.constantes.falseValue);
+    this.apiService.searchByName(name,page,size).toPromise().then(
       res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
+        if(res==constante.nullValue){
+          this.pageWorkFlow!=res;
         }else{
-          this.research=false;
           this.pageWorkFlow=res;
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
       }
     );
   }
 
-  private searchSigle(name: string){
-    this.listenToLoading();
-    this.apiService.searchBySigle(name).toPromise().then(
+  private searchSigle(sigle: string, page: number, size: number){
+    this.listenToLoading(this.constantes.falseValue);
+    this.apiService.searchBySigle(sigle,page,size).toPromise().then(
       res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
+        if(res==constante.nullValue){
+          this.pageWorkFlow!=res;
         }else{
-          this.research=false;
           this.pageWorkFlow=res;
         }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
       }
     );
   }
 
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="sigle"){        
-        this.searchSigle(this.valueToSearch);
+  search(){
+    if(this.valueToSearch.trim().length!>this.constantes.pageInit){
+      if(this.searchBy ==this.constantes.nameSearchValue){
+        this.searchName(this.valueToSearch,this.constantes.pageInit,this.constantes.sizeInit);
+      }else if(this.searchBy ==this.constantes.sigleSearchValue){        
+        this.searchSigle(this.valueToSearch,this.constantes.pageInit,this.constantes.sizeInit);
       }else{
-        this.toastr.error("err.error.message", "Error +err.status");
+        this.toastr.error("select paramater to search", this.constantes.error);
       } 
-    }else{
-      this.initData();
-      this.research=false;
+    }
+  }
+
+  modelChanged(event: any){
+    if(event.trim().length!<=this.constantes.pageInit){
       this.searchBy = undefined;
+      this.refresf();
     }
   }
 
@@ -248,8 +210,7 @@ export class ListWorkflowComponent implements OnInit {
   }
 
   refresf(){
-    this.initData();
-
+    this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
   }
 
 }

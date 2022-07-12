@@ -22,13 +22,13 @@ export class ListStructureComponent implements OnInit {
 
 
   pageStructures!: PageStructures;
-  isEmpty: boolean = true;
-  loading: boolean = false;
-  research: boolean = false;
-  view: boolean = false;
-  private valueToSearch!: string;
+  isEmpty: boolean = constante.trueValue;
+  loading: boolean = constante.trueValue;
+  loadingOther: boolean = constante.falseValue;
+  view: boolean = constante.falseValue;
+  constantes: any = constante;
+  valueToSearch!: string;
   searchBy: 'name' | 'sigle' | undefined;
-  private pagesize ={page: 0, size: 5};
 
   constructor(
     private loaderService: LoaderService,
@@ -39,39 +39,49 @@ export class ListStructureComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.initData();
+    this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
   }
 
-  private listenToLoading(): void {
-    this.loaderService.getSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+  onHasRole(role:string): boolean{
+    return this.auth.getRoles(role);
+  }
+
+  private listenToLoading(init: boolean): void {
+    if(init){      
+      this.loaderService.getSub
+      .pipe(delay(this.constantes.pageInit)) 
       .subscribe((loading) => {
         this.loading = loading;
       });
+    }else{
+      this.loaderService.getSub
+      .pipe(delay(this.constantes.pageInit)) 
+      .subscribe((loading) => {
+        this.loadingOther = loading;
+      });
+    }
+    
   }
 
 
 
   
-  private initData(){
-    this.listenToLoading();
-    this.apiService.findAll4().subscribe(
+  private initData(page: number, size: number, init: boolean){
+    this.listenToLoading(init);
+    this.apiService.findAll4(page,size).subscribe(
       res => {
-        if(res==null){
-          this.isEmpty=true;
+        if(res==constante.nullValue){
+          this.isEmpty=constante.trueValue;
         }else{
-          this.isEmpty=false;
+          this.isEmpty=constante.falseValue;
           this.pageStructures=res;
         }
       },error => {
         if(error.status === HttpStatusCode.Unauthorized){
-          this.isEmpty=true;
-          this.toastr.warning(error.error,constante.warning);
-          this.auth.onLogOut5S();
+          this.auth.onLogOut5S(error.error);
         }else{
-
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
         }
-        console.log(error)
       }
     );
   }
@@ -95,6 +105,7 @@ export class ListStructureComponent implements OnInit {
           }
         });
   }
+
   openDialogEdit(strucure: Structures) {
     this.openDialogService.openDialog(UpdateStructureComponent, strucure)
         .afterClosed()
@@ -122,148 +133,95 @@ export class ListStructureComponent implements OnInit {
   }
 
   private changePageOrSize(page: number, size: number){
-    this.listenToLoading();
-    this.apiService.findAll4(page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageStructures=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.initData(page,size,this.constantes.falseValue);
   }
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchByName4(name, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageStructures=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchName(name, page, size);
   }
   
   private changePageOrSizeSearchBySigle(sigle: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchBySigle3(sigle, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageStructures=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+    this.searchSigle(sigle, page, size);
   }
 
   changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
+    if(this.searchBy==constante.nullValue){
       this.changePageOrSize(event.page, event.size);
     }else{
-      if(this.searchBy =="name"){
+      if(this.searchBy ==this.constantes.nameSearchValue){
         this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else if(this.searchBy =="sigle"){       
+      }else if(this.searchBy ==this.constantes.sigleSearchValue){       
         this.changePageOrSizeSearchBySigle(this.valueToSearch!, event.page, event.size);
       }else{
-        this.toastr.error("err.error.message", "Error +err.status");
+        this.toastr.error(constante.tokenDefaultValue, this.constantes.error);
       }
-
     }    
   }
  
-  private searchName(name: string){
-    this.listenToLoading();
-    this.apiService.searchByName4(name).toPromise().then(
+  private searchName(name: string, page: number, size: number){
+    this.listenToLoading(this.constantes.falseValue);
+    this.apiService.searchByName4(name,page,size).subscribe(
       res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
+        if(res==constante.nullValue){
+          this.pageStructures = res;
         }else{
-          this.research=false;
           this.pageStructures=res;
         }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
       }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+    );
+    
+  }
+
+  private searchSigle(sigle: string, page: number, size: number){
+    this.listenToLoading(this.constantes.falseValue);
+    this.apiService.searchBySigle3(sigle,page,size).subscribe(
+      res => {
+        if(res==constante.nullValue){
+          this.pageStructures=res;
+        }else{
+          this.pageStructures=res;
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.auth.onLogOut5S(error.error);
+        }else{
+          this.toastr.error(constante.tokenDefaultValue,constante.error);
+        }
       }
     );
   }
 
-  private searchSigle(name: string){
-    this.listenToLoading();
-    this.apiService.searchBySigle3(name).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
-        }else{
-          this.research=false;
-          this.pageStructures=res;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="sigle"){        
-        this.searchSigle(this.valueToSearch);
+  search(){
+    if(this.valueToSearch.trim().length!>this.constantes.pageInit){
+      if(this.searchBy ==this.constantes.nameSearchValue){
+        this.searchName(this.valueToSearch,this.constantes.pageInit,this.constantes.sizeInit);
+      }else if(this.searchBy ==this.constantes.sigleSearchValue){        
+        this.searchSigle(this.valueToSearch,this.constantes.pageInit,this.constantes.sizeInit);
       }else{
-        this.toastr.error("err.error.message", "Error +err.status");
+        this.toastr.error("select paramater to search", this.constantes.error);
       } 
-    }else{
-      this.initData();
-      this.research=false;
+    }
+  }
+
+  modelChanged(event: any){
+    if(event.trim().length!<=this.constantes.pageInit){
       this.searchBy = undefined;
+      this.refresf();
     }
   }
 
   viewList(){
     this.view=!this.view;
-
   }
 
   refresf(){
-    this.initData();
+    this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
   }
 
 

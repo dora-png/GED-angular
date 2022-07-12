@@ -1,52 +1,91 @@
-.example-h2 {
-    margin: 1px;
-  }
-  
+.well {
+  min-height: 20px;
+  padding: 0px;
+  margin-bottom: 20px;
+  background-color: #e5f0d0;
+  border: 1px solid #a1f0ae;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  padding-left: 15px;
+  border:0px;
+}
+.thumbnail .caption {
+  padding: 9px;
+  color: #333;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.icon-style
+{
+  margin-right:15px;
+  font-size:18px;
+  margin-top:20px;
+}
+p
+{
+  margin:3px;
+}
+.well-add-card
+{
+  margin-bottom:10px;
+  background-color:rgba(187, 120, 36, 0.1);
+}
+.btn-add-card
+{
+  margin-top:20px;
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color:rgba(180, 138, 86, 0.1);
+  border: 6px solid #D9D9D9;
+  border-radius: 15px;
+  -webkit-transition: border .2s ease-in-out;
+  -o-transition: border .2s ease-in-out;
+  transition: border .2s ease-in-out;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.btn
+{
+  border-radius:0px;
+}
+.btn-update
+{
+  margin-left:15px;}
 
-  .example-margin {
-    margin: 0 5px;
-  }
 
 
 
-  .wrimagecard{	
-    margin-top: 0;
-      margin-bottom: 1.5rem;
-      text-align: left;
-      position: relative;
-      background: #fff;
-      box-shadow: 12px 15px 20px 0px rgba(46,61,73,0.15);
-      border-radius: 4px;
-      transition: all 0.3s ease;
-  }
-  .wrimagecard .fa{
-    position: relative;
-      font-size: 70px;
-  }
-  .wrimagecard-topimage_header{
-  padding: 20px;
-  }
-  a.wrimagecard:hover, .wrimagecard-topimage:hover {
-      box-shadow: 2px 4px 8px 0px rgba(46,61,73,0.2);
-  }
-  .wrimagecard-topimage a {
-      width: 100%;
-      height: 100%;
-      display: block;
-  }
-  .wrimagecard-topimage_title {
-      padding: 20px 24px;
-      height: 80px;
-      padding-bottom: 0.75rem;
-      position: relative;
-  }
-  .wrimagecard-topimage a {
-      border-bottom: none;
-      text-decoration: none;
-      color: #525c65;
-      transition: color 0.3s ease;
-  }
-  section {
-    display: table;
-  }
-  
+ 
+  .social-box .box {
+    background: #FFF;
+    border-radius: 10px; 
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 5px 5px;
+    transition: all 0.5s ease-out;
+}
+
+.social-box .box:hover {
+   box-shadow: 0 0 6px #4183D7;
+}
+
+.social-box .box-text {
+    font-size: 15px;
+    line-height: 15px;
+    margin: 10px 0;
+}
+
+.social-box .box-btn a {
+    color: #4183D7;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.social-box .fa {
+    color: #4183D7;
+}

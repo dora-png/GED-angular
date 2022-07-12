@@ -17,4 +17,5 @@ export interface TypeDocs {
     sigle?: string;
     description?: string;
     docs?: Array<Docs>;
+    dateCreation?: Date;
 }

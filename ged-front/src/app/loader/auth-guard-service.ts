@@ -8,7 +8,7 @@ import * as constant from './constante';
 export class AuthGuard implements CanActivate  {
 
     isConnected : boolean = false;
-    constructor(private authService: AuthenticationService, private authenticationService: AuthenticationService,
+    constructor(private authService: AuthenticationService,
         private router: Router
 ){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
@@ -22,10 +22,10 @@ export class AuthGuard implements CanActivate  {
         if(this.isConnected){
             return true;
         }else{
-           // return true;
+            //return true;
             
        // console.log(route);
-            this.authenticationService.logout();
+            this.authService.logout();
             this.router.navigate([constant.loginPath]);
 
         }

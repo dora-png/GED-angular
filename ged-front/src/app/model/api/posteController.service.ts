@@ -612,7 +612,7 @@ export class PosteControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/poste/delete-subposte`,
+        return this.httpClient.request<any>('post',`${this.basePath}/poste/delete-subposte`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -781,7 +781,7 @@ export class PosteControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/postes/update`,
+        return this.httpClient.request<any>('post',`${this.basePath}/postes/update`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

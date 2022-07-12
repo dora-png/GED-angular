@@ -84,16 +84,16 @@
                 <span style="align-content: space-between;">
                   {{ poste.name! }}
                 </span>
-                <div class="example-handle" style="color: red;">
-                  <i class="fa fa-trash-o" aria-hidden="true"(click)="onRemove(poste)"></i>
-                </div>
+                <button mat-mini-fab  color="warn" >
+                  <i class="fa fa-trash-o" aria-hidden="true" ></i>
+                </button>
               </div>
               <span>
                 {{ poste.name! }}
               </span>
-              <div class="example-handle" style="color: red; cursor: pointer;">
-                <i class="fa fa-trash-o" aria-hidden="true" (click)="onRemove(poste)"></i>
-              </div>
+              <button mat-mini-fab (click)="onRemove(poste)" color="warn" >
+                <i class="fa fa-trash-o" aria-hidden="true" ></i>
+              </button>
             </div>
           </div>
         </div>
@@ -104,6 +104,6 @@
       </form>   
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-button [disabled]="!groupPosteEdited" (click)="onSave()">save</button>
   </mat-dialog-actions>

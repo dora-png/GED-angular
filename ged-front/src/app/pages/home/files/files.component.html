@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-12">List of Files search</div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4" *ngFor="let movie of movies">
+            <div class="hover panel">
+                <div class="front">
+                    <div class="frontTitle">
+                      Idaho Science and Aerospace Scholars
+                    </div>
+                    <div class="frontLogo isas">
+                    </div>
+                    <div class="frontLocation" [matMenuTriggerFor]="edit" style="cursor: pointer;">
+                      NASA Ames
+                    </div>
+                    <mat-menu #edit="matMenu">
+                        <button mat-menu-item >  View</button>
+                        <button mat-menu-item > Open</button>
+                        <button mat-menu-item > Share</button>
+                        <button mat-menu-item >  Add to favory</button>
+                        <button mat-menu-item > Download</button>
+                        <button mat-menu-item > Rename</button>
+                        <button mat-menu-item > About</button>
+                        <button mat-menu-item > Delete</button>
+                      </mat-menu>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

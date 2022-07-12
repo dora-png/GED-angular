@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { StructureControllerService, Structures } from 'src/app/model';
+import * as constante from '../../../../loader/constante';
 
 @Component({
   selector: 'app-update-structure',
@@ -13,8 +14,9 @@ import { StructureControllerService, Structures } from 'src/app/model';
 export class UpdateStructureComponent implements OnInit {
 
   newStructureFormGroup!: FormGroup;
-  clicked: boolean= false;
-  isValid: boolean=true;
+  constantes: any = constante;
+  clicked: boolean= constante.falseValue;
+  isValid: boolean= constante.trueValue;
   
   
    
@@ -51,33 +53,32 @@ export class UpdateStructureComponent implements OnInit {
       postes: this.data.postes!,
       sousStructure: this.data.sousStructure!,
       structureSuperieur: this.data.structureSuperieur!,
-      active: true
+      active: constante.trueValue
     };
   }
 
-  onSaveNewWorkFow(){
-    this.clicked=true;
+  onSaveNewStructure(){
+    this.clicked=constante.trueValue;
     let body: Structures=this.initStructureBean();
-    body.name = this.f["name"].value;
-    body.sigle = this.f["sigle"].value;
-    body.description = this.f["description"].value;
-    this.newStructureFormGroup.reset();
+    body.name = this.f[constante.nameSearchValue].value;
+    body.sigle = this.f[constante.sigleSearchValue].value;
+    body.description = this.f[constante.description].value;
     this.apiService.update3(body).subscribe(
       res => {
-        this.toastr.success("true","Create");
-        this.dialogRef.close(true);
+        this.toastr.success(constante.tokenDefaultValue,constante.create);
+        this.dialogRef.close(constante.trueValue);
       },
       error => {
-        this.f["sigle"].setValue(body.sigle); 
-        this.f["name"].setValue(body.name); 
-        this.f["description"].setValue(body.description);
-        this.clicked = false;
+        this.f[constante.sigleSearchValue].setValue(body.sigle); 
+        this.f[constante.nameSearchValue].setValue(body.name); 
+        this.f[constante.description].setValue(body.description);
+        this.clicked = constante.falseValue;
       }
     );
   }
 
   onClose(){
-    this.dialogRef.close(false);
+    this.dialogRef.close(constante.falseValue);
   }
 
 }

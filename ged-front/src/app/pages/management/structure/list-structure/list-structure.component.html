@@ -9,7 +9,18 @@
     <app-menu-manage></app-menu-manage>
   </div>
 </div>
-<div class="row">
+<br>
+<div class="row"  *ngIf="loading">
+  <div class="col-md-12" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
+  </div>
+</div>
+
+
+
+<div class="row" *ngIf="!loading">
     <div align="end">
       <button mat-button (click)="refresf()">
         <i class="fa fa-refresh" aria-hidden="true"></i>
@@ -18,32 +29,36 @@
         <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
         <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
       </button>
-        <button mat-button (click)="newStructure()" *ngIf="isEmpty">
+        <button mat-button (click)="newStructure()" *ngIf="isEmpty && onHasRole(constantes.cust)"  >
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </button>
     </div>
 </div>
-<app-error *ngIf="!loading && isEmpty"></app-error>
-<div  class="row" *ngIf="!loading && !isEmpty">
+
+<div  class="row" *ngIf="!loading">
   <div class="col-md-12">
-    <mat-card>
+    <mat-card *ngIf="isEmpty">
+      <app-list-empty></app-list-empty>
+    </mat-card>
+
+    <mat-card *ngIf="!isEmpty">
       <div class="row"></div>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label"></label>
         <div class="col-sm-6">
           <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">
+            <span (click)="search()" class="input-group-addon" id="basic-addon1">
               <i class="fa fa-search" aria-hidden="true"></i>
             </span>
-            <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+            <input (ngModelChange)="modelChanged($event)" [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-sm-2 col-form-label">
           <div class="input-group">
             <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
               <mat-radio-group [(ngModel)]="searchBy">
-                <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-                <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
+                <mat-radio-button class="example-margin" [value]="constantes.nameSearchValue">Name</mat-radio-button>
+                <mat-radio-button class="example-margin" [value]="constantes.sigleSearchValue">Sigle</mat-radio-button>
               </mat-radio-group>
             </span>
           </div>
@@ -51,79 +66,90 @@
         </div>
   
       </div>
-      <div class="alert alert-danger" *ngIf="research" role="alert">
-        not found 
+      <div *ngIf="pageStructures == constantes.nullValue" role="alert">
+        <app-list-empty></app-list-empty> 
       </div>
-      <div class="container-fluid" *ngIf="view">
+      <div class="container" *ngIf="pageStructures != constantes.nullValue" >
+        <div class="container-fluid" *ngIf="view">
+          <div class="row">
+            <div class="col-sm-12" *ngIf="loadingOther">
+              <app-loader></app-loader>
+            </div>
+            <div class="col-sm-12" *ngIf="!loadingOther">
+              <mat-list  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
+                <mat-list-item mat-button [matMenuTriggerFor]="action">
+                  <span>{{structure.name!}}</span><span><strong>(</strong>{{structure.sigle!}} <strong>)</strong></span>
+                </mat-list-item>
+                <mat-menu #action="matMenu">
+                  <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
+                  <button mat-menu-item (click)="openDialogAddSubStructure(structure)" *ngIf="onHasRole(constantes.cust)" > Add SubStructure</button>
+                  <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
+                  <button mat-menu-item  *ngIf="onHasRole(constantes.dst)"  > Delete</button>
+                </mat-menu>
+                <mat-menu #edit="matMenu">
+                  <button mat-menu-item (click)="openDialogEdit(structure)"  *ngIf="onHasRole(constantes.cust)">  Edit Structure</button>
+                  <button mat-menu-item (click)="openDialogListPoste(structure)" *ngIf="onHasRole(constantes.rpo)"> Postes </button>
+                </mat-menu>
+                <mat-divider></mat-divider>
+              </mat-list>
+            </div>
+          </div>
+        </div>
+        <div class="container" id="tourpackages-carousel"  *ngIf="!view">
+          <div class="row" *ngIf="loadingOther">
+            <div class="col-sm-12">
+              <app-loader></app-loader>
+            </div>
+          </div>
+          <div class="row" *ngIf="!loadingOther" >            
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
+              <div class="thumbnail">
+                  <div class="caption">
+                    <div class='col-lg-12 well well-add-card'>
+                      <i class = "fa fa-cubes fa-4x" style="color:#BB7824"></i>
+                        <span>{{structure.name!}}</span><span><em>(</em>{{structure.sigle!}} <em>)</em></span>
+                    </div>
+                    <div class='col-lg-12'>                    
+                        <p>
+                          Structure Superieur: 
+                          <span *ngIf="structure.structureSuperieur == constantes.nullValue ">null</span> 
+                          <span *ngIf="structure.structureSuperieur != constantes.nullValue">{{structure.structureSuperieur!.sigle!}}</span>
+                        </p>
+                        <p class="text-muted">
+                          Nombre Sous-Structures: 
+                          <span *ngIf="structure.sousStructure!.length == 0">0</span> 
+                          <span *ngIf="structure.sousStructure!.length != 0">{{structure.sousStructure!.length}}</span>
+                        </p>
+                        <p class="text-muted">
+                          Nombre Postes:
+                          <span *ngIf="structure.postes!.length == 0">0</span> 
+                          <span *ngIf="structure.postes!.length != 0">{{structure.postes!.length}}</span> 
+                        </p>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card"mat-button [matMenuTriggerFor]="action">Actions
+                    </button>
+                    <mat-menu #action="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
+                      <button mat-menu-item (click)="openDialogAddSubStructure(structure)"  *ngIf="onHasRole(constantes.cust)" > Add SubStructure</button>
+                      <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
+                    </mat-menu>
+                    <mat-menu #edit="matMenu">
+                      <button mat-menu-item (click)="openDialogEdit(structure)"  *ngIf="onHasRole(constantes.cust)" >  Edit Structure</button>
+                      <button mat-menu-item (click)="openDialogListPoste(structure)"  *ngIf="onHasRole(constantes.rpo)" > Postes</button>
+                    </mat-menu>
+                    <span class='glyphicon glyphicon-remove text-danger pull-right icon-style'  *ngIf="onHasRole(constantes.dst)" ></span>
+                </div>
+              </div>
+            </div>      
+          </div>
+        </div>
         <div class="row">
-          <div class="col-sm-12">
-            <mat-list  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
-              <mat-list-item mat-button [matMenuTriggerFor]="action">
-                <span>{{structure.name!}}</span><span><strong>(</strong>{{structure.sigle!}} <strong>)</strong></span>
-              </mat-list-item>
-              <mat-menu #action="matMenu">
-                <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                <button mat-menu-item (click)="openDialogAddSubStructure(structure)"> Add SubStructure</button>
-                <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
-                <button mat-menu-item > Delete</button>
-              </mat-menu>
-              <mat-menu #edit="matMenu">
-                <button mat-menu-item (click)="openDialogEdit(structure)">  Edit Structure</button>
-                <button mat-menu-item (click)="openDialogListPoste(structure)"> Postes </button>
-              </mat-menu>
-              <mat-divider></mat-divider>
-            </mat-list>
+          <div class="col-md-4">
+            <app-nav-table [pageNumber]="pageStructures?.pageable?.pageNumber!" [first]="pageStructures?.first!" [last]="pageStructures?.last!" [size]="pageStructures?.size!" [totalPages]="pageStructures?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
           </div>
         </div>
       </div>
-      <div class="container" id="tourpackages-carousel"  *ngIf="!view">
-        <div class="row">          
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
-            <div class="thumbnail">
-                <div class="caption">
-                  <div class='col-lg-12 well well-add-card'>
-                    <i class = "fa fa-cubes fa-4x" style="color:#BB7824"></i>
-                      <span>{{structure.name!}}</span><span><em>(</em>{{structure.sigle!}} <em>)</em></span>
-                  </div>
-                  <div class='col-lg-12'>                    
-                      <p>
-                        Structure Superieur: 
-                        <span *ngIf="structure.structureSuperieur==null">null</span> 
-                        <span *ngIf="structure.structureSuperieur!=null">{{structure.structureSuperieur!.sigle!}}</span>
-                      </p>
-                      <p class="text-muted">
-                        Nombre Sous-Structures: 
-                        <span *ngIf="structure.sousStructure!.length == 0">0</span> 
-                        <span *ngIf="structure.sousStructure!.length != 0">{{structure.sousStructure!.length}}</span>
-                      </p>
-                      <p class="text-muted">
-                        Nombre Postes:
-                        <span *ngIf="structure.postes!.length == 0">0</span> 
-                        <span *ngIf="structure.postes!.length != 0">{{structure.postes!.length}}</span> 
-                      </p>
-                  </div>
-                  <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card"mat-button [matMenuTriggerFor]="action">Actions
-                  </button>
-                  <mat-menu #action="matMenu">
-                    <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                    <button mat-menu-item (click)="openDialogAddSubStructure(structure)"> Add SubStructure</button>
-                    <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
-                  </mat-menu>
-                  <mat-menu #edit="matMenu">
-                    <button mat-menu-item (click)="openDialogEdit(structure)">  Edit Structure</button>
-                    <button mat-menu-item (click)="openDialogListPoste(structure)"> Postes</button>
-                  </mat-menu>
-                  <span class='glyphicon glyphicon-remove text-danger pull-right icon-style'></span>
-              </div>
-            </div>
-          </div>      
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <app-nav-table [pageNumber]="pageStructures?.pageable?.pageNumber!" [first]="pageStructures?.first!" [last]="pageStructures?.last!" [size]="pageStructures?.size!" [totalPages]="pageStructures?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-        </div>
-      </div>
+     
     </mat-card>
   </div>
 </div>

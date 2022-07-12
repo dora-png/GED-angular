@@ -1,106 +1,176 @@
-<div *ngIf="!loading">
-  <br>
-  <div class="row">
-    <div class="col-md-12">
-      <app-breadcrumb></app-breadcrumb>
-    </div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <app-menu-manage></app-menu-manage>
-    </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <app-menu-manage></app-menu-manage>
   </div>
-  <div class="row">
-      <div align="end">
-        <button mat-button (click)="viewList()">
-          <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
-          <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+</div>
+<br>
+<div class="row"  *ngIf="loading">
+  <div class="col-md-12" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
+  </div>
+</div>
+<div class="row" *ngIf="!loading">
+    <div align="end">
+      <button mat-button (click)="refresf()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+      </button>
+      <button mat-button (click)="viewList()">
+        <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
+        <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+      </button>
+        <button mat-button (click)="newWorkflow()" *ngIf=" onHasRole(constantes.cuwf)"  >
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </button>
-          <button mat-button (click)="newWorkflow()">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          </button>
-      </div>
-  </div>
-  <app-error *ngIf="!loading && isEmpty"></app-error>
-  <div  class="row" *ngIf="!loading && !isEmpty">
-      <div class="col-md-12">
-        <mat-card>
-          <div class="row"></div>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-6">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-                <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-              </div>
-            </div>
-            <div class="col-sm-2 col-form-label">
-              <div class="input-group">
-                <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                  <mat-radio-group [(ngModel)]="searchBy">
-                    <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-                    <mat-radio-button class="example-margin" value="sigle">Sigle</mat-radio-button>
-                  </mat-radio-group>
-                </span>
-              </div>
-              
-            </div>
-      
-          </div>
-          <div class="alert alert-danger" *ngIf="research" role="alert">
-            not found 
-          </div>
-          <div class="container-fluid" *ngIf="view">
-            <div class="row">
-              <div class="col-sm-12">
-                <mat-list  *ngFor="let workflow of pageWorkFlow?.content;let indexOfelement=index">
-                  <mat-list-item mat-button [matMenuTriggerFor]="action">
-                    <span>{{workflow.name!}}</span><span><strong>(</strong>{{workflow.sigle!}} <strong>)</strong></span>
-                  </mat-list-item>
-                  <mat-menu #action="matMenu">
-                    <button mat-menu-item  (click)="openDialogEdit(workflow)"> Edit</button>
-                    <button mat-menu-item (click)="openDialogAddPoste(workflow)"> Add Poste To WorkFlow</button>
-                    <button mat-menu-item (click)="openDialogHistoric(workflow)"> Information about</button>
-                  </mat-menu>
-                  <mat-divider></mat-divider>
-                </mat-list>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" *ngIf="!view">
-            <div class="row" style="overflow: visible;">
-              <div class="col-md-3 col-sm-4"  *ngFor="let workflow of pageWorkFlow?.content;let indexOfelement=index">
-                <div class="wrimagecard wrimagecard-topimage">
-                    <a >
-                    <div class="wrimagecard-topimage_header" style="background-color:rgba(187, 120, 36, 0.1) ">
-                      <i class = "fa fa-cubes" style="color:#BB7824"></i>
-                      <span>{{workflow.name!}}</span><span><em>(</em>{{workflow.sigle!}} <em>)</em></span>
-                    </div>
-                    <div class="wrimagecard-topimage_title">
-                      <h4> <button mat-button [matMenuTriggerFor]="action">Actions</button>
-                        <mat-menu #action="matMenu">
-                          <button mat-menu-item  (click)="openDialogEdit(workflow)"> Edit</button>
-                          <button mat-menu-item (click)="openDialogAddPoste(workflow)"> Add Poste To WorkFlow</button>
-                          <button mat-menu-item (click)="openDialogHistoric(workflow)"> Information about</button>
-                        </mat-menu>
-                      <div class="pull-right badge" id="WrControls"></div></h4>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <app-nav-table [pageNumber]="pageWorkFlow?.pageable?.pageNumber!" [first]="pageWorkFlow?.first!" [last]="pageWorkFlow?.last!" [size]="pageWorkFlow?.size!" [totalPages]="pageWorkFlow?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-            </div>
-          </div>
-        </mat-card>
-      </div>
     </div>
 </div>
+<div  class="row" *ngIf="!loading">
+  <div class="col-md-12">
+    <mat-card *ngIf="isEmpty">
+      <app-list-empty></app-list-empty>
+    </mat-card>
+
+    <mat-card *ngIf="!isEmpty">
+      <div class="row"></div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span (click)="search()" class="input-group-addon" id="basic-addon1">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input (ngModelChange)="modelChanged($event)" [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="col-sm-2 col-form-label">
+          <div class="input-group">
+            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+              <mat-radio-group [(ngModel)]="searchBy">
+                <mat-radio-button class="example-margin" [value]="constantes.nameSearchValue">Name</mat-radio-button>
+                <mat-radio-button class="example-margin" [value]="constantes.sigleSearchValue">Sigle</mat-radio-button>
+              </mat-radio-group>
+            </span>
+          </div>
+          
+        </div>
+  
+      </div>
+      <div *ngIf="pageWorkFlow == constantes.nullValue" role="alert">
+        <app-list-empty></app-list-empty> 
+      </div>
+      <div class="container" *ngIf="pageWorkFlow != constantes.nullValue" >
+        <div class="container-fluid" *ngIf="view">
+          <div class="row">
+            <div class="col-sm-12" *ngIf="loadingOther">
+              <app-loader></app-loader>
+            </div>
+            <div class="col-sm-12" *ngIf="!loadingOther">
+              <mat-list  *ngFor="let workflow of pageWorkFlow?.content;let indexOfelement=index">
+                <mat-list-item mat-button [matMenuTriggerFor]="action">
+                  <span>{{workflow.name!}}</span><span><strong>(</strong>{{workflow.sigle!}} <strong>)</strong></span>
+                </mat-list-item>
+                <mat-menu #action="matMenu">
+                  <button mat-menu-item  (click)="openDialogEdit(workflow)"  *ngIf="onHasRole(constantes.cuwf)" > Edit</button>
+                  <button mat-menu-item (click)="openDialogAddPoste(workflow)" *ngIf="onHasRole(constantes.cuwf)"> Add Poste To WorkFlow</button>
+                  <button mat-menu-item (click)="openDialogHistoric(workflow)"> Information about</button>
+                  <button mat-menu-item  *ngIf="onHasRole(constantes.dwf)"  > Delete</button>
+                </mat-menu>
+                <mat-divider></mat-divider>
+              </mat-list>
+            </div>
+          </div>
+        </div>
+        <div class="container" id="tourpackages-carousel"  *ngIf="!view">
+          <div class="row" *ngIf="loadingOther">
+            <div class="col-sm-12">
+              <app-loader></app-loader>
+            </div>
+          </div> 
+            <div class="social-box row" *ngIf="!loadingOther">
+              <div class="col-sm-4 text-center" *ngFor="let workflow of pageWorkFlow?.content;let indexOfelement=index">
+                <mat-menu #action="matMenu">
+                  <button mat-menu-item  (click)="openDialogEdit(workflow)"  *ngIf="onHasRole(constantes.cuwf)" > Edit</button>
+                  <button mat-menu-item (click)="openDialogAddPoste(workflow)" *ngIf="onHasRole(constantes.cuwf)"> Add Poste To WorkFlow</button>
+                  <button mat-menu-item (click)="openDialogHistoric(workflow)"> Information about</button>
+                  <button mat-menu-item  *ngIf="onHasRole(constantes.dwf)"  > Delete</button>
+                </mat-menu>
+                <div class="box" [matMenuTriggerFor]="action">
+                  <i class="fa fa-tasks fa-3x"  aria-hidden="true"></i>
+                  <div class="box-title">
+                    <h3><span>{{workflow.name!}}</span></h3>
+                  </div>
+                  <div class="box-text">
+                    <p class="text-muted">
+                      Nombre Liasses: 
+                      <span *ngIf="workflow.typeDocs!.length == 0">0</span> 
+                      <span *ngIf="workflow.typeDocs!.length != 0">{{workflow.typeDocs!.length}}</span>
+                    </p>
+                    <p class="text-muted">
+                      Nombre Typedoc:
+                      <span *ngIf="workflow.typeDocs!.length == 0">0</span> 
+                      <span *ngIf="workflow.typeDocs!.length != 0">{{workflow.typeDocs!.length}}</span> 
+                    </p>
+                  </div>
+                  <div class="box-btn">
+                    <a><strong>{{workflow.sigle!}}</strong></a>
+                  </div>
+                </div>
+              </div>	  
+            </div>     
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <app-nav-table [pageNumber]="pageWorkFlow?.pageable?.pageNumber!" [first]="pageWorkFlow?.first!" [last]="pageWorkFlow?.last!" [size]="pageWorkFlow?.size!" [totalPages]="pageWorkFlow?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+          </div>
+        </div>
+      </div>
+     
+    </mat-card>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

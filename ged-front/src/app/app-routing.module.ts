@@ -19,6 +19,7 @@ import { ManageIndexComponent } from './pages/management/manage-index/manage-ind
 import { ListGroupUserComponent } from './pages/management/group-user/list-group-user/list-group-user.component';
 import { AuthGuard } from './loader/auth-guard-service';
 import { ErrorComponent } from './utils/error/error.component';
+import { HomeComponent } from './pages/home/home/home.component';
 import * as constant from './loader/constante';
 
 
@@ -36,6 +37,12 @@ const spb: Route={
 const defaultRoute: Route = {
   path: constant.defaultRoute,
   component: LoginComponent//change
+};
+
+const home: Route = {
+  path: constant.home,
+  component: HomeComponent,
+  canActivate:[AuthGuard]
 };
 const help: Route={
   path: constant.help,
@@ -204,6 +211,7 @@ const routes: Routes = [
   workflow,
   organigram,
   help,
+  home,
   spb,
   user,
   login,

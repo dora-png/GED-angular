@@ -1,29 +1,60 @@
-<mat-drawer-container  class="sidenav-container" [hasBackdrop]="'true'">
-    <mat-drawer  #drawer [mode]="'side'">
-      <mat-toolbar  style="background-color: aqua;">
+<mat-drawer-container  class="sidenav-container" [hasBackdrop]="'false'">
+    <mat-drawer  #drawer style="width: 15%;" [mode]="'side'" [opened]="isLogged">
+      <mat-toolbar  >
         <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
         Menu
       </mat-toolbar>
       <mat-nav-list class="menu">
-        <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>     
-        <mat-divider></mat-divider>
+        <a mat-list-item >
+          <button [matMenuTriggerFor]="new" class="btn-1">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nouveau
+          </button>
+        </a>   
+        <mat-menu #new="matMenu">
+          <mat-list>
+            <mat-list-item>
+              <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <input style="display: none;" type="file" id="fileOne" name="fileOne" class="form-control" />
+              <label for="fileOne" mat-menu-item>
+                <i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier
+              </label> 
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <input style="display: none;" type="file" id="fileList" name="fileList" webkitdirectory multiple class="form-control" />
+                <label for="fileList" mat-menu-item>
+                  <i class="fa fa-folder" aria-hidden="true"></i> Importer un dossier
+                </label>                                
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
+            </mat-list-item>  
+            <mat-list-item>
+              <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>  
+        <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.home"><i class="fa fa-home" aria-hidden="true"></i> Mon Espace</a>     
+        <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-share" aria-hidden="true"></i> Partage Avec Moi</a>     
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
-        <mat-divider></mat-divider>
+        <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-star-o" aria-hidden="true"></i> Suivis</a>     
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
     </mat-drawer>
-    <mat-drawer-content>
-      <mat-toolbar style="background-color: aqua;">
-        <button *ngIf="isLogged"
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <i class="fa fa-bars" aria-hidden="true" matTooltip="MENU" aria-label="Side nav toggle icon" *ngIf="!drawer.opened; else showCross"></i>
-          <ng-template #showCross>
-            <i class="fa fa-times" aria-hidden="true" matTooltip="CLOSE" aria-label="Side nav toggle icon"></i>
-          </ng-template>
-        </button> 
+    <div *ngIf="fileStatus.status==='progress'">
+      <div class="progress">
+        <div [style.width.%]="fileStatus.percent" class="progress-bar progress-bar-animated bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            {{ fileStatus.requestType }} {{ fileStatus.percent }} 
+          </div>
+      </div>
+    </div>
+    
+    <mat-drawer-content >
+      <mat-toolbar style="background-color: aqua;" > 
         <span  *ngIf="isLogged && onHasRole(constantes.admin)">
           <button mat-button [routerLink]="constantes.manageIndexPath"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
         </span>
@@ -65,15 +96,14 @@
       </mat-toolbar>
       
      
-  
       <div class="content-wrapper" >
-        <div class="loader-container" *ngIf="!loading">
-          <app-loader style="top: 50%; left:50%;" ></app-loader>
-        </div>
         <div class="container-fluid">
           <router-outlet></router-outlet>
         </div>
       </div> 
+      <a class="fixedButton" (click)="drawer.toggle()" *ngIf="isLogged">
+        <div class="roundedFixedBtn"><i class="fa fa-bars"></i></div>
+       </a>
       
       
     </mat-drawer-content>

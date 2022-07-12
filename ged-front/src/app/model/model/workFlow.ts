@@ -19,4 +19,5 @@ export interface WorkFlow {
     description?: string;
     liasses?: Array<Liasses>;
     typeDocs?: Array<TypeDocs>;
+    dateCreation?: Date;
 }
