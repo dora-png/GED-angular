@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { GroupUser, GroupUserControllerService } from 'src/app/model';
+//import { GroupUser, GroupUserControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-add-group-user',
@@ -11,7 +11,7 @@ import { GroupUser, GroupUserControllerService } from 'src/app/model';
   styleUrls: ['./add-group-user.component.scss']
 })
 export class AddGroupUserComponent implements OnInit {
-
+/*
   newGroupFormGroup!: FormGroup;
   clicked: boolean= false;
   isEmpty: boolean = true;
@@ -32,11 +32,11 @@ export class AddGroupUserComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
     
   }
-  get f(): { [key: string]: AbstractControl } {
+ /* get f(): { [key: string]: AbstractControl } {
     return this.newGroupFormGroup.controls;
   }
   private initGroupBean(): GroupUser{
@@ -72,5 +72,5 @@ export class AddGroupUserComponent implements OnInit {
     this.dialogRef.close(false);
   }
  
-
+*/
 }

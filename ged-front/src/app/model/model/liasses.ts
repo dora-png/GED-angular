@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 import { Docs } from './docs';
+import { Profiles } from './profiles';
 import { TypeLiasses } from './typeLiasses';
-import { Users } from './users';
 import { WorkFlow } from './workFlow';
 
 export interface Liasses { 
@@ -20,8 +20,9 @@ export interface Liasses {
     sigle?: string;
     description?: string;
     dateCreation?: Date;
+    archive?: boolean;
     docs?: Array<Docs>;
     workflowid?: WorkFlow;
-    userid?: Users;
+    profileid?: Profiles;
     typeliasse?: TypeLiasses;
 }

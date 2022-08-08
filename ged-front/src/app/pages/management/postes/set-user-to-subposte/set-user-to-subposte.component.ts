@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { delay, Observable, of } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { LogPosteUserControllerService, PageUsers, PosteControllerService, Postes, Users, UsersControllerService } from 'src/app/model';
+//import { LogPosteUserControllerService, PageUsers, PosteControllerService, Postes, Users, UsersControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-set-user-to-subposte',
@@ -13,7 +13,7 @@ import { LogPosteUserControllerService, PageUsers, PosteControllerService, Poste
   styleUrls: ['./set-user-to-subposte.component.scss']
 })
 export class SetUserToSubposteComponent implements OnInit {
-
+/*
   isEmpty: boolean = true;
   loading: boolean = false;
   research: boolean = false;
@@ -38,12 +38,12 @@ export class SetUserToSubposteComponent implements OnInit {
     ) {
       this.posteName = this.data.name!;
      }
-
+*/
      ngOnInit(): void {
-      this.listenToLoading();
-      this.initData();
+      //this.listenToLoading();
+      //this.initData();
     }
-  
+  /*
     private listenToLoading(): void {
       this.loaderService.getSub
         .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -278,16 +278,16 @@ export class SetUserToSubposteComponent implements OnInit {
             this.toastr.info(error.error.message, "Infos");
           }
         );
-       /* transferArrayItem(
-          this.listUser,
-          this.currentUser,
-          event.previousIndex,
-          event.currentIndex
-        );*/
+       //transferArrayItem(
+         // this.listUser,
+         // this.currentUser,
+         // event.previousIndex,
+         // event.currentIndex
+        //);
       }
 
     }
   }
     
-
+*/
 }

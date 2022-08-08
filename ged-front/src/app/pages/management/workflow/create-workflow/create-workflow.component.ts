@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { HttpStatusCode } from 'src/app/loader/status-code';
-import { WorkFlowControllerService, WorkFlow } from 'src/app/model';
+//import { WorkFlowControllerService, WorkFlow } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
 
 @Component({
@@ -15,34 +15,34 @@ import * as constante from '../../../../loader/constante';
 })
 export class CreateWorkflowComponent implements OnInit {
 
-
+/*
   newWorkflowFormGroup!: FormGroup;
   constantes: any = constante;
   clicked: boolean= constante.falseValue;
   isValid: boolean=constante.trueValue;
   
-  
+  */
    
   constructor(
-    private loaderService: LoaderService,
+    /*private loaderService: LoaderService,
     private apiService: WorkFlowControllerService,       
     private auth: AuthenticationService,   
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private dialogRef:  MatDialogRef<CreateWorkflowComponent>
+    private dialogRef:  MatDialogRef<CreateWorkflowComponent>*/
   ) { 
-    this.newWorkflowFormGroup = formBuilder.group(
+   /* this.newWorkflowFormGroup = formBuilder.group(
       {
         name: new FormControl(constante.nullValue, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
         sigle: new FormControl(constante.nullValue, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
         description: new FormControl(constante.nullValue, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]),
       }
-    );
+    );*/
   }
 
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newWorkflowFormGroup.controls;
   }
@@ -91,6 +91,6 @@ export class CreateWorkflowComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 
 }

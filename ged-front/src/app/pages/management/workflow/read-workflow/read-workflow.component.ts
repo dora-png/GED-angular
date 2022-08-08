@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { WorkFlowControllerService, WorkFlow, WorkFlowPoste, Liasses } from 'src/app/model';
+//import { WorkFlowControllerService, WorkFlow, WorkFlowPoste, Liasses } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
 
 @Component({
@@ -13,7 +13,7 @@ import * as constante from '../../../../loader/constante';
   styleUrls: ['./read-workflow.component.scss']
 })
 export class ReadWorkflowComponent implements OnInit {
-
+/*
   newWorkflowFormGroup!: FormGroup;  
   workFlowPosteList: Array<WorkFlowPoste>=constante.arrayEmpty;
   constantes: any = constante;
@@ -22,19 +22,19 @@ export class ReadWorkflowComponent implements OnInit {
   liassesList: Array<Liasses>=constante.arrayEmpty;
   liasseEmpty: boolean=constante.falseValue;
   workFlowPosteEmpty: boolean=constante.falseValue;
-  nameWorkflow: string=constante.tokenDefaultValue;
+  nameWorkflow: string=constante.tokenDefaultValue;*/
   
   
    
   constructor(    
-    @Inject(MAT_DIALOG_DATA) private data: WorkFlow,
+    /*@Inject(MAT_DIALOG_DATA) private data: WorkFlow,
     private loaderService: LoaderService,
     private apiService: WorkFlowControllerService,    
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private dialogRef:  MatDialogRef<ReadWorkflowComponent>
+    private dialogRef:  MatDialogRef<ReadWorkflowComponent>*/
   ) { 
-    this.nameWorkflow = this.data.name!;
+    /*this.nameWorkflow = this.data.name!;
     this.newWorkflowFormGroup = formBuilder.group(
       {
         name: new FormControl(this.data.name!, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
@@ -47,11 +47,11 @@ export class ReadWorkflowComponent implements OnInit {
     }else{
       this.liasseEmpty=constante.trueValue;
       this.liassesList=this.data.liasses!;
-    }
+    }*/
   }
 
   ngOnInit(): void {
-    this.apiService.allPosteInWorkFlow(this.data.idworkflows!).subscribe(
+    /*this.apiService.allPosteInWorkFlow(this.data.idworkflows!).subscribe(
       res => {
         if(res==constante.nullValue){
           this.workFlowPosteEmpty=constante.falseValue;
@@ -62,7 +62,7 @@ export class ReadWorkflowComponent implements OnInit {
       },error => {
        
       }
-    );
+    );*/
   }
   
 

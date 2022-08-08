@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { PosteControllerService, Postes } from 'src/app/model';
+//import { PosteControllerService, Postes } from 'src/app/model';
 
 @Component({
   selector: 'app-add-subposte',
@@ -12,7 +12,7 @@ import { PosteControllerService, Postes } from 'src/app/model';
   styleUrls: ['./add-subposte.component.scss']
 })
 export class AddSubposteComponent implements OnInit {
-  newPosteFormGroup!: FormGroup;
+  /*newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
   
    
@@ -32,10 +32,10 @@ export class AddSubposteComponent implements OnInit {
       }
     );
    }
-
+*/
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newPosteFormGroup.controls;
   }
@@ -81,5 +81,5 @@ export class AddSubposteComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 }

@@ -59,64 +59,17 @@ export class TypeLiasseControllerService {
     /**
      * 
      * 
-     * @param body 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public add2(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add2(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add2(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add2(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add2.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.request<any>('post',`${this.basePath}/typeliasse/add`,
-            {
-                body: body,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete1(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public _delete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public _delete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public _delete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public _delete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete1.');
+            throw new Error('Required parameter id was null or undefined when calling _delete.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -153,15 +106,62 @@ export class TypeLiasseControllerService {
     /**
      * 
      * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public add(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling add.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/typeliasse/add`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll2(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
-    public findAll2(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
-    public findAll2(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
-    public findAll2(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAll(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
+    public findAll(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
+    public findAll(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
+    public findAll(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -346,10 +346,10 @@ export class TypeLiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName2(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
-    public searchByName2(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
-    public searchByName2(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
-    public searchByName2(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchByName(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
+    public searchByName(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
+    public searchByName(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
+    public searchByName(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -400,10 +400,10 @@ export class TypeLiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
-    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
-    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
-    public searchBySigle1(sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchBySigle(sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeLiasses>;
+    public searchBySigle(sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeLiasses>>;
+    public searchBySigle(sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeLiasses>>;
+    public searchBySigle(sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -452,13 +452,13 @@ export class TypeLiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update1(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update1(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update1(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update1(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update(body: TypeLiasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update(body: TypeLiasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update(body: TypeLiasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update(body: TypeLiasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update1.');
+            throw new Error('Required parameter body was null or undefined when calling update.');
         }
 
         let headers = this.defaultHeaders;

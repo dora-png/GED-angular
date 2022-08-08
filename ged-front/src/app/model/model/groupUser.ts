@@ -9,13 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Postes } from './postes';
-import { Roles } from './roles';
 
 export interface GroupUser { 
     idgroupes?: number;
     name?: string;
+    sigle?: string;
+    couleur?: string;
+    status?: boolean;
     dateCreation?: Date;
-    roleslistes?: Array<Roles>;
-    posteslistes?: Array<Postes>;
 }

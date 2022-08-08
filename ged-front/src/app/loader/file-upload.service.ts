@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,8 +12,11 @@ export class FileUploadService {
   constructor(private http: HttpClient) {}
 
   // define function to upload files
-  upload(formData: FormData): Observable<HttpEvent<string[]>> {
-    return this.http.post<string[]>(`${this.server}/upload`, formData, {
+  upload(formData: FormData, login: string): Observable<HttpEvent<string[]>> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("login",login);
+    return this.http.post<string[]>(`${this.server}/uploadfile-user`, formData, {
+      params: queryParams,
       reportProgress: true,
       observe: 'events'
     });

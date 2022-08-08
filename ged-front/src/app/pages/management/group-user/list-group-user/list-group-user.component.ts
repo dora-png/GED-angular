@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { GroupUser, GroupUserControllerService, PageGroupUser } from 'src/app/model';
+//import { GroupUser, GroupUserControllerService, PageGroupUser } from 'src/app/model';
 import { AddGroupUserComponent } from '../add-group-user/add-group-user.component';
 import { AddPosteGroupUserComponent } from '../add-poste-group-user/add-poste-group-user.component';
 import { InfosGroupUserComponent } from '../infos-group-user/infos-group-user.component';
@@ -16,7 +16,7 @@ import { AddRoleGroupUserComponent } from '../add-role-group-user/add-role-group
   styleUrls: ['./list-group-user.component.scss']
 })
 export class ListGroupUserComponent implements OnInit {
-
+/*
 
   pageGroupUser!: PageGroupUser;
   isEmpty: boolean = true;
@@ -33,11 +33,11 @@ export class ListGroupUserComponent implements OnInit {
     private apiService: GroupUserControllerService,    
     private toastr: ToastrService
     ) { }
-
+*/
   ngOnInit(): void {
-    this.initData(0,5);
+    //this.initData(0,5);
   }
-
+/*
   private listenToLoading(): void {
     this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -186,6 +186,6 @@ export class ListGroupUserComponent implements OnInit {
     this.initData(0,5);
   }
 
-
+*/
 
 }

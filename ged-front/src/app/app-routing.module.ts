@@ -21,6 +21,8 @@ import { AuthGuard } from './loader/auth-guard-service';
 import { ErrorComponent } from './utils/error/error.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import * as constant from './loader/constante';
+import { MultipleFilesComponent } from './utils/multiple-files/multiple-files.component';
+import { SingleFileComponent } from './utils/single-file/single-file.component';
 
 
 const spb: Route={
@@ -38,7 +40,16 @@ const defaultRoute: Route = {
   path: constant.defaultRoute,
   component: LoginComponent//change
 };
-
+const multipleFile: Route = {
+  path: "download-folder",
+  //canActivate:[AuthGuard],
+  component: MultipleFilesComponent//change
+};
+const singleFile: Route = {
+  path: "download-file",
+  //canActivate:[AuthGuard],
+  component: SingleFileComponent//change
+};
 const home: Route = {
   path: constant.home,
   component: HomeComponent,
@@ -217,6 +228,8 @@ const routes: Routes = [
   login,
   courrier,
   index,
+  multipleFile,
+  singleFile,
   {path:constant.tokenDefaultValue, redirectTo: constant.loginPath, pathMatch: constant.full},
   defaultRoute
 ];

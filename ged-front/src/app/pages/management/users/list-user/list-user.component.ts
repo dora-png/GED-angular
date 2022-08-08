@@ -3,15 +3,18 @@ import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { LogPosteUserControllerService, PageUsers, Users, UsersControllerService } from 'src/app/model';
+import { PageProfiles, UsersControllerService } from 'src/app/model';
+import { AddRemoveDroitComponent } from '../add-remove-droit/add-remove-droit.component';
+import { AddRemoveInGroupComponent } from '../add-remove-in-group/add-remove-in-group.component';
 import { ProfilComponent } from '../profil/profil.component';
-export interface UserPoste {
-  idUser?: number,
-  loginUser?: string,
-  nameUser?: string,
-  idPoste?: number,
-  namePoste?: string,
-  direction?: string
+export interface UserPoste {  
+  idStructure?: number,
+  idProfile?: number,
+  profileName?: string,
+  userName?: string,
+  status?: boolean,
+  directionName?: string,
+  directionSigle?: string
 } 
 
 @Component({
@@ -21,27 +24,29 @@ export interface UserPoste {
 })
 export class ListUserComponent implements OnInit {
 
-  pageUsers!: PageUsers;
+  pageUsers!: PageProfiles;
   userList: UserPoste[] = [];
-  isEmpty: boolean = true;
-  loading: boolean = false;
+  isEmpty: boolean = false;
+  loading: boolean = true;
   research: boolean = false;
   view: boolean = false;
   private valueToSearch!: string;
-  searchBy: 'name' | 'login' | undefined;
+  searchBy: 'name' | undefined;
   private pagesize ={page: 0, size: 5};
 
 
   constructor(
     private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
-    private apiService: UsersControllerService,
-    private apiLogService: LogPosteUserControllerService,      
+    private apiService: UsersControllerService,    
     private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
-      this.initData(0,5);
+     // setTimeout(()=>{
+        this.initData(0,5);
+    //  }, 5000)
+      
     }
   
     private listenToLoading(): void {
@@ -55,7 +60,7 @@ export class ListUserComponent implements OnInit {
     private initData(page: number, size: number){
       this.listenToLoading();
       this.userList=[];
-      this.apiService.findAll1(page, size).subscribe(
+      this.apiService.findAllProfiles(page, size).subscribe(
         response=>{
           if(response==null){
             this.isEmpty=true;
@@ -63,29 +68,33 @@ export class ListUserComponent implements OnInit {
             this.isEmpty=false;
             this.pageUsers=response;
             this.pageUsers.content?.forEach( user=>{
-              this.listenToLoading();
-              this.apiLogService.currentPosteOfUser(user.iduser!).subscribe(
-                    resp=>{
-                      if(resp==null){
-                        this.userList.push(
-                          {
-                            idPoste:undefined,
-                            idUser:user.iduser!,
-                            namePoste:"None",
-                            loginUser:user.username!,
-                            nameUser:user.name!,
-                            direction:"None"
-                          }
-                        );
-                      }else{
-                        this.userList.push(
-                          {
-                            idPoste:resp.idposte!,
-                            idUser:user.iduser!,
-                            namePoste:resp.name!,
-                            loginUser:user.username!,
-                            nameUser:user.name!,
-                            direction: resp.structure!.sigle!
+            this.listenToLoading();
+            this.apiService.currentStructure(user.idProfiles!).subscribe(
+              resp=>{
+                if(user.currentUser==null)
+                  user.currentUser = "empty";
+                if(resp==null){
+                  this.userList.push(
+                    {
+                      idStructure: undefined,
+                      idProfile:user.idProfiles!,
+                      profileName:user.name!,
+                      userName: user.currentUser!,
+                      status: user.status!,
+                      directionName: "undefined",
+                      directionSigle: "undefined"
+                    }
+                  );
+                }else{
+                  this.userList.push(
+                    {
+                            idStructure: resp.idStructure!,
+                            idProfile:user.idProfiles!,
+                            profileName:user.name!,
+                            userName: user.currentUser!,
+                            status: user.status!,
+                            directionName: resp.name!,
+                            directionSigle: resp.sigle!
                           }
                         );
                       }
@@ -102,9 +111,31 @@ export class ListUserComponent implements OnInit {
       );
     }
 
+    setSatus(user: UserPoste) {
+      this.listenToLoading();
+      this.apiService.setProfileStatus(user.idProfile!).subscribe(
+        response =>{
+          let index: number = this.userList.findIndex(users => users.idProfile ===user.idProfile);
+          this.userList[index].status = !this.userList[index].status;
+
+        },
+        error=>{
+
+        }
+      )
+    }
+    
+    openDialogProfilDroit(user: UserPoste) {
+      this.openDialogService.openDialog(AddRemoveDroitComponent, user.idProfile);
+    }
+
+    openDialogGroupProfil(user: UserPoste) {
+      this.openDialogService.openDialog(AddRemoveInGroupComponent, user.idProfile);
+    }
+
     openDialogProfil(user: UserPoste) {
       let data = {
-        user:user.idUser,
+        user:user.idProfile,
         editable:false
       }
       this.openDialogService.openDialog(ProfilComponent, data);
@@ -117,7 +148,7 @@ export class ListUserComponent implements OnInit {
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
     this.listenToLoading();
-    this.apiService.searchByName1(name,page,size).subscribe(
+    this.apiService.searchUsersByName(name,page,size).subscribe(
       response=>{
         if(response==null){
           this.isEmpty=true;
@@ -125,36 +156,40 @@ export class ListUserComponent implements OnInit {
           this.isEmpty=false;
           this.pageUsers=response;
           this.pageUsers.content?.forEach( user=>{
-            this.apiLogService.currentPosteOfUser(user.iduser!).subscribe(
-                  resp=>{
-                    if(resp==null){
-                      this.userList.push(
-                        {
-                          idPoste:undefined,
-                          idUser:user.iduser!,
-                          namePoste:"None",
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction:"None"
-                        }
-                      );
-                    }else{
-                      this.userList.push(
-                        {
-                          idPoste:resp.idposte!,
-                          idUser:user.iduser!,
-                          namePoste:resp.name!,
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction: resp.structure!.sigle!
-                        }
-                      );
+            if(user.currentUser==null)
+              user.currentUser = "empty";
+            this.apiService.currentStructure(user.idProfiles!).subscribe(
+              resp=>{
+                if(resp==null){
+                  this.userList.push(
+                    {
+                      idStructure: undefined,
+                      idProfile:user.idProfiles!,
+                      profileName:user.name!,
+                      userName: user.currentUser!,
+                      status: user.status!,
+                      directionName: "undefined",
+                      directionSigle: "undefined"
                     }
-                  },
-                  error=>{  
-                  }
-              );
-            }
+                  );
+                }else{
+                  this.userList.push(
+                    {
+                      idStructure: resp.idStructure!,
+                      idProfile:user.idProfiles!,
+                      profileName:user.name!,
+                      userName: user.currentUser!,
+                      status: user.status!,
+                      directionName: resp.name!,
+                      directionSigle: resp.sigle!
+                    }
+                  );
+                }
+              },
+              error=>{  
+              }
+          );
+        }
           );
         }
       },
@@ -165,64 +200,12 @@ export class ListUserComponent implements OnInit {
     );
   }
   
-  private changePageOrSizeSearchByLogin(login: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchByLogin(login,page,size).subscribe(
-      response=>{
-        if(response==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=response;
-          this.pageUsers.content?.forEach( user=>{
-            this.apiLogService.currentPosteOfUser(user.iduser!).subscribe(
-                  resp=>{
-                    if(resp==null){
-                      this.userList.push(
-                        {
-                          idPoste:undefined,
-                          idUser:user.iduser!,
-                          namePoste:"None",
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction:"None"
-                        }
-                      );
-                    }else{
-                      this.userList.push(
-                        {
-                          idPoste:resp.idposte!,
-                          idUser:user.iduser!,
-                          namePoste:resp.name!,
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction: resp.structure!.sigle!
-                        }
-                      );
-                    }
-                  },
-                  error=>{  
-                  }
-              );
-            }
-          );
-        }
-      },
-      error=>{
-
-      }
-
-    );
-  }
-
   changePageAndSize(event: {page: number, size: number}){
     if(this.searchBy==null){
       this.changePageOrSize(event.page, event.size);
     }else{
       if(this.searchBy =="name"){
         this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else if(this.searchBy =="login"){       
-        this.changePageOrSizeSearchByLogin(this.valueToSearch!, event.page, event.size);
       }else{
         this.toastr.error("err.error.message", "Error +err.status");
       }
@@ -232,7 +215,7 @@ export class ListUserComponent implements OnInit {
  
   private searchName(name: string){
     this.listenToLoading();
-    this.apiService.searchByName1(name).subscribe(
+    this.apiService.searchUsersByName(name).subscribe(
       response=>{
         if(response==null){
           this.isEmpty=true;
@@ -240,85 +223,39 @@ export class ListUserComponent implements OnInit {
           this.isEmpty=false;
           this.pageUsers=response;
           this.pageUsers.content?.forEach( user=>{
-            this.apiLogService.currentPosteOfUser(user.iduser!).subscribe(
-                  resp=>{
-                    if(resp==null){
-                      this.userList.push(
-                        {
-                          idPoste:undefined,
-                          idUser:user.iduser!,
-                          namePoste:"None",
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction:"None"
-                        }
-                      );
-                    }else{
-                      this.userList.push(
-                        {
-                          idPoste:resp.idposte!,
-                          idUser:user.iduser!,
-                          namePoste:resp.name!,
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction: resp.structure!.sigle!
-                        }
-                      );
+            if(user.currentUser==null)
+              user.currentUser = "empty";
+            this.apiService.currentStructure(user.idProfiles!).subscribe(
+              resp=>{
+                if(resp==null){
+                  this.userList.push(
+                    {
+                      idStructure: undefined,
+                      idProfile:user.idProfiles!,
+                      profileName:user.name!,
+                      userName: user.currentUser!,
+                      status: user.status!,
+                      directionName: "undefined",
+                      directionSigle: "undefined"
                     }
-                  },
-                  error=>{  
-                  }
-              );
-            }
+                  );
+                }else{
+                  this.userList.push(
+                    {
+                      idStructure: resp.idStructure!,
+                      idProfile:user.idProfiles!,
+                      profileName:user.name!,
+                      userName: user.currentUser!,
+                      status: user.status!,
+                      directionName: resp.name!,
+                      directionSigle: resp.sigle!
+                    }
+                  );
+                }
+              },
+              error=>{  
+              }
           );
-        }
-      },
-      error=>{
-
-      }
-
-    );
-  }
-
-  private searchLogin(login: string){
-    this.listenToLoading();
-    this.apiService.searchByLogin(login).subscribe(
-      response=>{
-        if(response==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=response;
-          this.pageUsers.content?.forEach( user=>{
-            this.apiLogService.currentPosteOfUser(user.iduser!).subscribe(
-                  resp=>{
-                    if(resp==null){
-                      this.userList.push(
-                        {
-                          idPoste:undefined,
-                          idUser:user.iduser!,
-                          namePoste:"None",
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction:"None"
-                        }
-                      );
-                    }else{
-                      this.userList.push(
-                        {
-                          idPoste:resp.idposte!,
-                          idUser:user.iduser!,
-                          namePoste:resp.name!,
-                          loginUser:user.username!,
-                          nameUser:user.name!,
-                          direction: resp.structure!.sigle!
-                        }
-                      );
-                    }
-                  },
-                  error=>{  
-                  }
-              );
             }
           );
         }
@@ -338,8 +275,6 @@ export class ListUserComponent implements OnInit {
       this.valueToSearch=searchValue;
       if(this.searchBy =="name"){
         this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="login"){        
-        this.searchLogin(this.valueToSearch);
       }else{
         this.toastr.error("err.error.message", "Error +err.status");
       } 

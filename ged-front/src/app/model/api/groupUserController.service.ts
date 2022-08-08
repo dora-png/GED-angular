@@ -17,7 +17,10 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { GroupDroitsBean } from '../model/groupDroitsBean';
+import { GroupProfilesBean } from '../model/groupProfilesBean';
 import { GroupUser } from '../model/groupUser';
+import { PageGroupProfile } from '../model/pageGroupProfile';
 import { PageGroupUser } from '../model/pageGroupUser';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -55,6 +58,53 @@ export class GroupUserControllerService {
         return false;
     }
 
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public addDroitToGroup(body: Array<GroupDroitsBean>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addDroitToGroup(body: Array<GroupDroitsBean>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addDroitToGroup(body: Array<GroupDroitsBean>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addDroitToGroup(body: Array<GroupDroitsBean>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling addDroitToGroup.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/group/add_role`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 
     /**
      * 
@@ -110,13 +160,13 @@ export class GroupUserControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addPosteToGroup(body: GroupUser, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addPosteToGroup(body: GroupUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addPosteToGroup(body: GroupUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addPosteToGroup(body: GroupUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addProfileToGroup(body: Array<GroupProfilesBean>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addProfileToGroup(body: Array<GroupProfilesBean>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addProfileToGroup(body: Array<GroupProfilesBean>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addProfileToGroup(body: Array<GroupProfilesBean>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPosteToGroup.');
+            throw new Error('Required parameter body was null or undefined when calling addProfileToGroup.');
         }
 
         let headers = this.defaultHeaders;
@@ -139,54 +189,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/group/add-poste`,
-            {
-                body: body,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param body 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public addRoleToGroup(body: GroupUser, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addRoleToGroup(body: GroupUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addRoleToGroup(body: GroupUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addRoleToGroup(body: GroupUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addRoleToGroup.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.request<any>('post',`${this.basePath}/group/add-role`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/add_profile`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -236,6 +239,63 @@ export class GroupUserControllerService {
         ];
 
         return this.httpClient.request<PageGroupUser>('get',`${this.basePath}/group/all`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllGroupForProfile(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageGroupProfile>;
+    public findAllGroupForProfile(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageGroupProfile>>;
+    public findAllGroupForProfile(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageGroupProfile>>;
+    public findAllGroupForProfile(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findAllGroupForProfile.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageGroupProfile>('get',`${this.basePath}/group/all/forprofile3456dfgf`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -347,13 +407,13 @@ export class GroupUserControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public removePosteToGroup(body: GroupUser, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removePosteToGroup(body: GroupUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removePosteToGroup(body: GroupUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removePosteToGroup(body: GroupUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public removeDroitToGroup(body: GroupDroitsBean, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeDroitToGroup(body: GroupDroitsBean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeDroitToGroup(body: GroupDroitsBean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeDroitToGroup(body: GroupDroitsBean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling removePosteToGroup.');
+            throw new Error('Required parameter body was null or undefined when calling removeDroitToGroup.');
         }
 
         let headers = this.defaultHeaders;
@@ -376,7 +436,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/group/delete-poste`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/delete_droit`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -394,13 +454,13 @@ export class GroupUserControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public removeRoleToGroup(body: GroupUser, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public removeRoleToGroup(body: GroupUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public removeRoleToGroup(body: GroupUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public removeRoleToGroup(body: GroupUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public removeProfileToGroup(body: GroupProfilesBean, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public removeProfileToGroup(body: GroupProfilesBean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public removeProfileToGroup(body: GroupProfilesBean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public removeProfileToGroup(body: GroupProfilesBean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling removeRoleToGroup.');
+            throw new Error('Required parameter body was null or undefined when calling removeProfileToGroup.');
         }
 
         let headers = this.defaultHeaders;
@@ -423,7 +483,7 @@ export class GroupUserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/group/delete-rome`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group/delete_profile`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -494,17 +554,30 @@ export class GroupUserControllerService {
     /**
      * 
      * 
-     * @param body 
+     * @param id 
+     * @param name 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateGroupUserName(body: GroupUser, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateGroupUserName(body: GroupUser, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateGroupUserName(body: GroupUser, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateGroupUserName(body: GroupUser, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateGroupUserName(id: number, name: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateGroupUserName(id: number, name: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateGroupUserName(id: number, name: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateGroupUserName(id: number, name: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateGroupUserName.');
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateGroupUserName.');
+        }
+
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling updateGroupUserName.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
         }
 
         let headers = this.defaultHeaders;
@@ -520,16 +593,11 @@ export class GroupUserControllerService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
         return this.httpClient.request<any>('post',`${this.basePath}/group/update`,
             {
-                body: body,
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

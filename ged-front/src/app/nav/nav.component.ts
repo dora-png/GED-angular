@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { FileUploadService } from '../loader/file-upload.service';
+import { UploadFolderComponent } from '../utils/upload-folder/upload-folder.component';
+import { MultipleFilesComponent } from '../utils/multiple-files/multiple-files.component';
+import { SingleFileComponent } from '../utils/single-file/single-file.component';
 
 @Component({
   selector: 'app-nav',
@@ -22,68 +25,8 @@ export class NavComponent implements OnInit {
   private isLoggedSubscription: Subscription | undefined;
   logging: boolean = false;
   message: string | null = null;
-  filenames: string[] = [];
-fileStatus = { status: '', requestType: '', percent: 0 };
 
-
-// define a function to upload files
-onUploadFiles(event: any): void {
-  let output = document.getElementById("listing")!;
-  const formData = new FormData();
-  let files = event!.target!.files;
-  for (let i=0; i<files.length; i++) {
-    let item = document.createElement("li");
-    item.innerHTML = files[i].webkitRelativePath;
-    output.appendChild(item);
-    formData.append('files', files[i], files[i].name);
-  };
-  this.fileService.upload(formData).subscribe(
-    event => {
-      this.resportProgress(event);
-    },
-    (error: HttpErrorResponse) => {
-      console.log("error:",error);
-    }
-  );
-}
-private resportProgress(httpEvent: HttpEvent<string[] | Blob>): void {
-  switch(httpEvent.type) {
-    case HttpEventType.UploadProgress:
-      this.updateStatus(httpEvent.loaded, httpEvent.total!, 'Uploading... ');
-      break;
-    case HttpEventType.DownloadProgress:
-      this.updateStatus(httpEvent.loaded, httpEvent.total!, 'Downloading... ');
-      break;
-    case HttpEventType.ResponseHeader:
-      console.log('Header returned', httpEvent);
-      break;
-    case HttpEventType.Response:
-      if (httpEvent.body instanceof Array) {
-        this.fileStatus.status = 'done';
-        for (const filename of httpEvent.body) {
-          this.filenames.unshift(filename);
-        }
-      } else {
-        saveAs(new File([httpEvent.body!], httpEvent.headers.get('File-Name')!, 
-                {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`}));
-        // saveAs(new Blob([httpEvent.body!], 
-        //   { type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`}),
-        //    httpEvent.headers.get('File-Name'));
-      }
-      this.fileStatus.status = 'done';
-      break;
-      default:
-        console.log(httpEvent);
-        break;
-    
-  }
-}
-
-private updateStatus(loaded: number, total: number, requestType: string): void {
-  this.fileStatus.status = 'progress';
-  this.fileStatus.requestType = requestType;
-  this.fileStatus.percent = Math.round(100 * loaded / total);
-}
+  
   constructor(
     private loaderService: LoaderService,
     private auth: AuthenticationService,
@@ -106,7 +49,25 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
     return this.auth.getRoles(role);
   }
 
+onAddFolder(){
+  this.openDialog.openDialog(UploadFolderComponent);
+}
 
+onAddMultipleFiles(){
+  this.route.navigate(['download-folder']);
+}
+
+onAddSingleFile(){
+  this.route.navigate(['download-file']);
+}
+
+createWordFile(){
+  this.openDialog.openDialog(SingleFileComponent);
+}
+
+createExcelFile(){
+  this.openDialog.openDialog(SingleFileComponent);
+}
 
   listenToLoading(): void {
     this.loaderService.getSub

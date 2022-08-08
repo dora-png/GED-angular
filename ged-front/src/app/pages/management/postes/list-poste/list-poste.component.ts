@@ -6,7 +6,7 @@ import { UpdatePosteComponent } from '../update-poste/update-poste.component';
 import { ReadPosteComponent } from '../read-poste/read-poste.component';
 import { AddSubposteComponent } from '../add-subposte/add-subposte.component';
 import { RoleToPosteComponent } from '../role-to-poste/role-to-poste.component';
-import { PosteControllerService, PagePostes, Structures, Postes } from '../../../../model/index';
+//import { PosteControllerService, PagePostes, Structures, Postes } from '../../../../model/index';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { delay } from 'rxjs';
@@ -18,7 +18,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./list-poste.component.scss']
 })
 export class ListPosteComponent implements OnInit {
-
+/*
   pagePostes!: PagePostes;
   isEmpty: boolean = true;
   loading: boolean = false;
@@ -34,12 +34,12 @@ export class ListPosteComponent implements OnInit {
     private toastr: ToastrService,
     private dialogRef:  MatDialogRef<ListPosteComponent>
     ) { }
-
+*/
   ngOnInit(): void {
-    this.structureName = this.data.name!;
-    this.initData();
+   // this.structureName = this.data.name!;
+   // this.initData();
   }
-
+/*
   private listenToLoading(): void {
     this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -158,5 +158,5 @@ export class ListPosteComponent implements OnInit {
   onClose(){
     this.dialogRef.close(true);
   }
-
+*/
 }

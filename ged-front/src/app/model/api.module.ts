@@ -4,13 +4,10 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { DocsControllerService } from './api/docsController.service';
-import { FileRessourceService } from './api/fileRessource.service';
+import { DroitsControllerService } from './api/droitsController.service';
 import { GroupUserControllerService } from './api/groupUserController.service';
-import { LiasseControllerService } from './api/liasseController.service';
-import { LogPosteUserControllerService } from './api/logPosteUserController.service';
-import { PosteControllerService } from './api/posteController.service';
-import { RolesControllerService } from './api/rolesController.service';
-import { StructureControllerService } from './api/structureController.service';
+import { HomeResourceService } from './api/homeResource.service';
+import { LoginControllerService } from './api/loginController.service';
 import { TypeDocsControllerService } from './api/typeDocsController.service';
 import { TypeLiasseControllerService } from './api/typeLiasseController.service';
 import { UsersControllerService } from './api/usersController.service';
@@ -22,13 +19,10 @@ import { WorkFlowControllerService } from './api/workFlowController.service';
   exports:      [],
   providers: [
     DocsControllerService,
-    FileRessourceService,
+    DroitsControllerService,
     GroupUserControllerService,
-    LiasseControllerService,
-    LogPosteUserControllerService,
-    PosteControllerService,
-    RolesControllerService,
-    StructureControllerService,
+    HomeResourceService,
+    LoginControllerService,
     TypeDocsControllerService,
     TypeLiasseControllerService,
     UsersControllerService,

@@ -1,1 +1,46 @@
-<p>upload-folder works!</p>
+<!-- <h2 mat-dialog-title>Add Folder</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="newFolderForm" class="example-form">
+        <div  class="row">
+            <div class="col-md-12">            
+                <div class="example-list" >          
+                <div class="example-box" >
+                    <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Folder Name</mat-label>
+                    <input autocomplete="off" [formControlName]="constantes.nameSearchValue" name="name" id="name" required  matInput>
+                    <mat-error *ngIf="f[constantes.nameSearchValue].touched && f[constantes.nameSearchValue].errors">
+                        {{f[constantes.nameSearchValue].errors|json}}
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div  class="row">
+            <div class="col-md-12">            
+                <div class="example-list" >          
+                <div class="example-box" >
+                    <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Folder Sigle</mat-label>
+                    <input autocomplete="off" [formControlName]="constantes.sigleSearchValue" name="sigle" id="sigle" required  matInput>
+                    <mat-error *ngIf="f[constantes.sigleSearchValue].touched && f[constantes.sigleSearchValue].errors">
+                        {{f[constantes.sigleSearchValue].errors|json}}
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                </div>
+            </div>
+        </div>
+      
+    </form>   
+    
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <i class='fa fa-spinner fa-spin fa-2x '*ngIf="clicked"></i>   
+    <button mat-button *ngIf="!clicked" (click)="onClose()">Cancel</button>
+    <button *ngIf="!clicked" type="button"[disabled]="newFolderForm.invalid" (click)="onSaveNewFolder()" class="btn btn-success">
+      Create folder
+    </button>
+  </mat-dialog-actions>
+ -->

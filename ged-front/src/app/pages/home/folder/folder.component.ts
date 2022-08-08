@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
-import { LiasseControllerService } from 'src/app/model';
+//import { LiasseControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-folder',
@@ -69,11 +69,11 @@ export class FolderComponent implements OnInit {
  
   constructor(
     private auth: AuthenticationService,
-    private apiService: LiasseControllerService
+    //private apiService: LiasseControllerService
   ) { }
 
   ngOnInit(): void {
-    this.apiService.
+   // this.apiService.
   }
 
 }

@@ -33,9 +33,7 @@ export class InterceptorService implements HttpInterceptor {
       map((event: HttpEvent<any>) => {
           if (event instanceof HttpResponse) {
             if(event.headers.has(constant.headerAuthori) && event.headers.has(constant.headerAuthori) != null ) {
-              if(!this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)){
-                this.authenticationService.onLogOut5S("");
-              }
+              this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)
             }
           }
           if (event instanceof HttpErrorResponse) {

@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { LocalDaoService } from './local-dao.service';
 import * as constant from './constante';
-import { Users } from '../model';
+import { JwtRequest } from '../model';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -74,7 +74,7 @@ export class AuthenticationService {
     }
 
     //Gestion des employés
-    connectEmployee(user: Users, remember: boolean) {
+    connectEmployee(user: JwtRequest, remember: boolean) {
         this.localDaoService.save(constant.currentEmployee, user);
         this.isUserConnected = true;
         this.emitUserConnected();

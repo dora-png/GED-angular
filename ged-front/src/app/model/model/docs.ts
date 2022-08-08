@@ -18,8 +18,8 @@ export interface Docs {
     extension?: string;
     description?: string;
     path?: string;
-    cantset?: string;
     dateCreation?: Date;
     typedoc?: TypeDocs;
     liasse?: Liasses;
+    archive?: boolean;
 }

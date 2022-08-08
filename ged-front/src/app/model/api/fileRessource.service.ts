@@ -58,6 +58,61 @@ export class FileRessourceService {
     /**
      * 
      * 
+     * @param login 
+     * @param path 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createFolder(login: string, path: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createFolder(login: string, path: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createFolder(login: string, path: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createFolder(login: string, path: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (login === null || login === undefined) {
+            throw new Error('Required parameter login was null or undefined when calling createFolder.');
+        }
+
+        if (path === null || path === undefined) {
+            throw new Error('Required parameter path was null or undefined when calling createFolder.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (login !== undefined && login !== null) {
+            queryParameters = queryParameters.set('login', <any>login);
+        }
+        if (path !== undefined && path !== null) {
+            queryParameters = queryParameters.set('path', <any>path);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('post',`${this.basePath}/create-folder`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param filename 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -99,15 +154,30 @@ export class FileRessourceService {
     /**
      * 
      * 
+     * @param login 
      * @param body 
+     * @param path 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public uploadFiles(body?: UploadBody, observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
-    public uploadFiles(body?: UploadBody, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
-    public uploadFiles(body?: UploadBody, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
-    public uploadFiles(body?: UploadBody, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public uploadFiles(login: string, body?: UploadBody, path?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
+    public uploadFiles(login: string, body?: UploadBody, path?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
+    public uploadFiles(login: string, body?: UploadBody, path?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
+    public uploadFiles(login: string, body?: UploadBody, path?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (login === null || login === undefined) {
+            throw new Error('Required parameter login was null or undefined when calling uploadFiles.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (login !== undefined && login !== null) {
+            queryParameters = queryParameters.set('login', <any>login);
+        }
+        if (path !== undefined && path !== null) {
+            queryParameters = queryParameters.set('path', <any>path);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -132,6 +202,7 @@ export class FileRessourceService {
         return this.httpClient.request<Array<string>>('post',`${this.basePath}/upload`,
             {
                 body: body,
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

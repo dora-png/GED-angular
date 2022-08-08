@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { HttpStatusCode } from 'src/app/loader/status-code';
-import { WorkFlowControllerService, WorkFlow } from 'src/app/model';
+//import { WorkFlowControllerService, WorkFlow } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
 
 @Component({
@@ -22,21 +22,21 @@ export class UpdateWorkflowComponent implements OnInit {
   
    
   constructor(    
-    @Inject(MAT_DIALOG_DATA) private data: WorkFlow,
+    /*@Inject(MAT_DIALOG_DATA) private data: WorkFlow,
     private loaderService: LoaderService,
-    private apiService: WorkFlowControllerService,     
+    //private apiService: WorkFlowControllerService,     
     private auth: AuthenticationService,  
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private dialogRef:  MatDialogRef<UpdateWorkflowComponent>
+    private dialogRef:  MatDialogRef<UpdateWorkflowComponent>*/
   ) { 
-    this.newWorkflowFormGroup = formBuilder.group(
+    /*this.newWorkflowFormGroup = formBuilder.group(
       {
         name: new FormControl(this.data.name!, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
         sigle: new FormControl(this.data.sigle!, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
         description: new FormControl(this.data.description!, [Validators.required, Validators.maxLength(100), Validators.minLength(10)]),
       }
-    );
+    );*/
   }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class UpdateWorkflowComponent implements OnInit {
   get f(): { [key: string]: AbstractControl } {
     return this.newWorkflowFormGroup.controls;
   }
-
+/*
   private initWorkFlowBean(): WorkFlow{
     return {
       idworkflows: this.data.idworkflows!,
@@ -89,6 +89,6 @@ export class UpdateWorkflowComponent implements OnInit {
   onClose(){
     this.dialogRef.close(constante.falseValue);
   }
-
+*/
 
 }

@@ -1,4 +1,3 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,14 +5,14 @@ import { ToastrService } from 'ngx-toastr';
 import * as constante from '../../../../loader/constante';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { StructureControllerService, Structures } from 'src/app/model';
+//import { StructureControllerService, Structures } from 'src/app/model';
 @Component({
   selector: 'app-add-substructure',
   templateUrl: './add-substructure.component.html',
   styleUrls: ['./add-substructure.component.scss']
 })
 export class AddSubstructureComponent implements OnInit {
-
+/*
   newStructureFormGroup!: FormGroup;
   constantes: any = constante;
   clicked: boolean= constante.falseValue;
@@ -26,8 +25,7 @@ export class AddSubstructureComponent implements OnInit {
    
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Structures,
-    private dialogRef:  MatDialogRef<AddSubstructureComponent>,    
-    private openDialogService: OpenDialogService,
+    private dialogRef:  MatDialogRef<AddSubstructureComponent>, 
     private apiService: StructureControllerService, 
     private formBuilder: FormBuilder,    
     private toastr: ToastrService
@@ -41,10 +39,11 @@ export class AddSubstructureComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
-    this.StructureSigle = this.data.sigle;
+    //this.StructureSigle = this.data.sigle;
   }
+  /*
   get f(): { [key: string]: AbstractControl } {
     return this.newStructureFormGroup.controls;
   }
@@ -87,6 +86,6 @@ export class AddSubstructureComponent implements OnInit {
   }
  
 
-
+*/
 
 }

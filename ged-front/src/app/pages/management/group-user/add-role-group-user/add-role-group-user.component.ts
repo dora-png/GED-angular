@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import * as constante from '../../../../loader/constante';
-import { GroupUser, GroupUserControllerService, PageRoles, Roles, RolesControllerService } from 'src/app/model';
+//import { GroupUser, GroupUserControllerService, PageRoles, Roles, RolesControllerService } from 'src/app/model';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { HttpStatusCode } from 'src/app/loader/status-code';
 
@@ -16,7 +16,7 @@ import { HttpStatusCode } from 'src/app/loader/status-code';
 })
 export class AddRoleGroupUserComponent implements OnInit {
 
-
+/*
   isEmpty: boolean = true;
   loading: boolean = false;
   groupRoleEdited: boolean = constante.falseValue;
@@ -42,12 +42,12 @@ export class AddRoleGroupUserComponent implements OnInit {
     ) {
       this.groupName = this.data.name!;
      }
-
+*/
      ngOnInit(): void {
-      this.listenToLoading();
-      this.initData(0,5);
+      //this.listenToLoading();
+      //this.initData(0,5);
     }
-      
+     /* 
     private listenToLoading(): void {
       this.loaderService.getSub
         .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -181,15 +181,15 @@ export class AddRoleGroupUserComponent implements OnInit {
         );
         this.groupRoleEdited = constante.trueValue;
 
-        /*this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
-          response=>{
-            this.toastr.success("Added", "OK");
+        //this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
+         // response=>{
+         //   this.toastr.success("Added", "OK");
             
-          },
-          error=>{
-            this.toastr.info(error.error.message, "Infos");
-          }
-        );*/
+         // },
+        //  error=>{
+        //    this.toastr.info(error.error.message, "Infos");
+        //  }
+        //);
 
       }
 
@@ -240,5 +240,5 @@ export class AddRoleGroupUserComponent implements OnInit {
         }
       }
     );
-  }
+  }*/
 }

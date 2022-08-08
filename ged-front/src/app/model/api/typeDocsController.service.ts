@@ -63,13 +63,13 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add3(body: TypeDocs, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add3(body: TypeDocs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add3(body: TypeDocs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add3(body: TypeDocs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public add1(body: TypeDocs, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public add1(body: TypeDocs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public add1(body: TypeDocs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public add1(body: TypeDocs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add3.');
+            throw new Error('Required parameter body was null or undefined when calling add1.');
         }
 
         let headers = this.defaultHeaders;
@@ -110,13 +110,13 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete2(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete2(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete2(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete2(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public delete1(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public delete1(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public delete1(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public delete1(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete2.');
+            throw new Error('Required parameter id was null or undefined when calling delete1.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -158,10 +158,10 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll3(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
-    public findAll3(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
-    public findAll3(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
-    public findAll3(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAll1(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
+    public findAll1(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
+    public findAll1(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
+    public findAll1(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -346,10 +346,10 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName3(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
-    public searchByName3(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
-    public searchByName3(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
-    public searchByName3(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchByName1(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
+    public searchByName1(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
+    public searchByName1(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
+    public searchByName1(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -400,10 +400,10 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchBySigle2(sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
-    public searchBySigle2(sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
-    public searchBySigle2(sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
-    public searchBySigle2(sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageTypeDocs>;
+    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageTypeDocs>>;
+    public searchBySigle1(sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageTypeDocs>>;
+    public searchBySigle1(sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -452,13 +452,13 @@ export class TypeDocsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update2(body: TypeDocs, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update2(body: TypeDocs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update2(body: TypeDocs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update2(body: TypeDocs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public update1(body: TypeDocs, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update1(body: TypeDocs, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update1(body: TypeDocs, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update1(body: TypeDocs, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update2.');
+            throw new Error('Required parameter body was null or undefined when calling update1.');
         }
 
         let headers = this.defaultHeaders;

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Postes } from 'src/app/model';
+//import { Postes } from 'src/app/model';
 
 @Component({
   selector: 'app-read-poste',
@@ -10,7 +10,7 @@ import { Postes } from 'src/app/model';
 })
 export class ReadPosteComponent implements OnInit {
 
-
+/*
 
   newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
@@ -29,10 +29,10 @@ export class ReadPosteComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
   }
-
+/*
   private initPosteBean(): Postes{
     return {
       idposte: this.data.idposte!,
@@ -49,5 +49,5 @@ export class ReadPosteComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-
+*/
 }

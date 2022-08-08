@@ -5,7 +5,7 @@ import { UpdateStructureComponent } from '../update-structure/update-structure.c
 import { AddSubstructureComponent } from '../add-substructure/add-substructure.component';
 import { ReadStructureComponent } from '../read-structure/read-structure.component';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { PageStructures, StructureControllerService, Structures } from 'src/app/model';
+//import { PageStructures, StructureControllerService, Structures } from 'src/app/model';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { ListPosteComponent } from '../../postes/list-poste/list-poste.component';
@@ -20,7 +20,7 @@ import { AuthenticationService } from 'src/app/loader/authentication.service';
 })
 export class ListStructureComponent implements OnInit {
 
-
+/*
   pageStructures!: PageStructures;
   isEmpty: boolean = constante.trueValue;
   loading: boolean = constante.trueValue;
@@ -37,11 +37,11 @@ export class ListStructureComponent implements OnInit {
     private auth: AuthenticationService,    
     private toastr: ToastrService
     ) { }
-
+*/
   ngOnInit(): void {
-    this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
+    //this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
   }
-
+/*
   onHasRole(role:string): boolean{
     return this.auth.getRoles(role);
   }
@@ -223,6 +223,6 @@ export class ListStructureComponent implements OnInit {
   refresf(){
     this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
   }
-
+*/
 
 }

@@ -1,0 +1,96 @@
+<h2 mat-dialog-title >Profile Droits</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-md-12" *ngIf="loading;else content" >
+          <mat-card class="loader-container">
+            <app-loader></app-loader>
+          </mat-card>      
+        </div>
+        <ng-template #content>
+          <div class="col-md-12">
+          <div  class="row">
+            <div class="col-md-12">
+              <mat-card>
+                <div class="row"></div>
+                <div class="container-fluid">
+                  <div class="row">
+                    <form class="example-form">                  
+                        <div cdkDropListGroup class="row">
+                            <div class="col-md-5">
+                                <div>
+                                    <h1> Droits</h1>  
+                                    <div class="example-list" >
+                                        <div class="example-box"  *ngFor="let droit of pageDroits?.content!;let indexOfelement=index">
+                                        <span>
+                                            {{droit.name!}} ({{ droit.abbr! }})
+                                        </span>
+                                        <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                            <i class="fa fa-plus-circle  fa-2x" (click)="addDroit(droit)" aria-hidden="true" *ngIf="!containDroit(droit)" style="color: #00C851;"></i>
+                                            <i class="fa fa-minus-circle  fa-2x" (click)="removeDroit(droit)" aria-hidden="true" *ngIf="containDroit(droit)" style="color: #ff4444;"></i>
+                                        </button>
+                                        </div>
+                                    </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <app-nav-table [pageNumber]="pageDroits?.pageable?.pageNumber!" [first]="pageDroits?.first!" [last]="pageDroits?.last!" [size]="pageDroits?.size!" [totalPages]="pageDroits?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+                                </div>
+                              </div>
+                            </div>
+                          </div>       
+                          <div class="col-md-2">
+                            <br>
+                            <br>
+                            <div class="example-list"  
+                           >
+                             <div  class="example-box" >                                
+                                    <i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true">
+                                        <strong>ADD</strong> 
+                                        <span *ngIf="droitToAdd.length > 0"> {{droitToAdd.length}}</span>
+                                    </i>              
+                             </div>
+                           </div>
+                        </div>
+                          <div class="col-md-5">
+                            <h1> Current Droits</h1>
+                            <div 
+                           class="example-list"  
+                          >
+                              <div class="example-box1" *ngFor="let droitBean of droitBeans;let indexOfelement=index">
+                                <div class="example-custom-placeholder" *cdkDragPlaceholder style="align-content: space-between;">
+                                  <span style="align-content: space-between;">
+                                    {{ droitBean.name! }} ({{ droitBean.abbr! }})
+                                  </span>
+                                  <button mat-mini-fab  color="warn" *ngIf="droitBean.typeDroit">
+                                    <i class="fa fa-trash-o" aria-hidden="true" ></i>
+                                  </button>
+                                </div>
+                                <span>
+                                    {{ droitBean.name! }} ({{ droitBean.abbr! }})
+                                </span>
+                                <button mat-mini-fab *ngIf="droitBean.typeDroit" (click)="onRemove(droitBean)" style="background-color: #ff4444;" >
+                                  <i class="fa fa-trash-o" aria-hidden="true" ></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        
+                        
+                        </form> 
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div> 
+          </div>
+        </ng-template>
+        
+      </div>
+    
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button *ngIf="clicked"><i class='fa fa-spinner fa-spin fa-4x '></i> </button> 
+  <button mat-button (click)="onClose()" *ngIf="!clicked">Cancel</button>
+  <button mat-button (click)="saveProfileDroit()" [disabled]="1 > droitToAdd.length" *ngIf="!clicked">Save</button>
+</mat-dialog-actions> 

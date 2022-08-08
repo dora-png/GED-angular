@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { StructureControllerService, Structures } from 'src/app/model';
+//import { StructureControllerService, Structures } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
 
 @Component({
@@ -12,7 +12,7 @@ import * as constante from '../../../../loader/constante';
   styleUrls: ['./create-structure.component.scss']
 })
 export class CreateStructureComponent implements OnInit {
-
+/*
   newStructureFormGroup!: FormGroup;
   clicked: boolean= constante.falseValue;
   constantes: any = constante;
@@ -34,10 +34,10 @@ export class CreateStructureComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newStructureFormGroup.controls;
   }
@@ -76,5 +76,5 @@ export class CreateStructureComponent implements OnInit {
   onClose(){
     this.dialogRef.close(constante.falseValue);
   }
-
+*/
 }

@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { PosteControllerService, Postes, Structures } from 'src/app/model';
-
+/*import { PosteControllerService, Postes, Structures } from 'src/app/model';
+*/
 @Component({
   selector: 'app-create-poste',
   templateUrl: './create-poste.component.html',
@@ -12,7 +12,7 @@ import { PosteControllerService, Postes, Structures } from 'src/app/model';
 })
 export class CreatePosteComponent implements OnInit {
 
-
+/*
   newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
   
@@ -33,10 +33,10 @@ export class CreatePosteComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newPosteFormGroup.controls;
   }
@@ -80,5 +80,5 @@ export class CreatePosteComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 }

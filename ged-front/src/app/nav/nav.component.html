@@ -12,30 +12,24 @@
         </a>   
         <mat-menu #new="matMenu">
           <mat-list>
-            <mat-list-item>
+            <a mat-list-item (click)="onAddFolder()">
               <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
-            </mat-list-item>
+            </a>
             <mat-divider></mat-divider>
-            <mat-list-item>
-              <input style="display: none;" type="file" id="fileOne" name="fileOne" class="form-control" />
-              <label for="fileOne" mat-menu-item>
-                <i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier
-              </label> 
-            </mat-list-item>
+            <a mat-list-item (click)="onAddSingleFile()">
+              <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>                  
+            </a>
             <mat-divider></mat-divider>
-            <mat-list-item>
-                <input style="display: none;" type="file" id="fileList" name="fileList" webkitdirectory multiple class="form-control" />
-                <label for="fileList" mat-menu-item>
-                  <i class="fa fa-folder" aria-hidden="true"></i> Importer un dossier
-                </label>                                
-            </mat-list-item>
+            <a mat-list-item (click)="onAddMultipleFiles()">
+              <button mat-menu-item><i class="fa fa-folder"  aria-hidden="true"></i> Importer un dossier</button>                
+            </a>
             <mat-divider></mat-divider>
-            <mat-list-item>
+            <a mat-list-item (click)="createWordFile()">
               <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
-            </mat-list-item>  
-            <mat-list-item>
+            </a>  
+            <a mat-list-item (click)="createExcelFile()">
               <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
-            </mat-list-item>
+            </a >
           </mat-list>
         </mat-menu>  
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.home"><i class="fa fa-home" aria-hidden="true"></i> Mon Espace</a>     
@@ -45,13 +39,6 @@
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
     </mat-drawer>
-    <div *ngIf="fileStatus.status==='progress'">
-      <div class="progress">
-        <div [style.width.%]="fileStatus.percent" class="progress-bar progress-bar-animated bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-            {{ fileStatus.requestType }} {{ fileStatus.percent }} 
-          </div>
-      </div>
-    </div>
     
     <mat-drawer-content >
       <mat-toolbar style="background-color: aqua;" > 

@@ -117,7 +117,6 @@ import { ListArchiveComponent } from './pages/archive/list-archive/list-archive.
 import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courrier.component';
 import { ProfilComponent } from './pages/management/users/profil/profil.component';
 import { ErrorComponent } from './utils/error/error.component';
-import { LoginService } from './loader/login.service';
 import { AuthenticationService } from './loader/authentication.service';
 import { LocalDaoService } from './loader/local-dao.service';
 import { ManageIndexComponent } from './pages/management/manage-index/manage-index.component';
@@ -137,6 +136,16 @@ import { UploadFileComponent } from './utils/upload-file/upload-file.component';
 import { UploadFolderComponent } from './utils/upload-folder/upload-folder.component';
 import { AddFolderComponent } from './utils/add-folder/add-folder.component';
 import { DetailsComponent } from './pages/home/details/details.component';
+import { SingleFileComponent } from './utils/single-file/single-file.component';
+import { MultipleFilesComponent } from './utils/multiple-files/multiple-files.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { DndDirective } from './directives/dnd.directive';
+import { ProgressComponent } from './utils/progress/progress.component';
+import { AddUserComponent } from './pages/management/users/add-user/add-user.component';
+import { AddRemoveInGroupComponent } from './pages/management/users/add-remove-in-group/add-remove-in-group.component';
+import { AddRemoveDroitComponent } from './pages/management/users/add-remove-droit/add-remove-droit.component';
+import { UpdateNameComponent } from './pages/management/users/update-name/update-name.component';
+import { UpdateUserComponent } from './pages/management/users/update-user/update-user.component';
 
 export const getConfiguration = () => {
   return new Configuration({
@@ -280,6 +289,15 @@ const MATERIAL=[
     UploadFolderComponent,
     AddFolderComponent,
     DetailsComponent,
+    SingleFileComponent,
+    MultipleFilesComponent,
+    DndDirective,
+    ProgressComponent,
+    AddUserComponent,
+    AddRemoveInGroupComponent,
+    AddRemoveDroitComponent,
+    UpdateNameComponent,
+    UpdateUserComponent,
   ],
   imports: [
     AppRoutingModule,    
@@ -293,12 +311,12 @@ const MATERIAL=[
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     DragDropModule,
+    NgxDropzoneModule,
 	  ApiModule.forRoot(getConfiguration)
   ],
   providers: [
     AuthenticationService,
     LocalDaoService,
-    LoginService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

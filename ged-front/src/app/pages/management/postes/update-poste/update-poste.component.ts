@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { PosteControllerService, Postes } from 'src/app/model';
-
+/*import { PosteControllerService, Postes } from 'src/app/model';
+*/
 @Component({
   selector: 'app-update-poste',
   templateUrl: './update-poste.component.html',
@@ -12,7 +12,7 @@ import { PosteControllerService, Postes } from 'src/app/model';
 })
 export class UpdatePosteComponent implements OnInit {
 
-
+/*
 
   newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
@@ -34,10 +34,10 @@ export class UpdatePosteComponent implements OnInit {
       }
     );
   }
-
+*/
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newPosteFormGroup.controls;
   }
@@ -80,6 +80,6 @@ export class UpdatePosteComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 
 }

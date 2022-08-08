@@ -19,7 +19,6 @@ import { Observable }                                        from 'rxjs';
 
 import { Liasses } from '../model/liasses';
 import { PageLiasses } from '../model/pageLiasses';
-import { TypeLiasses } from '../model/typeLiasses';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -107,27 +106,170 @@ export class LiasseControllerService {
     /**
      * 
      * 
-     * @param name 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createLiasseUser(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createLiasseUser(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createLiasseUser(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createLiasseUser(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createLiasseUser.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/liasses/create-user`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createLiasseWorkFlow(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createLiasseWorkFlow(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createLiasseWorkFlow(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createLiasseWorkFlow(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createLiasseWorkFlow.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/liasses/create-workflow`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllLiasse(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public findAllLiasse(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public findAllLiasse(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public findAllLiasse(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/all`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
      * @param posteName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByName3(name: string, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<Liasses>;
-    public findByName3(name: string, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Liasses>>;
-    public findByName3(name: string, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Liasses>>;
-    public findByName3(name: string, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findByNameLiasse(id: number, posteName: string, observe?: 'body', reportProgress?: boolean): Observable<Liasses>;
+    public findByNameLiasse(id: number, posteName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Liasses>>;
+    public findByNameLiasse(id: number, posteName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Liasses>>;
+    public findByNameLiasse(id: number, posteName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling findByName3.');
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling findByNameLiasse.');
         }
 
         if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling findByName3.');
+            throw new Error('Required parameter posteName was null or undefined when calling findByNameLiasse.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
         }
         if (posteName !== undefined && posteName !== null) {
             queryParameters = queryParameters.set('posteName', <any>posteName);
@@ -148,7 +290,7 @@ export class LiasseControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Liasses>('get',`${this.basePath}/liasses/find-by-name`,
+        return this.httpClient.request<Liasses>('get',`${this.basePath}/liasses/find-by-id`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -162,34 +304,124 @@ export class LiasseControllerService {
     /**
      * 
      * 
-     * @param typeliasse 
-     * @param posteName 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByTypeliasse(typeliasse: TypeLiasses, posteName: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
-    public findByTypeliasse(typeliasse: TypeLiasses, posteName: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
-    public findByTypeliasse(typeliasse: TypeLiasses, posteName: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
-    public findByTypeliasse(typeliasse: TypeLiasses, posteName: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findLiasseArchived(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public findLiasseArchived(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public findLiasseArchived(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public findLiasseArchived(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (typeliasse === null || typeliasse === undefined) {
-            throw new Error('Required parameter typeliasse was null or undefined when calling findByTypeliasse.');
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
         }
 
-        if (posteName === null || posteName === undefined) {
-            throw new Error('Required parameter posteName was null or undefined when calling findByTypeliasse.');
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/archive`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findLiasseNotArchived(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public findLiasseNotArchived(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public findLiasseNotArchived(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public findLiasseNotArchived(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/not-archived`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param name 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchByNameLiasse(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchByNameLiasse(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchByNameLiasse(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchByNameLiasse(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling searchByNameLiasse.');
         }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (typeliasse !== undefined && typeliasse !== null) {
-            queryParameters = queryParameters.set('typeliasse', <any>typeliasse);
-        }
-        if (posteName !== undefined && posteName !== null) {
-            queryParameters = queryParameters.set('posteName', <any>posteName);
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
@@ -213,7 +445,7 @@ export class LiasseControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/find-by-typeliasse`,
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/search-by-name-user`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -233,11 +465,185 @@ export class LiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
-    public searchByName6(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
-    public searchByName6(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchByNameLiasseArchive(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchByNameLiasseArchive(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchByNameLiasseArchive(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchByNameLiasseArchive(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling searchByNameLiasseArchive.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/search-archive-by-name`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param sigle 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchBySigleLiasse(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchBySigleLiasse(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchBySigleLiasse(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchBySigleLiasse(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (sigle === null || sigle === undefined) {
+            throw new Error('Required parameter sigle was null or undefined when calling searchBySigleLiasse.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (sigle !== undefined && sigle !== null) {
+            queryParameters = queryParameters.set('sigle', <any>sigle);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/search-by-sigle-user`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param sigle 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchBySigleLiasseArchive(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchBySigleLiasseArchive(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchBySigleLiasseArchive(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchBySigleLiasseArchive(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (sigle === null || sigle === undefined) {
+            throw new Error('Required parameter sigle was null or undefined when calling searchBySigleLiasseArchive.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (sigle !== undefined && sigle !== null) {
+            queryParameters = queryParameters.set('sigle', <any>sigle);
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageLiasses>('get',`${this.basePath}/liasses/search-archive-by-sigle`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param name 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchLiasseByName(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchLiasseByName(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchLiasseByName(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchLiasseByName(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling searchLiasseByName.');
+        }
 
 
 
@@ -287,13 +693,13 @@ export class LiasseControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchBySigle4(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
-    public searchBySigle4(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
-    public searchBySigle4(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
-    public searchBySigle4(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchLiasseBySigle(sigle: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageLiasses>;
+    public searchLiasseBySigle(sigle: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageLiasses>>;
+    public searchLiasseBySigle(sigle: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageLiasses>>;
+    public searchLiasseBySigle(sigle: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (sigle === null || sigle === undefined) {
-            throw new Error('Required parameter sigle was null or undefined when calling searchBySigle4.');
+            throw new Error('Required parameter sigle was null or undefined when calling searchLiasseBySigle.');
         }
 
 
@@ -339,16 +745,74 @@ export class LiasseControllerService {
      * 
      * 
      * @param body 
+     * @param idLiasse 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update4(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update4(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update4(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update4(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public shareLiasse(body: Array<number>, idLiasse: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public shareLiasse(body: Array<number>, idLiasse: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public shareLiasse(body: Array<number>, idLiasse: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public shareLiasse(body: Array<number>, idLiasse: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update4.');
+            throw new Error('Required parameter body was null or undefined when calling shareLiasse.');
+        }
+
+        if (idLiasse === null || idLiasse === undefined) {
+            throw new Error('Required parameter idLiasse was null or undefined when calling shareLiasse.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idLiasse !== undefined && idLiasse !== null) {
+            queryParameters = queryParameters.set('idLiasse', <any>idLiasse);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/liasses/share`,
+            {
+                body: body,
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateLiasse(body: Liasses, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateLiasse(body: Liasses, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateLiasse(body: Liasses, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateLiasse(body: Liasses, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updateLiasse.');
         }
 
         let headers = this.defaultHeaders;

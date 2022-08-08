@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as constante from '../../../../loader/constante';
-import { Postes, Structures } from 'src/app/model';
+//import { Postes, Structures } from 'src/app/model';
 
 @Component({
   selector: 'app-read-structure',
@@ -10,7 +10,7 @@ import { Postes, Structures } from 'src/app/model';
   styleUrls: ['./read-structure.component.scss']
 })
 export class ReadStructureComponent implements OnInit {
-
+/*
   newStructureFormGroup!: FormGroup;  
   structurePosteList: Array<Postes>=[];
   structureSupEmpty: boolean= false;
@@ -55,13 +55,13 @@ export class ReadStructureComponent implements OnInit {
       this.newStructureFormGroup.controls[constante.structureSup].setValue(this.data.structureSuperieur!.name+constante.paranteseO+this.data.structureSuperieur!.sigle+constante.paranteseF);
       this.structureSupEmpty=true;
     }
-  }
+  }*/
   ngOnInit() {
   }
-
+/*
   onClose(){
     this.dialogRef.close(false);
   }
-  
+  */
 
 }

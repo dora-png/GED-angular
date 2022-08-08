@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import * as constante from '../../../../loader/constante';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { WorkFlowControllerService, StructureControllerService, WorkFlow, PageStructures, Postes, Structures, WorkFlowPoste } from '../../../../model/index';
+///import { WorkFlowControllerService, StructureControllerService, WorkFlow, PageStructures, Postes, Structures, WorkFlowPoste } from '../../../../model/index';
 import { HttpStatusCode } from 'src/app/loader/status-code';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 
@@ -14,7 +14,7 @@ import { AuthenticationService } from 'src/app/loader/authentication.service';
   styleUrls: ['./add-poste-to-workflow.component.scss']
 })
 export class AddPosteToWorkflowComponent implements OnInit {
-
+/*
   structurePage?: PageStructures;
   constantes: any = constante;
   posteStructureEmpty: boolean = constante.falseValue;
@@ -40,12 +40,12 @@ export class AddPosteToWorkflowComponent implements OnInit {
     private apiServiceStructure: StructureControllerService,     
     private toastr: ToastrService
   ) { }
-
+*/
   ngOnInit(): void {
-    this.workFlowSigle = this.data.sigle;
-    this.initWorkFlowPoste();
+   /* this.workFlowSigle = this.data.sigle;
+    this.initWorkFlowPoste();*/
   }
-  onRemovePosteInWorfFlow(workFlowPoste: WorkFlowPoste){
+  /*onRemovePosteInWorfFlow(workFlowPoste: WorkFlowPoste){
     this.onRemoveData(workFlowPoste);
   }
 
@@ -332,6 +332,6 @@ export class AddPosteToWorkflowComponent implements OnInit {
       this.workFlowPostes[event.previousIndex].level = currentLevel;
     }   
   }
-
+*/
 
 }

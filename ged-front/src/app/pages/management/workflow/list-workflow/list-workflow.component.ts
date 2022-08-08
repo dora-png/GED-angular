@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkFlowControllerService, WorkFlow, PageWorkFlow } from '../../../../model/index';
+//import { WorkFlowControllerService, WorkFlow, PageWorkFlow } from '../../../../model/index';
 import * as constante from '../../../../loader/constante';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
 import { CreateWorkflowComponent } from '../create-workflow/create-workflow.component';
@@ -19,7 +19,7 @@ import { HttpStatusCode } from '../../../../loader/status-code';
   styleUrls: ['./list-workflow.component.scss']
 })
 export class ListWorkflowComponent implements OnInit {
-
+/*
   pageWorkFlow!: PageWorkFlow;
   isEmpty: boolean = constante.trueValue;
   loading: boolean = constante.trueValue;
@@ -27,20 +27,20 @@ export class ListWorkflowComponent implements OnInit {
   view: boolean = constante.falseValue;
   constantes: any = constante;
   valueToSearch!: string;
-  searchBy: 'name' | 'sigle' | undefined;
+  searchBy: 'name' | 'sigle' | undefined;*/
   
   constructor(
-    private loaderService: LoaderService,
+    /*private loaderService: LoaderService,
     private openDialogService: OpenDialogService,
     private apiService: WorkFlowControllerService,   
     private auth: AuthenticationService,   
-    private toastr: ToastrService
+    private toastr: ToastrService*/
     ) { }
 
     ngOnInit(): void {
-      this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
+    //  this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
     }
-  
+  /*
     onHasRole(role:string): boolean{
       return this.auth.getRoles(role);
     }
@@ -211,6 +211,6 @@ export class ListWorkflowComponent implements OnInit {
 
   refresf(){
     this.initData(this.constantes.pageInit,this.constantes.sizeInit,this.constantes.trueValue);
-  }
+  }*/
 
 }

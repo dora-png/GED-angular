@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GroupUser, Postes, Roles } from 'src/app/model';
+//import { GroupUser, Postes, Roles } from 'src/app/model';
 
 @Component({
   selector: 'app-infos-group-user',
@@ -9,7 +9,7 @@ import { GroupUser, Postes, Roles } from 'src/app/model';
   styleUrls: ['./infos-group-user.component.scss']
 })
 export class InfosGroupUserComponent implements OnInit {
-
+/*
   newGroupFormGroup!: FormGroup;  
   roleslistesList: Array<Roles>=[];
   structureSupEmpty: boolean= false;
@@ -48,12 +48,12 @@ export class InfosGroupUserComponent implements OnInit {
       this.roleslistesEmpty=true;
       this.roleslistesList=this.data.roleslistes!;
     }
-  }
+  }*/
   ngOnInit() {
   }
-
+/*
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 }

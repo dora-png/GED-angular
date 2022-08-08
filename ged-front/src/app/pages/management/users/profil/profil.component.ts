@@ -2,15 +2,19 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { LogPosteUserControllerService, Users, UsersControllerService } from 'src/app/model';
+import {  UsersControllerService, DroitsControllerService, } from 'src/app/model';
+import * as constante from '../../../../loader/constante';
+
 export interface UserPoste {
-  idUser?: number,
-  loginUser?: string,
-  nameUser?: string,
-  idPoste?: number,
-  namePoste?: string,
-  direction?: string
+  idStructure?: number,
+  idProfile?: number,
+  profileName?: string,
+  userName?: string,
+  status?: boolean,
+  directionName?: string,
+  directionSigle?: string
 } 
 
 @Component({
@@ -20,7 +24,6 @@ export interface UserPoste {
 })
 export class ProfilComponent implements OnInit {
 
-  
   editable: boolean = false;  
   loading: boolean = false;
   isEmpty: boolean = true;
@@ -29,16 +32,35 @@ export class ProfilComponent implements OnInit {
   constructor(  
     private loaderService: LoaderService,
     @Inject(MAT_DIALOG_DATA) private data: any,    
-    private apiService: UsersControllerService,
-    private apiLogService: LogPosteUserControllerService,
+    private apiService: UsersControllerService, 
+    private apiServiceDroit: DroitsControllerService,
     private toastr: ToastrService ,
+    private auth: AuthenticationService,
     private dialogRef:  MatDialogRef<ProfilComponent>
     ) { }
 
   ngOnInit(): void {
+    this.editable = this.onHasRole(constante.admin);
     this.initData();
-    this.editable = this.data.editable;
+    
   }
+
+  private onHasRole(role:string): boolean{
+    return this.auth.getRoles(role);
+  }
+
+  setSatus(){
+    this.listenToLoading();
+    this.apiService.setProfileStatus(this.userData.idProfile!).subscribe(
+      response =>{
+        this.userData.status = !this.userData.status;
+      },
+      error=>{
+
+      }
+    );
+  }
+
 
   private listenToLoading(): void {
     this.loaderService.getSub
@@ -48,34 +70,50 @@ export class ProfilComponent implements OnInit {
       });
   }
 
+  /*private getDroit(){
+    this.apiServiceDroit.findAllDroitUser(this.data.user).subscribe(
+      response=>{
+        this.pageDroits = response;
+      },
+      error=>{
+
+      }
+    );
+  }*/
+
   private initData(){
     this.listenToLoading();
     this.apiService.findUserById(this.data.user).subscribe(
       response=>{
         this.isEmpty=false;
         this.listenToLoading();
-        this.apiLogService.currentPosteOfUser(response.iduser!).subscribe(
+        this.apiService.currentStructure(response.idProfiles!).subscribe(
           resp=>{
+            if(response.currentUser==null)
+              response.currentUser = "empty";
             if(resp==null){
               this.userData = {
-                idPoste:undefined,
-                idUser:response.iduser!,
-                namePoste:"None",
-                loginUser:response.username!,
-                nameUser:response.name!,
-                direction:"None"
+                idStructure: undefined,
+                  idProfile:response.idProfiles!,
+                  profileName:response.name!,
+                  userName: response.currentUser!,
+                  status: response.status!,
+                  directionName: "undefined",
+                  directionSigle: "undefined"
               };
-            }
-            else{
+            }else{
               this.userData = {
-                idPoste:resp.idposte!,
-                idUser:response.iduser!,
-                namePoste:resp.name!,
-                loginUser:response.username!,
-                nameUser:response.name!,
-                direction: resp.structure!.name!+" (" +resp.structure!.sigle!+")"
-              }
+                idStructure: resp.idStructure!,
+                idProfile:response.idProfiles!,
+                profileName:response.name!,
+                userName: response.currentUser!,
+                status: response.status!,
+                directionName: resp.name!,
+                directionSigle: resp.sigle!
+              };
+             
             }
+           // this.getDroit();
           },
           error=>{  
           }
