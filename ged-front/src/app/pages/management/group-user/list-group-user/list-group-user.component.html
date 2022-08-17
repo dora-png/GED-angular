@@ -1,4 +1,4 @@
-<!-- <br>
+<br>
 <div class="row">
   <div class="col-md-12">
     <app-breadcrumb></app-breadcrumb>
@@ -8,7 +8,7 @@
     <div class="col-md-12">
       <app-menu-manage></app-menu-manage>
     </div>
-  </div>
+</div>
 
   <div class="row">
     <div align="end">
@@ -24,106 +24,136 @@
         </button>
     </div>
 </div>
-<app-error *ngIf="!loading && isEmpty"></app-error>
-<div  class="row" *ngIf="!loading && !isEmpty">
-  <div class="col-md-12">
-    <mat-card>
-      <div class="row"></div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-6">
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </span>
-            <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-          </div>
-        </div>
-        <div class="col-sm-2 col-form-label">
-          <div class="input-group">
-            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-              <mat-radio-group [(ngModel)]="searchBy">
-                <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-              </mat-radio-group>
-            </span>
-          </div>
-          
-        </div>
-  
-      </div>
-      <div class="alert alert-danger" *ngIf="research" role="alert">
-        not found 
-      </div>
-      <div class="container-fluid" *ngIf="view">
-        <div class="row">
-          <div class="col-sm-12">
-            <mat-list  *ngFor="let group of pageGroupUser?.content;let indexOfelement=index">
-              <mat-list-item mat-button [matMenuTriggerFor]="action">
-                <strong><span>{{group.name!}}</span></strong>
-              </mat-list-item>
-              <mat-menu #action="matMenu">
-                <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                <button mat-menu-item (click)="openDialogHistoric(group)"> Information about</button>
-                <button mat-menu-item > Delete</button>
-              </mat-menu>
-              <mat-menu #edit="matMenu">
-                <button mat-menu-item (click)="openDialogEdit(group)">  Edit Group Name</button>
-                <button mat-menu-item (click)="openDialogAddRemovePostes(group)"> Add / Remove Postes </button>
-                <button mat-menu-item (click)="openDialogAddRemoveRole(group)"> Add / Remove  Roles </button>
-              </mat-menu>
-              <mat-divider></mat-divider>
-            </mat-list>
-          </div>
-        </div>
-      </div>
-      <div class="container" id="tourpackages-carousel"  *ngIf="!view">
-        <div class="row">          
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"  *ngFor="let group of pageGroupUser?.content;let indexOfelement=index">
-            <div class="thumbnail">
-                <div class="caption">
-                  <div class='col-lg-12 well well-add-card'>
-                    <i class = "fa fa-lock fa-4x" style="color:#BB7824"></i>
-                      <span style="font-size: 30px;">{{group.name!}}</span>
-                  </div>
-                  <div class='col-lg-12'>                    
-                      <p>
-                        Date Création: 
-                        <span>{{group.dateCreation! | date: 'EEEE d  MMMM y à h:mm:ss'}}</span> 
-                      </p>
-                      <p class="text-muted">
-                        Nombre Droit: 
-                        <span *ngIf="group.roleslistes!.length == 0">0</span> 
-                        <span *ngIf="group.roleslistes!.length != 0">{{group.roleslistes!.length}}</span>
-                      </p>
-                      <p class="text-muted">
-                        Nombre Postes:
-                        <span *ngIf="group.posteslistes!.length == 0">0</span> 
-                        <span *ngIf="group.posteslistes!.length != 0">{{group.posteslistes!.length}}</span> 
-                      </p>
-                  </div>
-                  <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card"mat-button [matMenuTriggerFor]="action">Actions
-                  </button>
-                  <mat-menu #action="matMenu">
-                    <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                    <button mat-menu-item (click)="openDialogHistoric(group)"> Information about</button>
-                  </mat-menu>
-                  <mat-menu #edit="matMenu">
-                    <button mat-menu-item (click)="openDialogEdit(group)">  Edit Group Name</button>
-                    <button mat-menu-item (click)="openDialogAddRemovePostes(group)"> Add / Remove  Postes</button>
-                    <button mat-menu-item (click)="openDialogAddRemoveRole(group)"> Add / Remove  Roles </button>
-                  </mat-menu>
-                  <span class='glyphicon glyphicon-remove text-danger pull-right icon-style'></span>
+<div class="row">
+  <div class="col-md-12" *ngIf="loading ;else content" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
+  </div>
+  <ng-template #content>
+    <div  class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="row"></div>
+          <div class="row"  *ngIf="!isEmpty; else contentElement">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label"></label>
+              <div class="col-sm-6">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="col-sm-2 col-form-label">
+                <div class="input-group">
+                  <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
+                    <mat-radio-group [(ngModel)]="searchBy">
+                      <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
+                    </mat-radio-group>
+                  </span>
+                </div>
+                
+              </div>
+        
+            </div>
+            <div class="alert alert-danger" *ngIf="research" role="alert">
+              not found 
+            </div>
+            <div class="container-fluid" *ngIf="view">
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-list  *ngFor="let group of pageGroupUser?.content;let indexOfelement=index">
+                    <mat-list-item mat-button [matMenuTriggerFor]="action">
+                      <strong><span>{{group.name!}}</span></strong>
+                    </mat-list-item>
+                    <mat-menu #action="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
+                      <button mat-menu-item (click)="openDialogHistoric(group)"> Information about</button>
+                      <button mat-menu-item > Delete</button>
+                    </mat-menu>
+                    <mat-menu #edit="matMenu">
+                      <button mat-menu-item (click)="openDialogEdit(group)">  Edit Group Name</button>
+                      <button mat-menu-item (click)="openDialogAddRemovePostes(group)"> Add / Remove Postes </button>
+                      <button mat-menu-item (click)="openDialogAddRemoveRole(group)"> Add / Remove  Roles </button>
+                    </mat-menu>
+                    <mat-divider></mat-divider>
+                  </mat-list>
+                </div>
               </div>
             </div>
-          </div>      
-        </div>
+            <div class="container" id="tourpackages-carousel"  *ngIf="!view">
+              <div class="row">          
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"  *ngFor="let group of pageGroupUser?.content;let indexOfelement=index">
+                  <div class="thumbnail">
+                      <div class="caption">
+                        <div class='col-lg-12 well well-add-card'>
+                          <i class = "fa fa-lock fa-4x" style="color:#BB7824"></i>
+                            <span style="font-size: 30px;">{{group.sigle!}}</span>
+                        </div>
+                        <div class='col-lg-12'>                    
+                            <p>
+                              Date Création: 
+                              <span>{{group.dateCreation! | date: 'EEEE d  MMMM y à h:mm:ss'}}</span> 
+                            </p>
+                            <p class="text-muted">
+                              Name: 
+                              <span>{{group.name!}}</span> 
+                            </p>
+                            <!-- <p class="text-muted">
+                              Nombre Postes:
+                              <span *ngIf="group.posteslistes!.length == 0">0</span> 
+                              <span *ngIf="group.posteslistes!.length != 0">{{group.posteslistes!.length}}</span>  
+                            </p>-->
+                        </div>
+                        <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card"mat-button [matMenuTriggerFor]="action">Actions
+                        </button>
+                        <mat-menu #action="matMenu">
+                          <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
+                          <button mat-menu-item (click)="openDialogHistoric(group)"> Information about</button>
+                        </mat-menu>
+                        <mat-menu #edit="matMenu">
+                          <button mat-menu-item (click)="openDialogEdit(group)">  Edit Group Name</button>
+                          <button mat-menu-item (click)="openDialogAddRemovePostes(group)"> Add / Remove  Postes</button>
+                          <button mat-menu-item (click)="openDialogAddRemoveRole(group)"> Add / Remove  Roles </button>
+                        </mat-menu>
+                        <span class='glyphicon glyphicon-remove text-danger pull-right icon-style'></span>
+                    </div>
+                  </div>
+                </div>      
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <app-nav-table [pageNumber]="pageGroupUser?.pageable?.pageNumber!" [first]="pageGroupUser?.first!" [last]="pageGroupUser?.last!" [size]="pageGroupUser?.size!" [totalPages]="pageGroupUser?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+              </div>
+            </div>
+          </div>
+
+          <ng-template #contentElement>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="example-list">
+                  <div class="example-box1">
+                    <div class="example-custom-placeholder" *cdkDragPlaceholder style="align-content: space-between;">
+                     
+                    </div>
+                    <span>
+                        No content
+                    </span>
+                    <button mat-mini-fab style="background-color: #44ff54;" >
+                      <i class="fa fa-refresh" aria-hidden="true" ></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+ 
+        </mat-card>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <app-nav-table [pageNumber]="pageGroupUser?.pageable?.pageNumber!" [first]="pageGroupUser?.first!" [last]="pageGroupUser?.last!" [size]="pageGroupUser?.size!" [totalPages]="pageGroupUser?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-        </div>
-      </div>
-    </mat-card>
-  </div>
+    </div>
+  </ng-template>
 </div>
- -->
+

@@ -146,7 +146,7 @@ import { AddRemoveInGroupComponent } from './pages/management/users/add-remove-i
 import { AddRemoveDroitComponent } from './pages/management/users/add-remove-droit/add-remove-droit.component';
 import { UpdateNameComponent } from './pages/management/users/update-name/update-name.component';
 import { UpdateUserComponent } from './pages/management/users/update-user/update-user.component';
-
+import { ColorPickerModule } from 'ngx-color-picker';
 export const getConfiguration = () => {
   return new Configuration({
     /*basePath: environment.basePath,
@@ -312,6 +312,7 @@ const MATERIAL=[
     ToastrModule.forRoot(),
     DragDropModule,
     NgxDropzoneModule,
+    ColorPickerModule,
 	  ApiModule.forRoot(getConfiguration)
   ],
   providers: [

@@ -18,4 +18,5 @@ export interface GroupProfile {
     groupuserId?: GroupUser;
     isactive?: boolean;
     dateCreation?: Date;
+    dateEnd?: Date;
 }

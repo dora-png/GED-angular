@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { DroitsControllerService, DroitsBean, PageDroits, Droits, ProfilesDroitBean, UsersControllerService } from '../../../../model'
+import { DroitsControllerService, PageDroits, Droits, UsersControllerService } from '../../../../model'
 @Component({
   selector: 'app-add-remove-droit',
   templateUrl: './add-remove-droit.component.html',
@@ -10,7 +10,7 @@ import { DroitsControllerService, DroitsBean, PageDroits, Droits, ProfilesDroitB
 })
 export class AddRemoveDroitComponent implements OnInit {
 
-  droitBeans!: DroitsBean[];
+  isEmpty: boolean = true;
   droitToAdd: Droits[]=[];
   loading: boolean = true;
   clicked: boolean = false;
@@ -26,10 +26,10 @@ export class AddRemoveDroitComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listenToLoading();
-    this.init(0,5);
+   // this.listenToLoading();
+   // this.init(0,5);
   }
-
+/*
   private listenToLoading(): void {
     this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -59,24 +59,42 @@ export class AddRemoveDroitComponent implements OnInit {
       }
     );
   }
+  private listDroit(page: number, size:number){
+    this.apiService.findAllDroit(page, size).subscribe(
+      resp=>{
+        this.pageDroits = resp;
+      },
+      error=>{
+
+      }
+    );
+  }
 
   private init(page: number, size: number) {
     this.apiService.findAllDroitUser(this.data, page, size).subscribe(
       response=>{
-        let listIds : Array<number> = [];
-        this.droitBeans = response;
-        this.droitBeans.forEach(droitsBean =>{
-          let id: number = droitsBean.iddroit!;
-          listIds.push(id.valueOf());
-        })
-        this.apiService.findListDroitToAdd(listIds).subscribe(
-          resp=>{
-            this.pageDroits = resp;
-          },
-          error=>{
-
-          }
-        );
+        if(response==null){
+          this.isEmpty = true;
+          this.listDroit(0,5);
+          
+        }else{
+          this.isEmpty = false;
+          let listIds : Array<number> = [];
+          this.droitBeans = response;
+          this.droitBeans.forEach(droitsBean =>{
+            let id: number = droitsBean.iddroit!;
+            listIds.push(id.valueOf());
+          })
+          this.apiService.findListDroitToAdd(listIds).subscribe(
+            resp=>{
+              this.pageDroits = resp;
+            },
+            error=>{
+  
+            }
+          );
+        }
+        
       },
       error=>{
 
@@ -141,5 +159,5 @@ export class AddRemoveDroitComponent implements OnInit {
   private closeModal(value: boolean){
     this.dialogRef.close(value);
   }
-
+*/
 }

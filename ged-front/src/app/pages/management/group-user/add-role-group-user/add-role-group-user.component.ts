@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import * as constante from '../../../../loader/constante';
-//import { GroupUser, GroupUserControllerService, PageRoles, Roles, RolesControllerService } from 'src/app/model';
+import { GroupUser, GroupUserControllerService, PageDroits, Droits, DroitsControllerService } from 'src/app/model';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { HttpStatusCode } from 'src/app/loader/status-code';
 
@@ -16,38 +16,38 @@ import { HttpStatusCode } from 'src/app/loader/status-code';
 })
 export class AddRoleGroupUserComponent implements OnInit {
 
-/*
+
   isEmpty: boolean = true;
   loading: boolean = false;
+  clicked: boolean = false;
   groupRoleEdited: boolean = constante.falseValue;
   research: boolean = false;
   view: boolean = false;
-  currentRoles: Roles[] = [];
-  listRoles: Roles[] = [];
+  currentRoles: Droits[] = [];
+  listRoles: Droits[] = [];
   private valueToSearch!: string;
   searchBy: 'name' | 'login' | undefined;
   private pagesize ={page: 0, size: 5};
   groupName: string = "";
-  pageRoles!: PageRoles;
+  pageDroits!: PageDroits;
 
    
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: GroupUser,
+    @Inject(MAT_DIALOG_DATA) private data: number,
     private loaderService: LoaderService,
     private apiGroupsService: GroupUserControllerService,   
-    private apiService: RolesControllerService,
+    private apiService: DroitsControllerService,
     private auth: AuthenticationService,    
     private toastr: ToastrService,
     private dialogRef:  MatDialogRef<AddRoleGroupUserComponent>
     ) {
-      this.groupName = this.data.name!;
      }
-*/
+
      ngOnInit(): void {
       //this.listenToLoading();
-      //this.initData(0,5);
+      this.initData(0,5);
     }
-     /* 
+      
     private listenToLoading(): void {
       this.loaderService.getSub
         .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -56,16 +56,26 @@ export class AddRoleGroupUserComponent implements OnInit {
         });
     }
 
-    private findAllRulesNotIn(groupUser: GroupUser, page?: number, size?: number){
-      this.apiService.findRoleToAdd(groupUser.idgroupes!,page,size).subscribe(
+    private findAllRulesNotIn(droitList: number[], page?: number, size?: number){
+      this.apiService.findListDroitToAddInGroup(droitList,page,size).subscribe(
         resp=>{
           if(resp==null){
-            this.isEmpty=true;
+            this.pageDroits = resp;
           }else{
-            this.isEmpty=false;
-            this.pageRoles=resp;
-            this.listRoles = resp!.content!;
+            this.pageDroits = resp;
           }
+        },
+        error=>{
+          this.toastr.info(error.error.message, "Infos");
+        }
+      );
+    }
+
+    private findAllRules(page?: number, size?: number){
+      this.apiService.findAllDroit(page,size).subscribe(
+        resp=>{
+          console.log(resp)
+          this.pageDroits = resp;
         },
         error=>{
           this.toastr.info(error.error.message, "Infos");
@@ -75,19 +85,82 @@ export class AddRoleGroupUserComponent implements OnInit {
     
     private initData(page: number, size: number){
       this.currentRoles = [];
-      this.apiGroupsService.findGroupUserById(this.data!.idgroupes!).subscribe(
+      this.apiService.findAllDroitUser(this.data!,page,size).subscribe(
         resp=>{
-          this.data=resp;
-          this.currentRoles = this.data.roleslistes!;
-          this.findAllRulesNotIn(resp);
+          if(resp==null){
+            this.isEmpty=true;
+            this.findAllRules();
+          }else{
+            this.isEmpty=false;
+            this.currentRoles=resp;
+            let listIds : Array<number> = [];
+            this.currentRoles.forEach(droits =>{
+              let id: number = droits.iddroit!;
+              listIds.push(id.valueOf());
+            });
+            this.findAllRulesNotIn(listIds);
+          }
         },
         error=>{
           this.toastr.info(error.error.message, "Infos");
-          //close modal
         }
       );
     }
+
+    addDroit(droit: Droits){
+      //this.droitToAdd.push(droit);
+    }
+    containDroit(droit: Droits){
+      let containElement: boolean= false
+      /*this.droitToAdd.find(
+        droits=>{
+          if(droit.iddroit===droits.iddroit){
+            containElement = true;
+          }
+        }
+      );*/
+      return containElement;
+    }
+  
+    removeDroit(droit: Droits){    
+      /*this.droitToAdd = this.droitToAdd.filter(function (droits) {
+          return droits.abbr != droit.abbr;
+        }
+      );*/
+    }
     
+  onRemove(droitBean: Droits){    
+   /* this.clicked=!this.clicked;
+    let profilesDroitBean: ProfilesDroitBean = {
+      droit: droitBean.iddroit,
+      profile: this.data
+    };*/
+   /* this.apiServiceProfile.removeDroitsToUsers(profilesDroitBean).subscribe(
+      response=>{
+        this.droitBeans = this.droitBeans.filter(function (droits) {
+          return droits.iddroit != droitBean.iddroit && droits.typeDroit != droitBean.typeDroit;
+        }
+      );
+        this.clicked=!this.clicked;
+      },
+      error=>{
+        this.clicked=!this.clicked;
+      }
+    )*/
+  }
+
+  onClose(){
+    this.closeModal(false);
+  }
+
+  private closeModal(value: boolean){
+    this.dialogRef.close(value);
+  }
+
+  changePageAndSize(event: any){
+    
+  }
+  /*  
   private changePageOrSize(page: number, size: number){
     this.listenToLoading();
     this.initData(page, size);

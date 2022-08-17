@@ -23,6 +23,9 @@
           <button mat-button (click)="refresf()">
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
+          <button mat-button (click)="newProfile()" >
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          </button>
           <button mat-button (click)="viewList()">
             <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
             <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
@@ -83,28 +86,35 @@
                         <i (click)="setSatus(user)" *ngIf="user.status" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
                         <i (click)="setSatus(user)" *ngIf="!user.status" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
                        </td>
-                       <td > 
-                        <i (click)="openDialogProfil(user)" class="fa fa-id-card-o" aria-hidden="true" [matMenuTriggerFor]="userPlus"></i>
+                       <td [matMenuTriggerFor]="userPlus"> 
+                        <i  class="fa fa-id-card-o" aria-hidden="true" ></i>
                         <mat-menu #userPlus="matMenu">
                           <mat-list>
                             <a mat-list-item >
-                              <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
+                              <button mat-menu-item [matMenuTriggerFor]="maj"><i class="fa fa-pencil" aria-hidden="true"></i> Mise à Jour</button>  
+                              <mat-menu #maj="matMenu">
+                                <mat-list>
+                                  <a mat-list-item (click)="openDialogUpdateName(user)">
+                                    <button mat-menu-item> Profile Name</button>  
+                                  </a>
+                                  <mat-divider></mat-divider>
+                                  <a mat-list-item (click)="openDialogUpdateUser(user)">
+                                    <button mat-menu-item><i class="fa fa-user-circle" aria-hidden="true"></i> Profile User</button>                  
+                                  </a>
+                                </mat-list>
+                              </mat-menu> 
                             </a>
                             <mat-divider></mat-divider>
-                            <a mat-list-item >
-                              <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>                  
+                           <!--  <a mat-list-item (click)="openDialogProfilDroit(user)">
+                              <button mat-menu-item><i class="fa fa-shield" aria-hidden="true"></i> Ajouter / Retirer un Droit</button>                  
+                            </a><mat-divider></mat-divider> -->
+                            <a mat-list-item (click)="openDialogGroupProfil(user)">
+                              <button mat-menu-item><i class="fa fa-users" aria-hidden="true"></i> Ajouter / Retirer un Group</button>                  
                             </a>
                             <mat-divider></mat-divider>
-                            <a mat-list-item >
-                              <button mat-menu-item><i class="fa fa-folder"  aria-hidden="true"></i> Importer un dossier</button>                
+                            <a mat-list-item (click)="openDialogProfil(user)">
+                              <button mat-menu-item><i class="fa fa-info"  aria-hidden="true"></i> Informations</button>                
                             </a>
-                            <mat-divider></mat-divider>
-                            <a mat-list-item >
-                              <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
-                            </a>  
-                            <a mat-list-item >
-                              <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
-                            </a >
                           </mat-list>
                         </mat-menu> 
                       </td>
@@ -145,20 +155,20 @@
                                   <button mat-menu-item [matMenuTriggerFor]="maj"><i class="fa fa-pencil" aria-hidden="true"></i> Mise à Jour</button>  
                                   <mat-menu #maj="matMenu">
                                     <mat-list>
-                                      <a mat-list-item >
+                                      <a mat-list-item (click)="openDialogUpdateName(user)">
                                         <button mat-menu-item> Profile Name</button>  
                                       </a>
                                       <mat-divider></mat-divider>
-                                      <a mat-list-item >
+                                      <a mat-list-item (click)="openDialogUpdateUser(user)">
                                         <button mat-menu-item><i class="fa fa-user-circle" aria-hidden="true"></i> Profile User</button>                  
                                       </a>
                                     </mat-list>
                                   </mat-menu> 
                                 </a>
                                 <mat-divider></mat-divider>
-                                <a mat-list-item (click)="openDialogProfilDroit(user)">
+                           <!--      <a mat-list-item (click)="openDialogProfilDroit(user)">
                                   <button mat-menu-item><i class="fa fa-shield" aria-hidden="true"></i> Ajouter / Retirer un Droit</button>                  
-                                </a><mat-divider></mat-divider>
+                                </a><mat-divider></mat-divider> -->
                                 <a mat-list-item (click)="openDialogGroupProfil(user)">
                                   <button mat-menu-item><i class="fa fa-users" aria-hidden="true"></i> Ajouter / Retirer un Group</button>                  
                                 </a>

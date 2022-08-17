@@ -17,7 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { DroitsBean } from '../model/droitsBean';
+import { Droits } from '../model/droits';
 import { PageDroits } from '../model/pageDroits';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -59,15 +59,64 @@ export class DroitsControllerService {
     /**
      * 
      * 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllDroit(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findAllDroit(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findAllDroit(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findAllDroit(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageDroits>('get',`${this.basePath}/droit/allDroid62542`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param id 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<DroitsBean>>;
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<DroitsBean>>>;
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<DroitsBean>>>;
+    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Droits>>;
+    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Droits>>>;
+    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Droits>>>;
     public findAllDroitUser(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
@@ -102,7 +151,7 @@ export class DroitsControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<DroitsBean>>('get',`${this.basePath}/droit/profile`,
+        return this.httpClient.request<Array<Droits>>('get',`${this.basePath}/droit/profile`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -122,13 +171,13 @@ export class DroitsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findListDroitToAdd(body: Array<number>, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
-    public findListDroitToAdd(body: Array<number>, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
-    public findListDroitToAdd(body: Array<number>, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
-    public findListDroitToAdd(body: Array<number>, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findListDroitToAddInGroup(body: Array<number>, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findListDroitToAddInGroup(body: Array<number>, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findListDroitToAddInGroup(body: Array<number>, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findListDroitToAddInGroup(body: Array<number>, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling findListDroitToAdd.');
+            throw new Error('Required parameter body was null or undefined when calling findListDroitToAddInGroup.');
         }
 
 

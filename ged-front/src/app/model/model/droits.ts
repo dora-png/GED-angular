@@ -13,11 +13,8 @@
 export interface Droits { 
     iddroit?: number;
     name?: string;
-    abbr?: string;
-    create?: boolean;
-    read?: boolean;
-    update?: boolean;
-    _delete?: boolean;
+    description?: string;
+    method?: string;
+    uri?: string;
     dateCreation?: Date;
-    idDroit?: number;
 }

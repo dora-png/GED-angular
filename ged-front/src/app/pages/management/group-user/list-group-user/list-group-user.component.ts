@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-//import { GroupUser, GroupUserControllerService, PageGroupUser } from 'src/app/model';
+import { GroupUser, GroupUserControllerService, PageGroupUser } from 'src/app/model';
 import { AddGroupUserComponent } from '../add-group-user/add-group-user.component';
 import { AddPosteGroupUserComponent } from '../add-poste-group-user/add-poste-group-user.component';
 import { InfosGroupUserComponent } from '../infos-group-user/infos-group-user.component';
@@ -16,11 +16,11 @@ import { AddRoleGroupUserComponent } from '../add-role-group-user/add-role-group
   styleUrls: ['./list-group-user.component.scss']
 })
 export class ListGroupUserComponent implements OnInit {
-/*
+
 
   pageGroupUser!: PageGroupUser;
   isEmpty: boolean = true;
-  loading: boolean = false;
+  loading: boolean = true;
   research: boolean = false;
   view: boolean = false;
   private valueToSearch!: string;
@@ -33,11 +33,11 @@ export class ListGroupUserComponent implements OnInit {
     private apiService: GroupUserControllerService,    
     private toastr: ToastrService
     ) { }
-*/
+
   ngOnInit(): void {
-    //this.initData(0,5);
+    this.initData(0,5);
   }
-/*
+
   private listenToLoading(): void {
     this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -49,12 +49,12 @@ export class ListGroupUserComponent implements OnInit {
   private initData(page: number, size: number){
     this.listenToLoading();
     this.apiService.findAllGroup(page,size).subscribe(
-      res => {
-        if(res==null){
+      response => {
+        if(response==null){
           this.isEmpty=true;
         }else{
           this.isEmpty=false;
-          this.pageGroupUser=res;
+          this.pageGroupUser=response;
         }
       },error => {
       }
@@ -88,7 +88,7 @@ export class ListGroupUserComponent implements OnInit {
 
 
   openDialogAddRemoveRole(group: GroupUser) {
-    this.openDialogService.openDialog(AddRoleGroupUserComponent, group)
+    this.openDialogService.openDialog(AddRoleGroupUserComponent, group.idgroupes)
         .afterClosed()
         .subscribe(result => {
           if(result){
@@ -186,6 +186,6 @@ export class ListGroupUserComponent implements OnInit {
     this.initData(0,5);
   }
 
-*/
+
 
 }

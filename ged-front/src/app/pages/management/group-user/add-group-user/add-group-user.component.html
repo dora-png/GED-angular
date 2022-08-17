@@ -1,4 +1,4 @@
-<!-- <h2 mat-dialog-title>Add Group</h2>
+<h2 mat-dialog-title>Add Group</h2>
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="newGroupFormGroup" class="example-form">
         <div  class="row">
@@ -6,7 +6,7 @@
                 <div class="example-list" >          
                 <div class="example-box" >
                     <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Structure Name</mat-label>
+                    <mat-label>Group Name</mat-label>
                     <input autocomplete="off" formControlName="name" name="name" id="name" required  matInput>
                     <mat-error *ngIf="f['name'].touched && f['name'].errors">
                         {{f["name"].errors|json}}
@@ -15,7 +15,23 @@
                 </div>
                 </div>
             </div>
-        </div>   
+        </div>  
+        <div  class="row">
+          <div class="col-md-12">            
+              <div class="example-list" >          
+              <div class="example-box" >
+                  <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Group Sigle</mat-label>
+                  <input autocomplete="off" formControlName="sigle" name="sigle" id="sigle" required  matInput>
+                  <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
+                      {{f["sigle"].errors|json}}
+                  </mat-error>
+                  </mat-form-field>
+              </div>
+              </div>
+          </div>
+        </div> 
+        
     </form>   
     
   </mat-dialog-content>
@@ -26,4 +42,3 @@
       Save Structure
     </button>
   </mat-dialog-actions>
- -->

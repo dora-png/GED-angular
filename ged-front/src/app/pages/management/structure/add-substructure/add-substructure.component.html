@@ -29,6 +29,7 @@
           </div>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">            
           <div class="example-list" >          
@@ -54,6 +55,22 @@
         </div>
     </div>
     </div>
+    <div  class="row">
+          <div class="col-md-12">            
+              <div class="example-list" >          
+              <div class="example-box" >
+                  <i class="fa fa-circle  fa-4x" formControlName="color" aria-hidden="true" name="color" id="color" 
+                    [style.color]="color"
+                        [cpPosition]="'bottom'"
+                        [cpPositionOffset]="'50%'"
+                        [cpPositionRelativeToArrow]="true"
+                        [(colorPicker)]="f['color'].value"></i>
+                <span *ngIf="f['color'].touched && f['color'].errors" style="color: red;">
+                  {{f["color"].errors|json}}</span>
+              </div>
+              </div>
+          </div>
+        </div>
       
     </form>   
     

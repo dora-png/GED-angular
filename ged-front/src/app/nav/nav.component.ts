@@ -19,6 +19,10 @@ import { SingleFileComponent } from '../utils/single-file/single-file.component'
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
+
+  color: string="aqua";
+  name: string="";
+  sigle: string="";
   isLogged: boolean = false;
   constantes: any = constante;
   loading: boolean = true;
@@ -37,12 +41,33 @@ export class NavComponent implements OnInit {
       
      }
 
+     getColor(){
+      return "background-color: "+this.color+";"
+     }
+
   ngOnInit(): void {  
     this.isLoggedSubscription = this.auth.isUserSubject.subscribe(
       (isLogged: boolean)=>{
         this.isLogged=isLogged;
       }
     );  
+
+    this.auth.colorSubject
+    .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+    .subscribe((color) => {
+      this.color = color;
+    });
+    this.auth.nameSubject
+    .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+    .subscribe((name) => {
+      this.name = name;
+    });
+
+    this.auth.sigleSubject
+    .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+    .subscribe((sigle) => {
+      this.sigle = sigle;
+    });
   }
 
   onHasRole(role:string): boolean{

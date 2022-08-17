@@ -12,6 +12,7 @@ import { GroupProfile, GroupProfilesBean, GroupUserControllerService, PageGroupP
 export class AddRemoveInGroupComponent implements OnInit {
 
   
+  isEmpty: boolean = true;
   loading: boolean = true;
   clicked: boolean = false;
   pageGroupProfile!: PageGroupProfile;
@@ -24,8 +25,9 @@ export class AddRemoveInGroupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listenToLoading();
+    //this.listenToLoading();
     this.init(0,5);
+    
   }
 
   private listenToLoading(): void {
@@ -39,8 +41,15 @@ export class AddRemoveInGroupComponent implements OnInit {
   private init(page: number, size: number) {
     this.apiService.findAllGroupForProfile(this.data, page, size).subscribe(
       response=>{
-        console.log(response)
-        this.pageGroupProfile = response;
+        if(response==null){
+          this.isEmpty = true;
+          this.pageGroupProfile = response;
+        }else{
+          this.isEmpty = false;
+          this.pageGroupProfile = response;
+        }
+        this.loading = false;
+        
       },
       error=>{
 
@@ -53,7 +62,21 @@ export class AddRemoveInGroupComponent implements OnInit {
   }
 
   onRemove(groupProfile: GroupProfile){    
-    this.clicked=!this.clicked;
+    let groupProfilesBean: GroupProfilesBean = {
+      groupe: groupProfile.groupuserId?.idgroupes!,
+      profile: groupProfile.profileId?.idProfiles!
+    } 
+    this.listenToLoading();
+    this.apiService.removeProfileToGroup(groupProfilesBean).subscribe(
+      response=>{
+        this.init(0,5);
+
+      },
+      error=>{
+
+      }
+    );
+
   }
 
   onClose(){

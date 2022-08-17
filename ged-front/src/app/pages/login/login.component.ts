@@ -16,6 +16,7 @@ import * as constant from '../../loader/constante';
 export class LoginComponent implements OnInit {
 
   totoo: boolean=false;
+  color = "black";
   loginFormGroup!: FormGroup;
   clicked: boolean=true;
   src: string="http://localhost:3000";

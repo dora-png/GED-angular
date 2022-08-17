@@ -1,6 +1,5 @@
 export * from './docs';
 export * from './droits';
-export * from './droitsBean';
 export * from './groupDroitsBean';
 export * from './groupProfile';
 export * from './groupProfilesBean';
@@ -20,7 +19,6 @@ export * from './pageWorkFlowProfiles';
 export * from './pageableObject';
 export * from './profileStructureBean';
 export * from './profiles';
-export * from './profilesDroitBean';
 export * from './sort';
 export * from './typeDocs';
 export * from './typeLiasses';

@@ -14,7 +14,6 @@ export interface GroupUser {
     idgroupes?: number;
     name?: string;
     sigle?: string;
-    couleur?: string;
     status?: boolean;
     dateCreation?: Date;
 }

@@ -1,1 +1,87 @@
-<p>update-user works!</p>
+<div class="row">
+    <div class="col-md-12" *ngIf="loading;else content" >
+      <mat-card class="loader-container">
+        <app-loader></app-loader>
+      </mat-card>      
+    </div>
+  
+    <ng-template #content>
+      <h2 mat-dialog-title >Profile Droits</h2>
+      <mat-dialog-content class="mat-typography">
+          <div class="row">
+                <div class="col-md-12">
+                <div  class="row">
+                  <div class="col-md-12">
+                    <mat-card>
+                      <div class="row"></div>
+                      <div class="container-fluid">
+                        <div class="row">
+                          <form class="example-form">                  
+                              <div class="row">
+                                  <div class="col-md-5">
+                                      <div>
+                                          <h1> Usel Liste</h1>  
+                                          <div class="example-list" >
+                                              <div class="example-box"  *ngFor="let user of userLists;let indexOfelement=index">
+                                                <span style="font-size:2.5em">
+                                                    <strong> {{ user }}</strong>
+                                                 </span>
+                                              <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                                  <i class="fa fa-plus-circle  fa-2x" (click)="addUserToProfile(user)" aria-hidden="true" *ngIf="!containUser(user)" style="color: #00C851;"></i>
+                                                  <i class="fa fa-minus-circle  fa-2x" (click)="removeUser(user)" aria-hidden="true" *ngIf="containUser(user)" style="color: #ff4444;"></i>
+                                              </button>
+                                              </div>
+                                          </div>
+           <!--                          <div class="row">
+                                      <div class="col-md-12">
+                                        <app-nav-table [pageNumber]="pageDroits?.pageable?.pageNumber!" [first]="pageDroits?.first!" [last]="pageDroits?.last!" [size]="pageDroits?.size!" [totalPages]="pageDroits?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+                                      </div>
+                                    </div> -->
+                                  </div>
+                                </div>       
+                                <div class="col-md-2">
+                                  <br>
+                                  <br>
+                                  <div class="example-list" >
+                                   <div  class="example-box" >                                
+                                          <i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true">
+                                              <strong>ADD</strong> 
+                                          </i>              
+                                   </div>
+                                 </div>
+                              </div>
+                                <div class="col-md-5">
+                                  <h1> Current User</h1>
+                                  <div 
+                                 class="example-list"  
+                                >
+                                    <div class="example-box1">
+                                      <span style="font-size:2.5em">
+                                         <strong> {{ currentUser }}</strong>
+                                      </span>
+
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                          </form> 
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div> 
+                </div>
+            </div>
+          
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+          <button mat-button *ngIf="clicked"><i class='fa fa-spinner fa-spin fa-4x '></i> </button> 
+        <button mat-button (click)="onClose()" *ngIf="!clicked">Cancel</button>
+        <button mat-button (click)="saveProfileUser()" *ngIf="!clicked">Save</button>
+      </mat-dialog-actions> 
+    </ng-template>
+  
+  </div>
+  
+  

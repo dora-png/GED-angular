@@ -1,0 +1,13 @@
+.right{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  
+  
+  .title{
+    flex-grow: 8;
+    padding: 5px;
+    text-align: center;
+  }

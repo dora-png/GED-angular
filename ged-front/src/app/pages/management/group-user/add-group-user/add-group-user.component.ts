@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-//import { GroupUser, GroupUserControllerService } from 'src/app/model';
+import { GroupUser, GroupUserControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-add-group-user',
@@ -11,7 +11,7 @@ import { OpenDialogService } from 'src/app/loader/open-dialog.service';
   styleUrls: ['./add-group-user.component.scss']
 })
 export class AddGroupUserComponent implements OnInit {
-/*
+
   newGroupFormGroup!: FormGroup;
   clicked: boolean= false;
   isEmpty: boolean = true;
@@ -29,14 +29,15 @@ export class AddGroupUserComponent implements OnInit {
     this.newGroupFormGroup = formBuilder.group(
       {
         name: new FormControl(null, [Validators.required, Validators.maxLength(30), Validators.minLength(3)]),
+        sigle: new FormControl(null, [Validators.required, Validators.maxLength(8), Validators.minLength(3)]),
       }
     );
   }
-*/
+
   ngOnInit(): void {
     
   }
- /* get f(): { [key: string]: AbstractControl } {
+  get f(): { [key: string]: AbstractControl } {
     return this.newGroupFormGroup.controls;
   }
   private initGroupBean(): GroupUser{
@@ -44,8 +45,8 @@ export class AddGroupUserComponent implements OnInit {
       idgroupes: undefined,
       name: undefined,
       dateCreation: undefined,
-      posteslistes: undefined,
-      roleslistes: undefined
+      sigle: undefined,
+      status: undefined,
     };
   }
 
@@ -53,6 +54,8 @@ export class AddGroupUserComponent implements OnInit {
     this.clicked=true;
     let body: GroupUser=this.initGroupBean();
     body.name = this.f["name"].value;
+    body.sigle = this.f["sigle"].value;
+    console.log(body)
     this.newGroupFormGroup.reset();
     this.apiService.addGroupUser(body).subscribe(
       res => {
@@ -61,7 +64,8 @@ export class AddGroupUserComponent implements OnInit {
       },
       error => {
         this.toastr.error(error.error.message,"Error");
-        this.f["name"].setValue(""); 
+        this.f["name"].setValue(body.name); 
+        this.f["sigle"].setValue(body.sigle);  
         this.clicked = false;
       }
     );
@@ -72,5 +76,5 @@ export class AddGroupUserComponent implements OnInit {
     this.dialogRef.close(false);
   }
  
-*/
+
 }

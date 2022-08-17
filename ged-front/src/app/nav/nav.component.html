@@ -41,12 +41,24 @@
     </mat-drawer>
     
     <mat-drawer-content >
-      <mat-toolbar style="background-color: aqua;" > 
+      <mat-toolbar [style]="getColor()" > 
         <span  *ngIf="isLogged && onHasRole(constantes.admin)">
           <button mat-button [routerLink]="constantes.manageIndexPath"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
         </span>
         <div class="right">
-          <span class="title">GED</span>
+          <span class="title">  
+            <span *ngIf="!isLogged; else content" style="font-size:1.5em">
+              PAGEGED
+            </span>
+            <ng-template #content>
+              <span style="font-size:1.5em">
+                {{ sigle }}
+              </span>
+              <span style="font-size:0.5em">
+                ({{ name }})
+              </span>
+            </ng-template>
+          </span>
           <span *ngIf="isLogged">
             <button mat-button ><i class="fa fa-bell " aria-hidden="true"><span class="badge">2</span></i></button>
           </span>

@@ -6,7 +6,10 @@ import { OpenDialogService } from 'src/app/loader/open-dialog.service';
 import { PageProfiles, UsersControllerService } from 'src/app/model';
 import { AddRemoveDroitComponent } from '../add-remove-droit/add-remove-droit.component';
 import { AddRemoveInGroupComponent } from '../add-remove-in-group/add-remove-in-group.component';
+import { AddUserComponent } from '../add-user/add-user.component';
 import { ProfilComponent } from '../profil/profil.component';
+import { UpdateNameComponent } from '../update-name/update-name.component';
+import { UpdateUserComponent } from '../update-user/update-user.component';
 export interface UserPoste {  
   idStructure?: number,
   idProfile?: number,
@@ -47,6 +50,16 @@ export class ListUserComponent implements OnInit {
         this.initData(0,5);
     //  }, 5000)
       
+    }
+
+    newProfile(){
+      this.openDialogService.openDialog(AddUserComponent)
+                            .afterClosed()
+                            .subscribe(result => {
+                              if(result){
+                                this.refresf();
+                              }
+                            });
     }
   
     private listenToLoading(): void {
@@ -125,8 +138,36 @@ export class ListUserComponent implements OnInit {
       )
     }
     
-    openDialogProfilDroit(user: UserPoste) {
+   /* openDialogProfilDroit(user: UserPoste) {
       this.openDialogService.openDialog(AddRemoveDroitComponent, user.idProfile);
+    }*/
+
+    openDialogUpdateName(user: UserPoste){
+      let profileInfos = {
+        idProfile: user.idProfile,
+        nameProfile: user.profileName
+      }
+      this.openDialogService.openDialog(UpdateNameComponent, profileInfos)
+                            .afterClosed()
+                            .subscribe(result => {
+                              if(result){
+                                this.refresf();
+                              }
+                            });
+    }
+
+    openDialogUpdateUser(user: UserPoste){
+      let profileInfos = {
+        idProfile: user.idProfile,
+        userNameProfile: user.userName
+      }
+      this.openDialogService.openDialog(UpdateUserComponent, profileInfos)
+                            .afterClosed()
+                            .subscribe(result => {
+                              if(result){
+                                this.refresf();
+                              }
+                            });
     }
 
     openDialogGroupProfil(user: UserPoste) {

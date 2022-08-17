@@ -23,6 +23,15 @@ export class AuthenticationService {
     private login : string = "";
     loginSubject = new Subject<string >();
 
+    private color : string = "aqua";
+    colorSubject = new Subject<string >(); 
+
+    private name : string = "";
+    nameSubject = new Subject<string >();
+
+    private sigle : string = "";
+    sigleSubject = new Subject<string >();
+
     constructor(private localDaoService: LocalDaoService, private route: Router,    
         private toastr: ToastrService) {
         this.isUserConnected = false;
@@ -44,6 +53,17 @@ export class AuthenticationService {
         this.loginSubject.next(this.login);
     }
 
+    emitColor(){
+        this.colorSubject.next(this.color);
+    }
+
+    emitName(){
+        this.nameSubject.next(this.name);
+    }
+
+    emitSigle(){
+        this.sigleSubject.next(this.sigle);
+    }
     logout() {
         this.localDaoService.removeData(constant.currentEmployee);
         this.isUserConnected = false;
@@ -55,6 +75,12 @@ export class AuthenticationService {
         this.route.navigate([constant.loginPath]);
         this.login = "";
         this.emitLogin();
+        this.color = "aqua";
+        this.emitColor();
+        this.name = "";
+        this.emitName();
+        this.sigle = "";
+        this.emitSigle();
     }
     
 
@@ -104,6 +130,9 @@ export class AuthenticationService {
             const helper = new JwtHelperService();
             const decodedUserToken = helper.decodeToken(token);
             this.setlogin(decodedUserToken.sub);
+            this.setcolor(decodedUserToken.color);
+            this.setname(decodedUserToken.name);            
+            this.setsigle(decodedUserToken.sigle);
             return true;
     }
 
@@ -121,6 +150,21 @@ export class AuthenticationService {
     private setlogin(login: string){
         this.login=login;
         this.emitLogin();
+    }
+
+    private setcolor(color: string){
+        this.color=color;
+        this.emitColor();
+    }
+
+    private setname(name: string){
+        this.name=name;
+        this.emitName();
+    }
+
+    private setsigle(sigle: string){
+        this.sigle=sigle;
+        this.emitSigle();
     }
 
     getRoles(role: string): boolean{
