@@ -9,12 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Structures } from './structures';
 
 export interface Profiles { 
     name?: string;
     currentUser?: string;
     typeprofil?: Profiles.TypeprofilEnum;
     status?: boolean;
+    structure?: Structures;
     dateCreation?: Date;
     idProfiles?: number;
 }

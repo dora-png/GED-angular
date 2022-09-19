@@ -1,0 +1,310 @@
+<br />
+<br />
+<div class="row">
+    <div class="col-md-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel hideToggle [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mes sites
+            </mat-panel-title>
+            <mat-panel-description>
+              <span></span>
+              <i class="fa fa-question" aria-hidden="true"></i>          
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+        <div class="row">
+            <div class="col-md-12">
+                <mat-toolbar [style]="'black'" style="height: 36px; font-size: 15px;"> 
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="sitesall">Tout<span class="caret"></span></i>
+                        <mat-menu #sitesall="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Tout</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Reçents</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Favoris</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                    <div class="right">
+                      <span class="title"></span>
+                      <span >
+                        <i class="fa fa-globe" aria-hidden="true"></i> Créer un site
+                      </span>
+                    </div>
+                  </mat-toolbar>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table">
+                  <tr>
+                      <td style="width: 50px;">
+                          <i class="fa fa-globe   fa-3x" aria-hidden="true"></i>
+                      </td>
+                      <td>
+                          <div>
+                              <span style="font-size:1.0em">
+                                  Site
+                                </span>
+                                <span style="font-size:0.5em">
+                                  (Description)
+                                </span>
+                          </div>
+                      </td>
+                      <td>
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                      </td>
+                  </tr>
+  
+              </table>
+            </div>
+          </div>
+      </div>
+      
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="col-md-8">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel hideToggle [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mes activites
+            </mat-panel-title>
+            <mat-panel-description>
+              <span></span>
+              <span>
+                <i class="fa fa-rss-square" aria-hidden="true"></i>
+                <i class="fa fa-question" aria-hidden="true"></i>
+              </span>          
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+        <div class="row">
+            <div class="col-md-12">
+                <mat-toolbar [style]="'black'" style="height: 36px; font-size: 15px;"> 
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="activities">Les activites de tous<span class="caret"></span></i>
+                        <mat-menu #activities="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Mes activites</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Les activites de tous les autres</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Les activites de tous</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Suivis par moi</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="element">Tous les elements<span class="caret"></span></i>
+                        <mat-menu #element="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Tous les elements</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Commentaires</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Contenu</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Appartenances</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="datehistoric">Au cours des 7 dernniers jours<span class="caret"></span></i>
+                        <mat-menu #datehistoric="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Aujourd'hui</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Au cours des 7 dernniers jours</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Au cours des 14 dernniers jours</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Au cours des 28 dernniers jours</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                  </mat-toolbar>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table">
+                  <tr>
+                      <td style="width: 50px;">
+                          <i class="fa fa-globe   fa-3x" aria-hidden="true"></i>
+                      </td>
+                      <td>
+                          <div>
+                              <span style="font-size:1.0em">
+                                  Site
+                                </span>
+                                <span style="font-size:0.5em">
+                                  (Description)
+                                </span>
+                          </div>
+                      </td>
+                      <td>
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                      </td>
+                  </tr>
+  
+              </table>
+            </div>
+          </div>
+      </div>
+      
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel hideToggle [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mes taches
+            </mat-panel-title>
+            <mat-panel-description>
+              <span></span>
+              <i class="fa fa-question" aria-hidden="true"></i>          
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+        <div class="row">
+            <div class="col-md-12">
+                <mat-toolbar [style]="'black'" style="height: 36px; font-size: 15px;"> 
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="taches">Taches actives<span class="caret"></span></i>
+                        <mat-menu #taches="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches actives</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches achevés</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches de priorite elevées</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches pour aujourd'hui</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches assignées a moi</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches partagées (Non assignées)</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Taches en retard</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                    <div class="right">
+                      <span class="title"></span>
+                      <span >
+                        <i class="fa fa-sitemap" aria-hidden="true"></i> Demarrer un workflow
+                      </span>
+                    </div>
+                </mat-toolbar>
+                <mat-toolbar [style]="'black'" style="height: 36px; font-size: 15px;"> 
+                  <div class="right">
+                    <span class="title"></span>
+                    <button mat-button >
+                      <i class="fa" aria-hidden="true"></i> Taches actives
+                    </button>
+                    |
+                    <button mat-button>
+                      <i class="fa" aria-hidden="true"></i> Tackes achevées
+                    </button>
+                  </div>
+              </mat-toolbar>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table">
+                  <tr>
+                      <td style="width: 50px;">
+                          <i class="fa fa-globe   fa-3x" aria-hidden="true"></i>
+                      </td>
+                      <td>
+                          <div>
+                              <span style="font-size:1.0em">
+                                  Site
+                                </span>
+                                <span style="font-size:0.5em">
+                                  (Description)
+                                </span>
+                          </div>
+                      </td>
+                      <td>
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                      </td>
+                  </tr>
+  
+              </table>
+            </div>
+          </div>
+      </div>
+      
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="col-md-8">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel hideToggle [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mes documents
+            </mat-panel-title>
+            <mat-panel-description>
+              <span></span>
+              <span>
+                <i class="fa fa-question" aria-hidden="true"></i>
+              </span>          
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+        <div class="row">
+            <div class="col-md-12">
+                <mat-toolbar [style]="'black'" style="height: 36px; font-size: 15px;"> 
+                    <span >
+                      <a mat-button >
+                        <i class="fa" aria-hidden="true" [matMenuTriggerFor]="documents">Modifiés par moi<span class="caret"></span></i>
+                        <mat-menu #documents="matMenu">
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Recemment modifies par moi</i>   </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Modifiés par moi</i>  </button>
+                          <button mat-menu-item ><i class="fa" aria-hidden="true">Mes favoris</i>  </button>
+                        </mat-menu>
+                      </a>
+                    </span>
+                    <div class="right">
+                      <span class="title"></span>
+                      <span >
+                        <i class="fa fa-list-alt" aria-hidden="true"></i>                      
+                        <i class="fa fa-th-large" aria-hidden="true"></i> 
+                      </span>
+                    </div>
+                  </mat-toolbar>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table">
+                  <tr>
+                      <td style="width: 50px;">
+                          <i class="fa fa-globe   fa-3x" aria-hidden="true"></i>
+                      </td>
+                      <td>
+                          <div>
+                              <span style="font-size:1.0em">
+                                  Site
+                                </span>
+                                <span style="font-size:0.5em">
+                                  (Description)
+                                </span>
+                          </div>
+                      </td>
+                      <td>
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                      </td>
+                  </tr>
+  
+              </table>
+            </div>
+          </div>
+      </div>
+      
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>

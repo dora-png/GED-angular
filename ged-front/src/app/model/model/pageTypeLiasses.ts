@@ -14,8 +14,8 @@ import { Sort } from './sort';
 import { TypeLiasses } from './typeLiasses';
 
 export interface PageTypeLiasses { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<TypeLiasses>;
     number?: number;

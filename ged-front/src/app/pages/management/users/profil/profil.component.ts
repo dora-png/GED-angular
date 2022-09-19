@@ -1,21 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { LoaderService } from 'src/app/loader/loader.service';
-import {  UsersControllerService, DroitsControllerService, } from 'src/app/model';
+import { OpenDialogService } from 'src/app/loader/open-dialog.service';
+import {  UsersControllerService, DroitsControllerService, Profiles, GroupUserControllerService, GroupUser } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
-
-export interface UserPoste {
-  idStructure?: number,
-  idProfile?: number,
-  profileName?: string,
-  userName?: string,
-  status?: boolean,
-  directionName?: string,
-  directionSigle?: string
-} 
+import { ProfilGroupComponent } from '../profil-group/profil-group.component';
+import { ProfilStructureComponent } from '../profil-structure/profil-structure.component';
+import { ProfilUserComponent } from '../profil-user/profil-user.component';
+interface TypeProfile {
+  value: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-profil',
@@ -24,25 +24,98 @@ export interface UserPoste {
 })
 export class ProfilComponent implements OnInit {
 
-  editable: boolean = false;  
+  newProfileFormGroup!: FormGroup;
+  editable: boolean = false;   
+  edit : boolean = false; 
   loading: boolean = false;
   isEmpty: boolean = true;
-  userData!: UserPoste;
+  profiles!: Profiles;
+  private data!: Profiles;
+  groupUser!: GroupUser;
+  private dataGroupUser!: GroupUser;
+  valid: boolean= false;
+  touched: boolean= false;
+  typeProfiles: TypeProfile[] = [
+    {value: Profiles.TypeprofilEnum.EXTERNACTOR, name: "Utilisateur Externe"},
+    {value: Profiles.TypeprofilEnum.INTERNACTOR, name: "Utilisateur Interne"},
+  ];
+
 
   constructor(  
     private loaderService: LoaderService,
-    @Inject(MAT_DIALOG_DATA) private data: any,    
+    private route: ActivatedRoute,   
+    private router: Router,  
     private apiService: UsersControllerService, 
-    private apiServiceDroit: DroitsControllerService,
+    private apiServiceGroup: GroupUserControllerService,
+    private openDialogService: OpenDialogService,
+    private formBuilder: FormBuilder,  
     private toastr: ToastrService ,
-    private auth: AuthenticationService,
-    private dialogRef:  MatDialogRef<ProfilComponent>
-    ) { }
+    private auth: AuthenticationService
+    ) { 
+      this.newProfileFormGroup = this.formBuilder.group(
+        {
+          name: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
+          typeprofile: new FormControl(null, Validators.required),
+        }
+      );      
+    }
 
   ngOnInit(): void {
+    let id: number = this.route.snapshot.params['id'];
     this.editable = this.onHasRole(constante.admin);
-    this.initData();
-    
+    this.initData(id);
+  }
+
+  setUser(){
+    this.openDialogService.openDialog(ProfilUserComponent, this.profiles.currentUser!)
+    .afterClosed()
+    .subscribe(result => {
+      if(result != null){
+        this.profiles.currentUser = result;                       
+      }else{
+      }
+    });
+  }
+
+  private initUser(): string {
+    return this.data.currentUser!;
+  }
+
+  private initGroup():GroupUser{
+    return this.dataGroupUser;
+  }
+
+  setGroup(){    
+    this.openDialogService.openDialog(ProfilGroupComponent, this.groupUser)
+                            .afterClosed()
+                            .subscribe(result => {
+                              if(result != null){
+                                this.groupUser = result;                    
+                              }else{
+                              }
+                            });
+  }
+
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.newProfileFormGroup.controls;
+  }
+
+  onChangeInput(event: any){
+    if(this.isEmpty==false && this.newProfileFormGroup.valid){
+     // this.valid = true;
+    }else{
+      //this.valid = false;
+    }
+  }
+
+  onSet(): boolean{
+    this.edit = !this.edit;
+    return this.edit;
+  }
+
+  private getProfiles(): Profiles{
+    return this.data;
   }
 
   private onHasRole(role:string): boolean{
@@ -50,84 +123,100 @@ export class ProfilComponent implements OnInit {
   }
 
   setSatus(){
-    this.listenToLoading();
-    this.apiService.setProfileStatus(this.userData.idProfile!).subscribe(
-      response =>{
-        this.userData.status = !this.userData.status;
-      },
-      error=>{
-
-      }
-    );
+    this.profiles.status = !this.profiles.status;
   }
 
 
-  private listenToLoading(): void {
-    this.loaderService.getSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
+  private initGroupData():GroupUser{
+    return this.dataGroupUser;
   }
 
-  /*private getDroit(){
-    this.apiServiceDroit.findAllDroitUser(this.data.user).subscribe(
-      response=>{
-        this.pageDroits = response;
-      },
-      error=>{
 
-      }
-    );
-  }*/
 
-  private initData(){
-    this.listenToLoading();
-    this.apiService.findUserById(this.data.user).subscribe(
+  private initData(id: number){
+    this.loading = true;
+    this.apiService.findUserById(id).subscribe(
       response=>{
-        this.isEmpty=false;
-        this.listenToLoading();
-        this.apiService.currentStructure(response.idProfiles!).subscribe(
-          resp=>{
-            if(response.currentUser==null)
-              response.currentUser = "empty";
-            if(resp==null){
-              this.userData = {
-                idStructure: undefined,
-                  idProfile:response.idProfiles!,
-                  profileName:response.name!,
-                  userName: response.currentUser!,
-                  status: response.status!,
-                  directionName: "undefined",
-                  directionSigle: "undefined"
-              };
-            }else{
-              this.userData = {
-                idStructure: resp.idStructure!,
-                idProfile:response.idProfiles!,
-                profileName:response.name!,
-                userName: response.currentUser!,
-                status: response.status!,
-                directionName: resp.name!,
-                directionSigle: resp.sigle!
-              };
-             
+        if(response==null){
+          this.toastr.info("Profiles don't exist", "Infos");
+          this.router.navigate(["manage/users"]);
+
+        }else{
+          this.isEmpty=false;
+          this.data = response;
+          this.f["name"].setValue(this.data.name!);     
+          this.f["typeprofile"].setValue(this.data.typeprofil!);
+          this.profiles = this.getProfiles();
+          this.apiServiceGroup.findGroupOfProfile(response.idProfiles!).subscribe(
+            resp=>{
+              if(resp==null){
+                this.groupUser = this.initGroup();
+              }else{
+                this.dataGroupUser = resp;
+                this.groupUser = this.initGroupData();
+              }
+              this.loading = false;
+            },
+            error=>{  
+              this.loading = false;
             }
-           // this.getDroit();
-          },
-          error=>{  
-          }
-        );
+          );
+        }
+        
       },
       error=>{
+        this.loading = false;
         this.toastr.info(error.error.message, "Infos");
-        this.dialogRef.close(false);
+        //this.dialogRef.close(false);
       }
     );
   }
 
+  onTouch(){
+    this.touched = true;
+  }
+
+  onValidData() :boolean{
+    if(this.newProfileFormGroup.valid){
+      if(this.profiles.currentUser != this.initUser()){
+        return false;
+      }
+      if(this.groupUser.idgroupes != this.initGroup().idgroupes){
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private updateProfile(body: Profiles, idlastGroupUser: number, idgroupuser: number ){
+    this.apiService.setProfile(body, idlastGroupUser, idgroupuser).subscribe(
+      response=>{        
+        this.toastr.success("", "Uptated");
+        this.router.navigate(['/manage/users']);
+
+      }, error=>{
+        this.toastr.error(error.error.message, "Error");
+      }
+
+    );
+  }
+
+  onSave(){
+    let body: Profiles =this.profiles;
+    let idlastGroupUser: number = this.dataGroupUser.idgroupes!;
+    let idgroupuser: number = this.groupUser.idgroupes!;
+    if(this.f["typeprofile"].value === Profiles.TypeprofilEnum.EXTERNACTOR){
+      body.typeprofil = Profiles.TypeprofilEnum.EXTERNACTOR;
+      this.updateProfile(body, idlastGroupUser, idgroupuser);
+    }else if(this.f["typeprofile"].value === Profiles.TypeprofilEnum.INTERNACTOR){
+      body.typeprofil = Profiles.TypeprofilEnum.INTERNACTOR;
+      this.updateProfile(body, idlastGroupUser, idgroupuser);
+    }
+    
+  }
   onClose(){
-    this.dialogRef.close(this.editable);
+   // this.dialogRef.close(this.editable);
   }
 
 }

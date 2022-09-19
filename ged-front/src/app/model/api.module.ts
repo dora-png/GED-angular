@@ -7,7 +7,10 @@ import { DocsControllerService } from './api/docsController.service';
 import { DroitsControllerService } from './api/droitsController.service';
 import { GroupUserControllerService } from './api/groupUserController.service';
 import { HomeResourceService } from './api/homeResource.service';
+import { LogPosteUserControllerService } from './api/logPosteUserController.service';
 import { LoginControllerService } from './api/loginController.service';
+import { PosteControllerService } from './api/posteController.service';
+import { StructureControllerService } from './api/structureController.service';
 import { TypeDocsControllerService } from './api/typeDocsController.service';
 import { TypeLiasseControllerService } from './api/typeLiasseController.service';
 import { UsersControllerService } from './api/usersController.service';
@@ -22,7 +25,10 @@ import { WorkFlowControllerService } from './api/workFlowController.service';
     DroitsControllerService,
     GroupUserControllerService,
     HomeResourceService,
+    LogPosteUserControllerService,
     LoginControllerService,
+    PosteControllerService,
+    StructureControllerService,
     TypeDocsControllerService,
     TypeLiasseControllerService,
     UsersControllerService,

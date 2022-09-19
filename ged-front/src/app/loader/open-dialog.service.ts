@@ -15,10 +15,10 @@ export class OpenDialogService {
   openDialog(component: ComponentType<unknown>, data?: any) {
     let dialogConfig = new MatDialogConfig();    
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth="auto";
+    dialogConfig.minWidth="90%";
     dialogConfig.maxHeight="100%";
     dialogConfig.maxHeight="100%";
-    dialogConfig.minHeight="auto";
+    dialogConfig.minHeight="100%";
     dialogConfig.data=data;    
     const dialogRef = this.dialog.open(component,dialogConfig);
     return dialogRef;

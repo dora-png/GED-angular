@@ -14,8 +14,8 @@ import { Profiles } from './profiles';
 import { Sort } from './sort';
 
 export interface PageProfiles { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<Profiles>;
     number?: number;

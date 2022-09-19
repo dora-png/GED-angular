@@ -1,45 +1,234 @@
-<!-- <h2 mat-dialog-title>Informations about {{nameGroup}}</h2>
-<mat-dialog-content class="mat-typography">
-    <form [formGroup]="newGroupFormGroup" class="example-form">
-        <div class="row">
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Groupe Name</mat-label>
-                    <input formControlName="name" name="name" id="name" readonly matInput>
-                </mat-form-field>
-            </div>
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Group date creation</mat-label>
-                    <input [ngModel]="date | date: 'd/MMMM/y'" [ngModelOptions]="{standalone: true} " id="sigle" readonly matInput>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <mat-tab-group animationDuration="2000ms">
-                    <mat-tab label="Liste des Postes" *ngIf="posteslistesEmpty">
-                        <div class="example-list" >
-                            <div class="example-box" *ngFor="let poste of posteslistesList">
-                             {{poste.name!}}
-                            </div>
-                        </div>
-                    </mat-tab>
-                    <mat-tab label="Liste des roles" *ngIf="roleslistesEmpty">
-                        <div class="example-list" >
-                            <div class="example-box" *ngFor="let role of roleslistesList">
-                             {{role.name!}}
-                            </div>
-                        </div>
-                    </mat-tab>
-                  </mat-tab-group>
-                
-            </div>
-        </div>
-    </form>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-12" *ngIf="loading;else content" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
+  </div>
+  <ng-template #content>
+    <div class="col-md-12">
+      <div class="container-fluid" *ngIf="!edit">
+        <div class="main-body">
+              <div class="row gutters-sm">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      
+                      <div class="row">
+                        <div class="col-sm-12">                           
+                          <mat-tab-group color="primary">
+                            <mat-tab label=" Group User Infos">
+                              <ng-template matTabContent>
+                                <div class="container-fluid">
+                                  <br>
+                                  <div class="row" *ngIf="editable">
+                                    <div class="col-sm-3" *ngIf="!editGroup">
+                                      <button class="btn btn-info btn-lg" (click)="onSetGroup()">Edit</button>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <div *ngIf="!editGroup">                                    
+                                    <div class="row">
+                                      <div class="col-sm-3">
+                                        <label>GroupUser Name: </label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary">
+                                        {{groupUser?.name}}
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                      <div class="col-sm-3">
+                                          <label>GroupUser Sigle: </label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                          {{groupUser?.sigle}}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div *ngIf="editGroup">
+                                    <form [formGroup]="newGroupFormGroup" class="row gutters-sm">
+                                      <div class="col-md-12">
+                                        <div class="card mb-3">
+                                          <div class="card-body">
+                                            <div class="row gutters">
+                                              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <label class="mb-2 text-primary">Update Name & Sigle</label>
+                                              </div>
+                                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <label for="name">GroupUser Name
+                                                        <mat-error *ngIf="f['name'].touched && f['name'].errors">
+                                                          {{f["name"].errors|json}}
+                                                        </mat-error>
+                                                      </label>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <input type="text" autocomplete="off" class="form-control"(keyup)="onChangeInput($event)"  formControlName="name" name="name" id="name" required>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <label for="sigle">GroupUser Sigle
+                                                        <mat-error *ngIf="f['sigle'].touched && f['sigle'].errors">
+                                                          {{f["sigle"].errors|json}}
+                                                        </mat-error>
+                                                      </label>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <input type="text" autocomplete="off" class="form-control"(keyup)="onChangeInput($event)"  formControlName="sigle" name="sigle" id="sigle" required>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            
+                                            <div class="row gutters">
+                                              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <div class="text-right">
+                                                  <button type="button" id="submit" name="submit" class="btn btn-secondary" (click)="onSetGroup()">Cancel</button>
+                                                  <button type="button" id="submit" name="submit" class="btn btn-success" (click)="onSave()">Update</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                              
+                              
+                                      </div>
+                                    </form> 
+                                  </div>
+                                  <br>
+                                  <br>
+                              </div> 
+                              </ng-template>
+                            </mat-tab>
+                            <mat-tab label=" List of Profiles ">
+                              <ng-template matTabContent>
+                                <div class="container-fluid">  
+                                  <br>
+                                  <div class="row" *ngIf="editable">
+                                    <div class="col-sm-3" *ngIf="!editProfileList">
+                                      <a class="btn btn-info btn-lg" (click)="setProfile()">Edit</a>
+                                    </div>
+                                  </div>
+                                  <br>                                
+                                <div class="row container-fluid" >
+                                  <div class="col-sm-12 text-secondary"  *ngIf="loadingProfile;else content1" >
+                                    <mat-card class="loader-container">
+                                      <app-loader></app-loader>
+                                    </mat-card>                           
+                                  </div>
+                                  <ng-template #content1>
+                                    <div class="row">
+                                      <mat-progress-bar mode="indeterminate" *ngIf="loadingProfile1" color="warn"></mat-progress-bar>
+                                      <div class="col-md-12" *ngIf="isPageProfilessEmpty" class="container-fluid">
+                                        <app-list-empty ></app-list-empty>
+                                      </div>
+                                      <div class="col-md-12"  *ngIf="!isPageProfilessEmpty">
+                                        <div>
+                                          <h1  style="text-align:center;">Liste of current Profiles</h1>  
+                                          <div class="example-list container-fluid"  >
+                                              <div class="example-box"  *ngFor="let profile of pageProfiles?.content;let indexOfelement=index">
+                                                <span style="font-size:1.5em">
+                                                    <strong> {{ profile.name }} ({{profile.currentUser}})</strong>
+                                                 </span>
+                                              </div>
+                                          </div>
+                                      <div class="row">
+                                        <div  class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                                          <app-nav-table [pageNumber]="pageProfiles?.pageable?.pageNumber!" [first]="pageProfiles?.first!" [last]="pageProfiles?.last!" [size]="pageProfiles?.size!" [totalPages]="pageProfiles?.totalPages!" (changePageAndSize)="changePageAndSizeProfile($event)"></app-nav-table>              
+                                        </div>
+                                      </div>
+                                    </div>
+                                      </div>
+                                    </div>
+                                  </ng-template>
+                                </div>
+                                <br>
+                              </div> 
+                              </ng-template>
+                            </mat-tab>
+                            <mat-tab label=" List of Droits "> 
+                              <ng-template matTabContent>
+                                <div class="container-fluid">
+                                  <br>
+                                  <div class="row" *ngIf="editable">
+                                    <div class="col-sm-3" *ngIf="!editDroitList">
+                                      <a class="btn btn-info btn-lg" (click)="setDroit()">Edit</a>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <div class="row container-fluid" >
+                                    <div class="col-sm-12 text-secondary"  *ngIf="loadingDroit;else content11" >
+                                      <mat-card class="loader-container">
+                                        <app-loader></app-loader>
+                                      </mat-card>                           
+                                    </div>
+                                    <ng-template #content11>
+                                      <div class="row">
+                                        <mat-progress-bar mode="indeterminate" *ngIf="loadingDroit1" color="warn"></mat-progress-bar>
+                                        <div class="col-md-12" *ngIf="isPageDroitsEmpty">
+                                          <app-list-empty ></app-list-empty>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="!isPageDroitsEmpty">
+                                            <div>
+                                                <h1  style="text-align:center;">Liste of current Droit</h1>  
+                                                <div class="example-list container-fluid"  >
+                                                    <div class="example-box"  *ngFor="let droit of pageDroits?.content;let indexOfelement=index">
+                                                      <span style="font-size:1.5em">
+                                                          <strong> {{ droit.description }}</strong>
+                                                       </span>
+                                                    </div>
+                                                </div>
+                                            <div class="row">
+                                              <div  class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                                                <app-nav-table [pageNumber]="pageDroits?.pageable?.pageNumber!" [first]="pageDroits?.first!" [last]="pageDroits?.last!" [size]="pageDroits?.size!" [totalPages]="pageDroits?.totalPages!" (changePageAndSize)="changePageAndSizeDroit($event)"></app-nav-table>              
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>                                          
+                                    </div>
+                                    
+                                    </ng-template>
+                                  </div>
+                                  <br>
+                                </div> 
 
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button  (click)="onClose()" cdkFocusInitial>Cancel</button>
-</mat-dialog-actions>
- -->
+                                  
+                              </ng-template>
+                            </mat-tab>
+                          </mat-tab-group>   
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+      
+      
+                </div>
+              </div>
+      
+            </div>
+        </div>
+      
+      
+    </div>
+  </ng-template>
+</div>

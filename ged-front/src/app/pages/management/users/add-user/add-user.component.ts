@@ -2,9 +2,15 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
-import { UsersControllerService, Profiles,  } from 'src/app/model';
+import { OpenDialogService } from 'src/app/loader/open-dialog.service';
+import { UsersControllerService, Profiles, GroupUserControllerService, PageGroupUser, GroupUser, StructureControllerService, PageStructures, Structures  } from 'src/app/model';
+import { ProfilGroupComponent } from '../profil-group/profil-group.component';
+import { ProfilStructureComponent } from '../profil-structure/profil-structure.component';
+import { ProfilUserComponent } from '../profil-user/profil-user.component';
 
 interface TypeProfile {
   value: string;
@@ -18,22 +24,29 @@ interface TypeProfile {
 })
 export class AddUserComponent implements OnInit {
   newProfileFormGroup!: FormGroup;
+  clickedOnSetUser: boolean= false;
   clicked: boolean= false;
   isEmpty: boolean= true;
+  isEmptyGroup: boolean= true;
   valid: boolean= false;
   touched: boolean= false;
   selectedValue: string | undefined;
-  
+  userLists!: string[];
+  groupUser!:GroupUser;  
+  structure!:Structures;
+  currentUser: string = "None" ;
+  loading: boolean = true;
   typeProfiles: TypeProfile[] = [
-    {value: Profiles.TypeprofilEnum.EXTERNACTOR, name: Profiles.TypeprofilEnum.EXTERNACTOR},
-    {value: Profiles.TypeprofilEnum.INTERNACTOR, name: Profiles.TypeprofilEnum.INTERNACTOR},
+    {value: Profiles.TypeprofilEnum.EXTERNACTOR, name: "Utilisateur Externe"},
+    {value: Profiles.TypeprofilEnum.INTERNACTOR, name: "Utilisateur Interne"},
   ];
   constructor(
-    private loaderService: LoaderService,
-    private apiService: UsersControllerService,    
+    private loaderService: LoaderService, 
     private toastr: ToastrService,
-    private formBuilder: FormBuilder,
-    private dialogRef:  MatDialogRef<AddUserComponent>
+    private apiService: UsersControllerService,
+    private openDialogService: OpenDialogService,
+    private formBuilder: FormBuilder,    
+    private router: Router
   ) { 
     this.newProfileFormGroup = formBuilder.group(
       {
@@ -42,7 +55,86 @@ export class AddUserComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {   
+    this.groupUser = this.initGroup();
+    this.structure = this.initStructure();
+    this.currentUser = this.initUser();
+  }
+
+  setStructure(){
+    this.openDialogService.openDialog(ProfilStructureComponent, this.structure)
+    .afterClosed()
+    .subscribe(result => {
+      if(result != null){
+        this.structure = result;                                
+      }else{
+        this.structure = this.initStructure();
+      }
+    });
+  }
+  
+  setUser(){
+    this.openDialogService.openDialog(ProfilUserComponent, this.currentUser)
+    .afterClosed()
+    .subscribe(result => {
+      if(result != null){
+        this.currentUser = result;                                
+      }else{
+        this.currentUser = this.initUser();
+      }
+    });
+  }
+  private initUser(): string {
+    return 'Empty'
+  }
+
+  private initGroup():GroupUser{
+    return{
+        idgroupes:0,
+        dateCreation: undefined,
+        name: undefined,
+        sigle: undefined,
+        status: undefined,
+    };
+  }
+
+  setGroup(){    
+    this.openDialogService.openDialog(ProfilGroupComponent, this.groupUser)
+                            .afterClosed()
+                            .subscribe(result => {
+                              if(result != null){
+                                this.groupUser = result;                                
+                              }else{
+                                this.groupUser = this.initGroup();
+                              }
+                            });
+  }
+
+  private initStructure():Structures{
+    return{
+        idstructure:0,
+        dateCreation: undefined,
+        name: undefined,
+        sigle: undefined,
+        active: undefined,
+        color: undefined,
+        description: undefined,
+        postes: undefined,
+        profiles: undefined,
+        sousStructure: undefined,
+        structureSuperieur: undefined,
+    };
+  }
+
+  private listenToLoading(): void {
+    this.loaderService.getSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
+  }
+
+  changePageAndSize(event: any){
   }
   
   get f(): { [key: string]: AbstractControl } {
@@ -57,24 +149,25 @@ export class AddUserComponent implements OnInit {
       status: undefined,
       dateCreation: undefined,
       idProfiles: undefined,
+      structure: undefined
     };
   }
-  onClose(){
-    this.closeModal(false);
-  }
 
-  private closeModal(value: boolean){
-    this.dialogRef.close(value);
-  }
+  
+  
+
   private addProfile(body: Profiles){
-    this.apiService.addUsers(body).subscribe(
+    this.apiService.addUsers(body =body, this.structure!.idstructure!, this.groupUser.idgroupes! ).subscribe(
       response => {
         this.toastr.success("true","Create");
-        this.closeModal(true);
+        this.router.navigate(['manage/users']);
+        this.clicked = false;
       },
       error => {
-        this.toastr.error("","Error");
+        console.log(error)
+        this.toastr.info("Profile create without group user","Warning");
         this.clicked = false;
+        this.router.navigate(['manage/users']);
       }
     );
   }
@@ -82,6 +175,7 @@ export class AddUserComponent implements OnInit {
     this.clicked=true;
     let body: Profiles=this.initProfileBean();
     body.name = this.f["name"].value;
+    body.currentUser = this.currentUser;
     if(this.selectedValue === Profiles.TypeprofilEnum.EXTERNACTOR){
       body.typeprofil = Profiles.TypeprofilEnum.EXTERNACTOR;
       this.addProfile(body);
@@ -95,6 +189,19 @@ export class AddUserComponent implements OnInit {
 
   onTouch(){
     this.touched = true;
+  }
+
+  onValidData() :boolean{
+    if(this.newProfileFormGroup.valid){
+      if(this.structure.idstructure != this.initStructure().idstructure){
+        if(this.currentUser != this.initUser()){
+          if(this.groupUser.idgroupes != this.initGroup().idgroupes){
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   onChange(event: string){
@@ -112,5 +219,6 @@ export class AddUserComponent implements OnInit {
       this.valid = false;
     }
   }
+
   
 }

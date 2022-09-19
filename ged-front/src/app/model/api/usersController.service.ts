@@ -117,16 +117,31 @@ export class UsersControllerService {
      * 
      * 
      * @param body 
+     * @param idstructure 
+     * @param idgroupuser 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addUsers(body: Profiles, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addUsers(body: Profiles, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addUsers(body: Profiles, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addUsers(body: Profiles, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addUsers(body: Profiles, idstructure: number, idgroupuser?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addUsers(body: Profiles, idstructure: number, idgroupuser?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addUsers(body: Profiles, idstructure: number, idgroupuser?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addUsers(body: Profiles, idstructure: number, idgroupuser?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addUsers.');
+        }
+
+        if (idstructure === null || idstructure === undefined) {
+            throw new Error('Required parameter idstructure was null or undefined when calling addUsers.');
+        }
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idstructure !== undefined && idstructure !== null) {
+            queryParameters = queryParameters.set('idstructure', <any>idstructure);
+        }
+        if (idgroupuser !== undefined && idgroupuser !== null) {
+            queryParameters = queryParameters.set('idgroupuser', <any>idgroupuser);
         }
 
         let headers = this.defaultHeaders;
@@ -152,6 +167,7 @@ export class UsersControllerService {
         return this.httpClient.request<any>('post',`${this.basePath}/profile/create`,
             {
                 body: body,
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -210,19 +226,84 @@ export class UsersControllerService {
     /**
      * 
      * 
+     * @param status 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllProfiles(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageProfiles>;
-    public findAllProfiles(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageProfiles>>;
-    public findAllProfiles(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageProfiles>>;
-    public findAllProfiles(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllProfiles(status: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageProfiles>;
+    public findAllProfiles(status: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageProfiles>>;
+    public findAllProfiles(status: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageProfiles>>;
+    public findAllProfiles(status: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (status === null || status === undefined) {
+            throw new Error('Required parameter status was null or undefined when calling findAllProfiles.');
+        }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageProfiles>('get',`${this.basePath}/profile/all`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param idProfile 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllProfilesToAddInPoste(idProfile: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageProfiles>;
+    public findAllProfilesToAddInPoste(idProfile: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageProfiles>>;
+    public findAllProfilesToAddInPoste(idProfile: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageProfiles>>;
+    public findAllProfilesToAddInPoste(idProfile: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (idProfile === null || idProfile === undefined) {
+            throw new Error('Required parameter idProfile was null or undefined when calling findAllProfilesToAddInPoste.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idProfile !== undefined && idProfile !== null) {
+            queryParameters = queryParameters.set('idProfile', <any>idProfile);
+        }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
         }
@@ -245,7 +326,7 @@ export class UsersControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<PageProfiles>('get',`${this.basePath}/profile/all`,
+        return this.httpClient.request<PageProfiles>('get',`${this.basePath}/profile/list-to-add-in-poste`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -508,18 +589,23 @@ export class UsersControllerService {
      * 
      * 
      * @param name 
+     * @param status 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchUsersByName(name: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageProfiles>;
-    public searchUsersByName(name: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageProfiles>>;
-    public searchUsersByName(name: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageProfiles>>;
-    public searchUsersByName(name: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchUsersByName(name: string, status: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageProfiles>;
+    public searchUsersByName(name: string, status: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageProfiles>>;
+    public searchUsersByName(name: string, status: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageProfiles>>;
+    public searchUsersByName(name: string, status: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling searchUsersByName.');
+        }
+
+        if (status === null || status === undefined) {
+            throw new Error('Required parameter status was null or undefined when calling searchUsersByName.');
         }
 
 
@@ -530,6 +616,9 @@ export class UsersControllerService {
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
         if (size !== undefined && size !== null) {
             queryParameters = queryParameters.set('size', <any>size);
@@ -552,6 +641,72 @@ export class UsersControllerService {
 
         return this.httpClient.request<PageProfiles>('get',`${this.basePath}/profile/search-by-name`,
             {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param idlastGroupUser 
+     * @param idgroupuser 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public setProfile(body: Profiles, idlastGroupUser: number, idgroupuser: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public setProfile(body: Profiles, idlastGroupUser: number, idgroupuser: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public setProfile(body: Profiles, idlastGroupUser: number, idgroupuser: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public setProfile(body: Profiles, idlastGroupUser: number, idgroupuser: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling setProfile.');
+        }
+
+        if (idlastGroupUser === null || idlastGroupUser === undefined) {
+            throw new Error('Required parameter idlastGroupUser was null or undefined when calling setProfile.');
+        }
+
+        if (idgroupuser === null || idgroupuser === undefined) {
+            throw new Error('Required parameter idgroupuser was null or undefined when calling setProfile.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idlastGroupUser !== undefined && idlastGroupUser !== null) {
+            queryParameters = queryParameters.set('idlastGroupUser', <any>idlastGroupUser);
+        }
+        if (idgroupuser !== undefined && idgroupuser !== null) {
+            queryParameters = queryParameters.set('idgroupuser', <any>idgroupuser);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('post',`${this.basePath}/profile/set_userkjk2132123`,
+            {
+                body: body,
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -653,61 +808,6 @@ export class UsersControllerService {
         ];
 
         return this.httpClient.request<any>('post',`${this.basePath}/profile/set_StaTus`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param id 
-     * @param username 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public setProfileUser(id: number, username: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public setProfileUser(id: number, username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public setProfileUser(id: number, username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public setProfileUser(id: number, username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling setProfileUser.');
-        }
-
-        if (username === null || username === undefined) {
-            throw new Error('Required parameter username was null or undefined when calling setProfileUser.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
-        }
-        if (username !== undefined && username !== null) {
-            queryParameters = queryParameters.set('username', <any>username);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<any>('post',`${this.basePath}/profile/set_userkjk2132123`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

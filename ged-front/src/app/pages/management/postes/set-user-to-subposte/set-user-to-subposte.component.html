@@ -1,118 +1,142 @@
-<!-- <h2 mat-dialog-title>Add/ remove user to Poste</h2>
+<h2 mat-dialog-title>Add/ remove user to Poste</h2>
   <mat-dialog-content class="mat-typography">
-    <form class="example-form">
-        
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Poste Name</mat-label>
-            <input value="name" readonly matInput>
-          </mat-form-field>
-        </div>
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Structure</mat-label>
-            <input value="Doc type" readonly matInput>
-          </mat-form-field>
-        </div>
-        
+    <div class="row">
+      <div class="col-md-12" *ngIf="loading;else content" >
+        <mat-card class="loader-container">
+          <app-loader></app-loader>
+        </mat-card>      
       </div>
-
-      <div cdkDropListGroup class="row">
-        <div class="col-md-5">
-          <div>
-            <h1> User List</h1>
-        <div class="form-group row">
-          <div class="col-sm-12">
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </span>
-              <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-            </div>
-          </div>
-    
-        </div>
-
-        <div class="form-group row">
-          <div class="col-sm-12 col-form-label">
-            <div class="input-group">
-              <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                <mat-radio-group [(ngModel)]="searchBy" [ngModelOptions]="{standalone: true}">
-                  <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-                  <mat-radio-button class="example-margin" value="login">Login</mat-radio-button>
-                </mat-radio-group>
-              </span>
-            </div>
-            
-          </div>
-    
-        </div>
-        <div class="alert alert-danger" *ngIf="research" role="alert">
-          not found 
-        </div>
-            <div cdkDropList
-            class="example-list" 
-           (cdkDropListDropped)="onDrop($event)"  
-           [cdkDropListData]="listUser">
-              <div cdkDrag class="example-box"  *ngFor="let user of pageUsers?.content;let indexOfelement=index">
-                {{user.name!}}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-              </div>
-            </div>
-          </div>
-        </div>        
-        <div class="col-md-2">
-          <br>
-          <br>
-          <div class="example-list"  
-         >
-           <div  class="example-box" >
-              <i class="fa fa-chevron-circle-right" aria-hidden="true">ADD</i>
-           </div>
-           <div  class="example-box">
-              <i class="fa fa-chevron-circle-left" aria-hidden="true">REMOVE</i>
-          </div>
-         </div>
-      </div>
-        <div class="col-md-5">
-          <h1> Current User</h1>
-          <div cdkDropList
-         (cdkDropListDropped)="onDrop($event)" 
-         class="example-list"  
-         [cdkDropListData]="currentUser"
-        >
-            <div class="example-box1" cdkDrag *ngFor="let user of currentUser;let indexOfelement=index">
-              <div class="example-custom-placeholder" *cdkDragPlaceholder style="align-content: space-between;">
-                <span style="align-content: space-between;">
-                  {{ user.name! }}
-                </span>
-                <div class="example-handle" style="color: red;">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+    </div>
+    <ng-template #content>
+      
+      <div class="col-md-12">
+        <!-- <div class="row">
+          <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12" align="center">
+                  <span>Search</span>
                 </div>
               </div>
-              <span>
-                {{ user.name! }}
-              </span>
-              <div class="example-handle" style="color: red; cursor: pointer;">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1" (click)="search()">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                      </span>
+                      <input [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="GroupUser Name ..." aria-describedby="basic-addon1">
+                    </div>
+                  </div>
               </div>
-            </div>
           </div>
         </div>
-        
+        <br /> -->
+        <hr />
+        <div class="row">
+          <div class="col-md-12">
+          <app-list-empty *ngIf="isEmpty"></app-list-empty>
+          <div  class="row" *ngIf="!isEmpty">
+            <div class="col-md-12">
+              <mat-card class="data-1">
+                <!-- <mat-progress-bar mode="indeterminate" *ngIf="loadingPage" color="warn"></mat-progress-bar>
+                <br *ngIf="loadingPage" /> -->
+                <div class="row"></div>
+                <div class="container">                
+                  
+        <div class="col-md-12">
+          <fieldset>
+              <div class="row"></div>
+              <div class="container-fluid">
+                <div class="row">
+                  <form class="example-form">                  
+                      <div class="row">
+                          <div class="col-md-5">
+                              <div>
+                                  <h1> User Liste</h1>  
+                                  <div class="example-list" >
+                                      <div class="example-box"  *ngFor="let profile of pageProfiles?.content;let indexOfelement=index">
+                                        <span >
+                                            <strong style="font-size:1.5em"> {{ profile?.currentUser }}</strong>
+                                            <br>
+                                            <span>(Profile: {{profile?.name}})</span>
+                                            <br>
+                                            <span>(Structure: {{profile?.structure?.name}})</span>
+                                         </span>
+                                      <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                          <i class="fa fa-plus-circle  fa-2x" (click)="addProfile(profile)" *ngIf="!clicked" aria-hidden="true" style="color: #00C851;"></i>
+                                          <i class='fa fa-spinner fa-spin fa-x' *ngIf="clicked"></i> 
+                                          <!-- 
+                                          <i class="fa fa-minus-circle  fa-2x" (click)="removeProfile(profile)" aria-hidden="true" *ngIf="containProfile(profile)" style="color: #ff4444;"></i> -->
+                                      </button>
+                                      </div>
+                                  </div>
+                            
+                          </div>
+                        </div>       
+                        <div class="col-md-2">
+                          <br>
+                          <br>
+                          <div class="example-list" >
+                           <div  class="example-box" >                                
+                                  <i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true">
+                                      <strong>ADD</strong> 
+                                  </i>              
+                           </div>
+                         </div>
+                      </div>
+                        <div class="col-md-5">
+                          <h1> Current User</h1>
+                          <div 
+                         class="example-list"  
+                        >
+                            <div class="example-box1">
+                              <span >
+                                 <span *ngIf="currentProfile?.idProfiles != null;else  other">
+                                    <strong style="font-size:1.5em"> {{currentProfile?.currentUser}} </strong>
+                                    <br>
+                                    <span>(Profile: {{currentProfile?.name}})</span>
+                                    <br>
+                                    <span>(Structure: {{currentProfile?.structure?.name}})</span>
+                              </span>
+                                 <ng-template #other>
+                                  <strong > None</strong>
+                                 </ng-template>
+                              </span>
+
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div class="row">
+                        <div  class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                          <app-nav-table [pageNumber]="pageProfiles?.pageable?.pageNumber!" [first]="pageProfiles?.first!" [last]="pageProfiles?.last!" [size]="pageProfiles?.size!" [totalPages]="pageProfiles?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+                        </div>
+                      </div>
+                  </form> 
+                </div>
+              </div>
+          </fieldset>
+          
+        </div>
+                </div>
+                
+              </mat-card>
+            </div>
+          </div> 
+          </div>
+        </div>
       </div>
-      
-      
-      </form>   
+
+    </ng-template>
+     
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+    <div class="row" align="end"  *ngIf="!clicked">
+      <div class="col-md-6">
+          <button type="button" (click)="onClose()" class="btn btn-danger btn-lg btn-block" *ngIf="!clicked">close</button>
+      </div>
+      <div class="col-md-6">
+          <button type="button" (click)="save()" class="btn btn-success btn-lg btn-block" *ngIf="!clicked">Save</button>
+      </div>
+  </div>
   </mat-dialog-actions>
-
- -->

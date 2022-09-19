@@ -11,14 +11,14 @@ import { DroitsControllerService, UsersControllerService } from 'src/app/model';
   styleUrls: ['./update-user.component.scss']
 })
 export class UpdateUserComponent implements OnInit {
-
+/*
   isEmpty: boolean = true;
   userLists!: string[];
   currentUser: string = "" ;
   loading: boolean = true;
   clicked: boolean = false;
 
-
+*/
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private loaderService: LoaderService,
@@ -28,11 +28,11 @@ export class UpdateUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentUser = this.data.userNameProfile;
-    this.listenToLoading();
-    this.init(0,5);
+   // this.currentUser = this.data.userNameProfile;
+   // this.listenToLoading();
+   // this.init(0,5);
   }
-
+/*
   private listenToLoading(): void {
     this.loaderService.getSub
       .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
@@ -100,5 +100,5 @@ export class UpdateUserComponent implements OnInit {
       );
     }
   }
-
+*/
 }

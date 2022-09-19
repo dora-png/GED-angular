@@ -64,13 +64,13 @@ export class StructureControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add4(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public add4(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public add4(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public add4(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addStructures(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addStructures(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addStructures(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addStructures(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling add4.');
+            throw new Error('Required parameter body was null or undefined when calling addStructures.');
         }
 
         let headers = this.defaultHeaders;
@@ -158,13 +158,13 @@ export class StructureControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete3(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public delete3(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public delete3(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public delete3(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteStructures(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteStructures(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteStructures(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteStructures(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete3.');
+            throw new Error('Required parameter id was null or undefined when calling deleteStructures.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -201,21 +201,29 @@ export class StructureControllerService {
     /**
      * 
      * 
+     * @param status 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll4(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
-    public findAll4(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
-    public findAll4(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
-    public findAll4(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllStructures(status: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
+    public findAllStructures(status: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
+    public findAllStructures(status: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
+    public findAllStructures(status: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (status === null || status === undefined) {
+            throw new Error('Required parameter status was null or undefined when calling findAllStructures.');
+        }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
         if (size !== undefined && size !== null) {
             queryParameters = queryParameters.set('size', <any>size);
@@ -254,13 +262,13 @@ export class StructureControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findById2(id: number, observe?: 'body', reportProgress?: boolean): Observable<Structures>;
-    public findById2(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Structures>>;
-    public findById2(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Structures>>;
-    public findById2(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findStructuresById(id: number, observe?: 'body', reportProgress?: boolean): Observable<Structures>;
+    public findStructuresById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Structures>>;
+    public findStructuresById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Structures>>;
+    public findStructuresById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling findById2.');
+            throw new Error('Required parameter id was null or undefined when calling findStructuresById.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -380,16 +388,21 @@ export class StructureControllerService {
     /**
      * 
      * 
+     * @param status 
      * @param name 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchByName4(name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
-    public searchByName4(name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
-    public searchByName4(name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
-    public searchByName4(name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchStructuresByName(status: number, name?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
+    public searchStructuresByName(status: number, name?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
+    public searchStructuresByName(status: number, name?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
+    public searchStructuresByName(status: number, name?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (status === null || status === undefined) {
+            throw new Error('Required parameter status was null or undefined when calling searchStructuresByName.');
+        }
 
 
 
@@ -400,6 +413,9 @@ export class StructureControllerService {
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
         if (size !== undefined && size !== null) {
             queryParameters = queryParameters.set('size', <any>size);
@@ -434,16 +450,21 @@ export class StructureControllerService {
     /**
      * 
      * 
+     * @param status 
      * @param sigle 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchBySigle3(sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
-    public searchBySigle3(sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
-    public searchBySigle3(sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
-    public searchBySigle3(sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public searchStructuresBySigle(status: number, sigle?: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageStructures>;
+    public searchStructuresBySigle(status: number, sigle?: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageStructures>>;
+    public searchStructuresBySigle(status: number, sigle?: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageStructures>>;
+    public searchStructuresBySigle(status: number, sigle?: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (status === null || status === undefined) {
+            throw new Error('Required parameter status was null or undefined when calling searchStructuresBySigle.');
+        }
 
 
 
@@ -454,6 +475,9 @@ export class StructureControllerService {
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
         if (size !== undefined && size !== null) {
             queryParameters = queryParameters.set('size', <any>size);
@@ -492,13 +516,13 @@ export class StructureControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update3(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update3(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update3(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update3(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateNameStructure(body: Structures, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateNameStructure(body: Structures, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateNameStructure(body: Structures, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateNameStructure(body: Structures, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update3.');
+            throw new Error('Required parameter body was null or undefined when calling updateNameStructure.');
         }
 
         let headers = this.defaultHeaders;

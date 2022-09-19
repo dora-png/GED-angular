@@ -17,7 +17,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { Droits } from '../model/droits';
 import { PageDroits } from '../model/pageDroits';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -64,10 +63,10 @@ export class DroitsControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllDroit(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
-    public findAllDroit(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
-    public findAllDroit(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
-    public findAllDroit(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllDroit1(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findAllDroit1(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findAllDroit1(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findAllDroit1(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -108,26 +107,28 @@ export class DroitsControllerService {
     /**
      * 
      * 
-     * @param id 
+     * @param ids 
      * @param page 
      * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Droits>>;
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Droits>>>;
-    public findAllDroitUser(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Droits>>>;
-    public findAllDroitUser(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllDroitFromGroup(ids: Array<number>, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findAllDroitFromGroup(ids: Array<number>, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findAllDroitFromGroup(ids: Array<number>, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findAllDroitFromGroup(ids: Array<number>, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling findAllDroitUser.');
+        if (ids === null || ids === undefined) {
+            throw new Error('Required parameter ids was null or undefined when calling findAllDroitFromGroup.');
         }
 
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (id !== undefined && id !== null) {
-            queryParameters = queryParameters.set('id', <any>id);
+        if (ids) {
+            ids.forEach((element) => {
+                queryParameters = queryParameters.append('ids', <any>element);
+            })
         }
         if (page !== undefined && page !== null) {
             queryParameters = queryParameters.set('page', <any>page);
@@ -151,7 +152,131 @@ export class DroitsControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<Droits>>('get',`${this.basePath}/droit/profile`,
+        return this.httpClient.request<PageDroits>('get',`${this.basePath}/droit/allfromgroup2542`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param description 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findDroitByDescription(description: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findDroitByDescription(description: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findDroitByDescription(description: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findDroitByDescription(description: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (description === null || description === undefined) {
+            throw new Error('Required parameter description was null or undefined when calling findDroitByDescription.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (description !== undefined && description !== null) {
+            queryParameters = queryParameters.set('description', <any>description);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageDroits>('get',`${this.basePath}/droit/searchdroit`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param idDroits 
+     * @param description 
+     * @param page 
+     * @param size 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findDroitByDescriptionAndNoContain(idDroits: Array<number>, description: string, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<PageDroits>;
+    public findDroitByDescriptionAndNoContain(idDroits: Array<number>, description: string, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageDroits>>;
+    public findDroitByDescriptionAndNoContain(idDroits: Array<number>, description: string, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageDroits>>;
+    public findDroitByDescriptionAndNoContain(idDroits: Array<number>, description: string, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (idDroits === null || idDroits === undefined) {
+            throw new Error('Required parameter idDroits was null or undefined when calling findDroitByDescriptionAndNoContain.');
+        }
+
+        if (description === null || description === undefined) {
+            throw new Error('Required parameter description was null or undefined when calling findDroitByDescriptionAndNoContain.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idDroits) {
+            idDroits.forEach((element) => {
+                queryParameters = queryParameters.append('idDroits', <any>element);
+            })
+        }
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (description !== undefined && description !== null) {
+            queryParameters = queryParameters.set('description', <any>description);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<PageDroits>('get',`${this.basePath}/droit/searchdroitsd`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

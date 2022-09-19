@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
-@import '~ngx-org-chart/_theming.scss';
+/*@import '~ngx-org-chart/_theming.scss';*/
 html, body { 
   height: 100vh;
   width: 100vw; }
@@ -116,9 +116,10 @@ body { margin: 0; padding: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 
   .loader-container{
     /*position: absolute;*/
+    
     min-height: 70vh;
     width: 100%;
-    background: rgb(238, 232, 232);
+    /*background: rgb(102, 90, 90);*/
     opacity: 0.6;
     z-index: 99;
   }

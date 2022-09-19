@@ -1,163 +1,189 @@
-<!-- <br>
+<br>
 <div class="row">
   <div class="col-md-12">
     <app-breadcrumb></app-breadcrumb>
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
-    <app-menu-manage></app-menu-manage>
-  </div>
+    <div class="col-md-12">
+      <app-menu-manage></app-menu-manage>
+    </div>
 </div>
-<br>
-<div class="row"  *ngIf="loading">
-  <div class="col-md-12" >
+<br />
+<div class="row">
+  <div class="col-md-12" *ngIf="loading;else content" >
     <mat-card class="loader-container">
       <app-loader></app-loader>
     </mat-card>      
   </div>
-</div>
-
-
-
-<div class="row" *ngIf="!loading">
-    <div align="end">
-      <button mat-button (click)="refresf()">
-        <i class="fa fa-refresh" aria-hidden="true"></i>
-      </button>
-      <button mat-button (click)="viewList()">
-        <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
-        <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
-      </button>
-        <button mat-button (click)="newStructure()" *ngIf="isEmpty && onHasRole(constantes.cust)"  >
-          <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        </button>
-    </div>
-</div>
-
-<div  class="row" *ngIf="!loading">
-  <div class="col-md-12">
-    <mat-card *ngIf="isEmpty">
-      <app-list-empty></app-list-empty>
-    </mat-card>
-
-    <mat-card *ngIf="!isEmpty">
-      <div class="row"></div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-6">
-          <div class="input-group">
-            <span (click)="search()" class="input-group-addon" id="basic-addon1">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </span>
-            <input (ngModelChange)="modelChanged($event)" [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+  <ng-template #content>
+    <div class="col-md-12">
+      <br />
+      <hr />
+      <div class="row">
+        <div class="col-md-2">
+          <mat-card class="data-2">
+            <div class="row">
+              <div align="end">
+                <button mat-button (click)="refresf()">
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+                <button mat-button (click)="newStructure()" *ngIf="isEmpty && onHasRole(constantes.cust)">
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </button>
+                <button mat-button (click)="viewList()">
+                  <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
+                  <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+                </button>
+              </div>              
           </div>
-        </div>
-        <div class="col-sm-2 col-form-label">
-          <div class="input-group">
-            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-              <mat-radio-group [(ngModel)]="searchBy">
-                <mat-radio-button class="example-margin" [value]="constantes.nameSearchValue">Name</mat-radio-button>
-                <mat-radio-button class="example-margin" [value]="constantes.sigleSearchValue">Sigle</mat-radio-button>
-              </mat-radio-group>
-            </span>
-          </div>
-          
-        </div>
-  
-      </div>
-      <div *ngIf="pageStructures == constantes.nullValue" role="alert">
-        <app-list-empty></app-list-empty> 
-      </div>
-      <div class="container" *ngIf="pageStructures != constantes.nullValue" >
-        <div class="container-fluid" *ngIf="view">
+          <hr class="my-3">
           <div class="row">
-            <div class="col-sm-12" *ngIf="loadingOther">
-              <app-loader></app-loader>
+            <div class="col-md-12" align="center">
+              <span>Search</span>
             </div>
-            <div class="col-sm-12" *ngIf="!loadingOther">
-              <mat-list  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
-                <mat-list-item mat-button [matMenuTriggerFor]="action">
-                  <span>{{structure.name!}}</span><span><strong>(</strong>{{structure.sigle!}} <strong>)</strong></span>
-                </mat-list-item>
-                <mat-menu #action="matMenu">
-                  <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                  <button mat-menu-item (click)="openDialogAddSubStructure(structure)" *ngIf="onHasRole(constantes.cust)" > Add SubStructure</button>
-                  <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
-                  <button mat-menu-item  *ngIf="onHasRole(constantes.dst)"  > Delete</button>
-                </mat-menu>
-                <mat-menu #edit="matMenu">
-                  <button mat-menu-item (click)="openDialogEdit(structure)"  *ngIf="onHasRole(constantes.cust)">  Edit Structure</button>
-                  <button mat-menu-item (click)="openDialogListPoste(structure)" *ngIf="onHasRole(constantes.rpo)"> Postes </button>
-                </mat-menu>
-                <mat-divider></mat-divider>
-              </mat-list>
-            </div>
-          </div>
         </div>
-        <div class="container" id="tourpackages-carousel"  *ngIf="!view">
-          <div class="row" *ngIf="loadingOther">
-            <div class="col-sm-12">
-              <app-loader></app-loader>
-            </div>
-          </div>
-          <div class="row" *ngIf="!loadingOther" >            
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
-              <div class="thumbnail">
-                  <div class="caption">
-                    <div class='col-lg-12 well well-add-card'>
-                      <i class = "fa fa-cubes fa-4x" style="color:#BB7824"></i>
-                        <span>{{structure.name!}}</span><span><em>(</em>{{structure.sigle!}} <em>)</em></span>
-                    </div>
-                    <div class='col-lg-12'>                    
-                        <p>
-                          Structure Superieur: 
-                          <span *ngIf="structure.structureSuperieur == constantes.nullValue ">null</span> 
-                          <span *ngIf="structure.structureSuperieur != constantes.nullValue">{{structure.structureSuperieur!.sigle!}}</span>
-                        </p>
-                        <p class="text-muted">
-                          Nombre Sous-Structures: 
-                          <span *ngIf="structure.sousStructure!.length == 0">0</span> 
-                          <span *ngIf="structure.sousStructure!.length != 0">{{structure.sousStructure!.length}}</span>
-                        </p>
-                        <p class="text-muted">
-                          Nombre Postes:
-                          <span *ngIf="structure.postes!.length == 0">0</span> 
-                          <span *ngIf="structure.postes!.length != 0">{{structure.postes!.length}}</span> 
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card"mat-button [matMenuTriggerFor]="action">Actions
-                    </button>
-                    <mat-menu #action="matMenu">
-                      <button mat-menu-item [matMenuTriggerFor]="edit">Edit</button>
-                      <button mat-menu-item (click)="openDialogAddSubStructure(structure)"  *ngIf="onHasRole(constantes.cust)" > Add SubStructure</button>
-                      <button mat-menu-item (click)="openDialogHistoric(structure)"> Information about</button>
-                    </mat-menu>
-                    <mat-menu #edit="matMenu">
-                      <button mat-menu-item (click)="openDialogEdit(structure)"  *ngIf="onHasRole(constantes.cust)" >  Edit Structure</button>
-                      <button mat-menu-item (click)="openDialogListPoste(structure)"  *ngIf="onHasRole(constantes.rpo)" > Postes</button>
-                    </mat-menu>
-                    <span class='glyphicon glyphicon-remove text-danger pull-right icon-style'  *ngIf="onHasRole(constantes.dst)" ></span>
+          <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1" [matMenuTriggerFor]="search">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <mat-menu #search="matMenu">    
+                    <button mat-menu-item  (click)="searchNameData()"  >Search By Name</button>
+                    <button mat-menu-item  (click)="searchSigleData()"  >Search By Sigle</button>                    
+                </mat-menu>
+                  <input [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
                 </div>
               </div>
-            </div>      
           </div>
+          <hr class="my-3">
+            <div class="row" align="center">
+              <label>Status:</label>
+              <div  [formGroup]="structuresFormGroup" ><!-- 
+               <div class="px-2"  >
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusstructure" id="users-status-disabled" formControlName="statusstructure" [value]="statusStructures[0].value"> 
+                  <label class="custom-control-label" for="users-status-disabled">{{statusStructures[0].name}}</label>
+                </div>
+              </div> -->
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusstructure" id="users-status-active" formControlName="statusstructure" [value]="statusStructures[1].value">
+                  <label class="custom-control-label" for="users-status-active"> {{statusStructures[1].name}}</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusstructure" id="users-status-any" formControlName="statusstructure" [value]="statusStructures[2].value"> 
+                  <label class="custom-control-label" for="users-status-any">{{statusStructures[2].name}}</label>
+                </div>
+              </div> 
+              </div>
+            </div>
+           
+
+          </mat-card>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-            <app-nav-table [pageNumber]="pageStructures?.pageable?.pageNumber!" [first]="pageStructures?.first!" [last]="pageStructures?.last!" [size]="pageStructures?.size!" [totalPages]="pageStructures?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+        <div class="col-md-10">
+        <app-list-empty *ngIf="isEmpty"></app-list-empty>
+        <div  class="row" *ngIf="!isEmpty">
+          <div class="col-md-12">
+            <mat-card class="data-1">
+              <mat-progress-bar mode="indeterminate" *ngIf="loadingPage" color="warn"></mat-progress-bar>
+              <br *ngIf="loadingPage" />
+              <div class="row"></div>
+              <div class="container-fluid" *ngIf="view">
+                <div class="row">
+                  <div class="col-sm-12">
+                    
+            <div class="table-responsive">
+              <table class="table no-wrap user-table mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">Sigle</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
+                    <td class="pl-4">{{indexOfelement +1 }}</td>
+                    <td>
+                        <h5 class="font-medium mb-0">{{structure.sigle!}}</h5>
+                    </td>
+                    <td>
+                        <span class="text-muted">{{structure.name!}}</span>
+                    </td>
+                    <td (click)="openDialogView(structure)">
+                      <i class="fa fa-info fa-2x"  aria-hidden="true"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
           </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid" *ngIf="!view">                
+                <div class="row userMain">
+                  <div class="col-md-3 col-sm-4"  *ngFor="let structure of pageStructures?.content;let indexOfelement=index">
+                    <div class="thumbnail" [ngStyle]="{'border': structure.active ? '6px solid green' : '6px solid red' }">
+                        <div class="caption">
+                          <div class='col-lg-12 well well-add-card'>
+                            <i class = "fa fa-cubes fa-4x" [ngStyle]="{'color': structure.color }"></i>
+                              <span>{{structure.name!}}</span><span><em>(</em>{{structure.sigle!}} <em>)</em></span>
+                          </div>
+                          <div class='col-lg-12'>                    
+                              <p>
+                                Structure Superieur: 
+                                <span *ngIf="structure.structureSuperieur == constantes.nullValue ">None</span> 
+                                <span *ngIf="structure.structureSuperieur != constantes.nullValue">{{structure.structureSuperieur!.sigle!}}</span>
+                              </p>
+                              <p class="text-muted">
+                                Nombre Sous-Structures: 
+                                <span *ngIf="structure.sousStructure!.length == 0">0</span> 
+                                <span *ngIf="structure.sousStructure!.length != 0">{{structure.sousStructure!.length}}</span>
+                              </p>
+                              <p class="text-muted">
+                                Nombre Postes:
+                                <span *ngIf="structure.postes!.length == 0">0</span> 
+                                <span *ngIf="structure.postes!.length != 0">{{structure.postes!.length}}</span> 
+                              </p>
+                              <p class="text-muted" >
+                                Nombre Profile:
+                                <span *ngIf="structure.profiles!.length == 0">0</span> 
+                                <span *ngIf="structure.profiles!.length != 0">{{structure.profiles!.length}}</span> 
+                              </p>
+                          </div>
+                          <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card" (click)="openDialogView(structure)">
+                            <i class="fa fa-id-card-o  fa-2x"></i>
+                          </button>
+                          <button type="button" class="btn btn-primary btn-xs btn-update btn-add-card" (click)="openDialogView(structure)">
+                            <i class="fa fa-id-card-o  fa-2x"></i>
+                          </button>
+                          <!-- <span class='pull-right icon-style' >
+                            <i  *ngIf="structure.active" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
+                            <i  *ngIf="!structure.active" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
+                          </span> -->
+                      </div>
+                    </div>
+                  </div>  
+               </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">                
+                  <app-nav-table [pageNumber]="pageStructures?.pageable?.pageNumber!" [first]="pageStructures?.first!" [last]="pageStructures?.last!" [size]="pageStructures?.size!" [totalPages]="pageStructures?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>  
+              </div>
+              </div>
+              
+            </mat-card>
+          </div>
+        </div> 
         </div>
       </div>
-     
-    </mat-card>
-  </div>
+    </div>
+  </ng-template>
+  
 </div>
-
-
-
-
-
-
-
- -->

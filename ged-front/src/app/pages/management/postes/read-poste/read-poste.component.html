@@ -1,23 +1,119 @@
-<!-- <h2 mat-dialog-title>Informations about Postes</h2>
+<h2 mat-dialog-title>Informations about Postes</h2>
   <mat-dialog-content class="mat-typography">
-    <form [formGroup]="newPosteFormGroup" class="example-form">
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Structure Name</mat-label>
-            <input autocomplete="off" formControlName="name" name="name" id="name" readonly  matInput>
-          </mat-form-field>
+    <div class="col-md-12">
+      <div class="container-fluid">
+        <div class="main-body">
+              <div class="row gutters-sm">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-body">                      
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> 
+                              <div class="container-fluid">
+                                <br>                                   
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <label>Poste Name: </label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary fa-2x">
+                                      {{poste?.name}}
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Poste Superieur: </label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary fa-2x">
+                                        <span *ngIf="poste?.posteSuperieur == null; else data">
+                                          (None)
+                                        </span>
+                                        <ng-template #data>
+                                          <span>
+                                            {{poste?.posteSuperieur?.name}}
+                                          </span>
+                                        </ng-template>                                        
+                                      </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Poste Inferieur: </label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary fa-2x">
+                                        {{poste?.posteSubalterne?.length}} Postes                                        
+                                      </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Poste description: </label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary fa-2x">
+                                        {{poste?.description}}
+                                      </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Poste Status: </label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary fa-2x">
+                                        <i *ngIf="poste?.active" class="fa fa-eye" style="color: green;" aria-hidden="true"> (Enable)</i>
+                                        <i *ngIf="!poste?.active" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"> (Desable)</i>
+                                      </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Poste User:</label>
+                                      </div>
+                                      <div class="col-sm-9 text-secondary fa-2x">
+                                        <span *ngIf="loadingProfile; else load">
+                                          <i class='fa fa-spinner fa-spin fa-x' ></i> Loading ...
+                                        </span>
+                                        <ng-template #load>
+                                          <span *ngIf="profile == null; else data1">
+                                            (None)
+                                          </span>
+                                          <ng-template #data1>
+                                            <span>
+                                              {{ profile?.currentUser }}
+                                            </span>
+                                          </ng-template> 
+                                        </ng-template>                                                                              
+                                      </div>
+                                  </div>
+                                <br>
+                            </div>                              
+                            </div>
+                          </div>             
+                          
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+      
+      
+                </div>
+              </div>
+      
+            </div>
         </div>
-        <div class="col-md-6">          
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Structure Description</mat-label>
-                <textarea autocomplete="off" formControlName="description" name="description" id="description" readonly matInput></textarea>
-              </mat-form-field>
-        </div>
-      </div>
-    </form>   
+      
+      
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onClose()">Cancel</button>
+    <div class="row gutters">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="text-right">
+          <button class="btn btn-info btn-lg" (click)="onClose()">Cancel</button>
+        </div>
+        
+      </div>
+    </div>
   </mat-dialog-actions>
- -->

@@ -1,5 +1,5 @@
 <mat-drawer-container  class="sidenav-container" [hasBackdrop]="'false'">
-    <mat-drawer  #drawer style="width: 15%;" [mode]="'side'" [opened]="isLogged">
+<!--       <mat-drawer  #drawer style="width: 15%;" [mode]="'side'" [opened]="isLogged">
       <mat-toolbar  >
         <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
         Menu
@@ -36,14 +36,78 @@
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-share" aria-hidden="true"></i> Partage Avec Moi</a>     
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-star-o" aria-hidden="true"></i> Suivis</a>     
-        <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
+        <a mat-list-item routerLinkActive="active" [routerLink]="constantes.documentationPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
-    </mat-drawer>
+    </mat-drawer>  -->
     
     <mat-drawer-content >
-      <mat-toolbar [style]="getColor()" > 
-        <span  *ngIf="isLogged && onHasRole(constantes.admin)">
-          <button mat-button [routerLink]="constantes.manageIndexPath"><i class="fa fa-user-secret" aria-hidden="true"></i> Administration<span class="badge">2</span></button>
+      <mat-toolbar [style]="'black'" *ngIf="isLogged" style="height: 36px; font-size: 15px; color: white; background-color: black;"> 
+        <span >
+          <a mat-button routerLink="dashboarduser"><i class="fa" aria-hidden="true">Acceuil</i> </a>
+        </span>
+        <span >
+          <a mat-button routerLink="/myfile"><i class="fa" aria-hidden="true">Mes fichiers</i></a>
+        </span>
+        <span >
+          <a mat-button routerLink="/documentation"><i class="fa" aria-hidden="true">Fichiers partagés</i></a>
+        </span>
+       
+        <span >
+          <button mat-button [matMenuTriggerFor]="sites"><i class="fa" aria-hidden="true">Sites<span class="caret"></span></i></button>
+          <mat-menu #sites="matMenu">    
+            <button mat-menu-item  >Utile(s)</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item ><i class="fa fa-globe" aria-hidden="true"></i>   Mes sites</button>
+            <button mat-menu-item ><i class="fa fa-search" aria-hidden="true"></i>  Recherche de sites</button>
+            <button mat-menu-item ><i class="fa fa-plus" aria-hidden="true"></i>  Creer un site</button>
+            <button mat-menu-item ><i class="fa fa-star" aria-hidden="true"></i>   Favoris</button>
+          </mat-menu>
+        </span>
+        <span >
+          <button mat-button [matMenuTriggerFor]="taches"><i class="fa" aria-hidden="true">Taches<span class="caret"></span></i></button>
+          <mat-menu #taches="matMenu">    
+            <button mat-menu-item  >Utile(s)</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item ><i class="fa fa-tasks" aria-hidden="true"></i>   Mes taches</button>
+            <button mat-menu-item ><i class="fa fa-sitemap" aria-hidden="true"></i>  Workflow que j'ai initié</button>
+          </mat-menu>
+        </span>
+        <span >
+          <button mat-button [routerLink]="constantes.manageIndexPath"><i class="fa" aria-hidden="true">Personnes</i></button>
+        </span>
+        <span >
+          <a mat-button routerLink="entrepot"><i class="fa" aria-hidden="true">Entrepots</i></a>
+        </span>
+        <span *ngIf="onHasRole(constantes.admin)">
+          <a mat-button [routerLink]="constantes.manageIndexPath"><i class="fa" aria-hidden="true">Outils admin</i></a>
+        </span>
+        <div class="right">
+          <span class="title"></span>
+          <span >
+            <button mat-button [matMenuTriggerFor]="user"><i class="fa" aria-hidden="true">{{ sigle }} {{ name }}<span class="caret"></span></i></button>
+            <mat-menu #user="matMenu">    
+              <button mat-menu-item ><i class="fa fa-tachometer" aria-hidden="true"></i>  Tableau de bord utilisateur</button>
+              <button mat-menu-item ><i class="fa fa-user-circle-o" aria-hidden="true"></i> Mon Profil</button>
+              <button mat-menu-item ><i class="fa fa-question-circle" aria-hidden="true"></i>  Aide</button>
+              <button mat-menu-item (click)="onLogOut()"><i class="fa fa-sign-out" aria-hidden="true"></i>   Se deconnecter</button>
+            </mat-menu>
+          </span>
+          <span >
+            <div class="icon-addon addon-sm">
+              <input type="text" placeholder="Email" class="form-control" id="email">
+              <i [matMenuTriggerFor]="search" class="fa fa-search" aria-hidden="true"></i>
+              <mat-menu #search="matMenu">    
+                  <button mat-menu-item [routerLink]="constantes.manageIndexPath"  >Recherche avancée...</button>
+                  
+              </mat-menu>
+          </div>
+          </span>
+        </div>
+      </mat-toolbar>
+      <mat-toolbar [style]="getColor()" *ngIf="isLogged"> 
+        <span  *ngIf="isLogged">
+          <img src="../../assets/cuy.jpg" width="50px" style="border-radius: 50%;" height="50px" alt="">
+          <span> Tableau de bord de Utilisateur</span>
         </span>
         <div class="right">
           <span class="title">  
@@ -93,16 +157,21 @@
           </span>
         </div>
       </mat-toolbar>
-      
-     
-      <div class="content-wrapper" >
-        <div class="container-fluid">
-          <router-outlet></router-outlet>
+      <div class="container-fluid">
+        <div class="content-wrapper" >
+          <div class="container-fluid">
+            <router-outlet></router-outlet>
+          </div>
+        </div> 
+        <div class="content-wrapper" *ngIf="isLogged" class="footer">
+          <app-footer></app-footer>
         </div>
-      </div> 
-      <a class="fixedButton" (click)="drawer.toggle()" *ngIf="isLogged">
+      </div>
+     
+      
+<!--       <a class="fixedButton" (click)="drawer.toggle()" *ngIf="isLogged">
         <div class="roundedFixedBtn"><i class="fa fa-bars"></i></div>
-       </a>
+       </a> -->
       
       
     </mat-drawer-content>

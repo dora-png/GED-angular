@@ -22,7 +22,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatSelectModule} from '@angular/material/select';
-import { NgxOrgChartModule } from 'ngx-org-chart';
+//import { NgxOrgChartModule } from 'ngx-org-chart';
 import { NgChartsModule } from 'ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -40,6 +40,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InterceptorService } from './loader/interceptor.service';
+//import { ApiServiceService } from './loader/api-service.service';
 import { NavComponent } from './nav/nav.component';
 import { ApiModule, Configuration } from './model/index';
 import { CreateDocComponent } from './pages/documentation/document/create-doc/create-doc.component';
@@ -147,6 +148,17 @@ import { AddRemoveDroitComponent } from './pages/management/users/add-remove-dro
 import { UpdateNameComponent } from './pages/management/users/update-name/update-name.component';
 import { UpdateUserComponent } from './pages/management/users/update-user/update-user.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { ChoseStructureComponent } from './pages/management/users/chose-structure/chose-structure.component';
+import { DashbordUserComponent } from './pages/documentation/dashbord/dashbord.component';
+import { MyfilesComponent } from './pages/documentation/myfiles/myfiles.component';
+import { ProfilGroupComponent } from './pages/management/users/profil-group/profil-group.component';
+import { ProfilStructureComponent } from './pages/management/users/profil-structure/profil-structure.component';
+import { ProfilUserComponent } from './pages/management/users/profil-user/profil-user.component';
+import { EntrepotsComponent } from './pages/documentation/entrepots/entrepots.component';
+import { SetDroitsComponent } from './pages/management/group-user/set-droits/set-droits.component';
+import { SetProfilesComponent } from './pages/management/group-user/set-profiles/set-profiles.component';
+import { ListSubStructureComponent } from './pages/management/structure/list-sub-structure/list-sub-structure.component';
+import { ListProfilesComponent } from './pages/management/structure/list-profiles/list-profiles.component';
 export const getConfiguration = () => {
   return new Configuration({
     /*basePath: environment.basePath,
@@ -298,6 +310,17 @@ const MATERIAL=[
     AddRemoveDroitComponent,
     UpdateNameComponent,
     UpdateUserComponent,
+    ChoseStructureComponent,
+    DashbordUserComponent,
+    MyfilesComponent,
+    ProfilGroupComponent,
+    ProfilStructureComponent,
+    ProfilUserComponent,
+    EntrepotsComponent,
+    SetDroitsComponent,
+    SetProfilesComponent,
+    ListSubStructureComponent,
+    ListProfilesComponent,
   ],
   imports: [
     AppRoutingModule,    
@@ -307,7 +330,7 @@ const MATERIAL=[
     NgChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxOrgChartModule,
+    //NgxOrgChartModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     DragDropModule,
@@ -319,6 +342,7 @@ const MATERIAL=[
     AuthenticationService,
     LocalDaoService,
     AuthGuard,
+    //ApiServiceService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

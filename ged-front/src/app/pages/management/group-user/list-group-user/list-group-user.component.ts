@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { delay } from 'rxjs';
-import { LoaderService } from 'src/app/loader/loader.service';
-import { OpenDialogService } from 'src/app/loader/open-dialog.service';
 import { GroupUser, GroupUserControllerService, PageGroupUser } from 'src/app/model';
-import { AddGroupUserComponent } from '../add-group-user/add-group-user.component';
-import { AddPosteGroupUserComponent } from '../add-poste-group-user/add-poste-group-user.component';
-import { InfosGroupUserComponent } from '../infos-group-user/infos-group-user.component';
-import { UpdateGroupUserComponent } from '../update-group-user/update-group-user.component';
-import { AddRoleGroupUserComponent } from '../add-role-group-user/add-role-group-user.component';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-group-user',
@@ -18,103 +12,73 @@ import { AddRoleGroupUserComponent } from '../add-role-group-user/add-role-group
 export class ListGroupUserComponent implements OnInit {
 
 
-  pageGroupUser!: PageGroupUser;
-  isEmpty: boolean = true;
+  groupFormGroup!: FormGroup;
+  isEmpty: boolean = false;
   loading: boolean = true;
+  loadingPage: boolean = false;
   research: boolean = false;
   view: boolean = false;
-  private valueToSearch!: string;
-  searchBy: 'name' | undefined;
-  private pagesize ={page: 0, size: 5};
+  valueToSearch: string = "";
+  statusGroup: any = [
+    {value: 0, name: "Groupes desactivé"},
+    {value: 1, name: "Groupes activé"},
+    {value: 2, name: "Tous les Groupes"},
+  ];
+  pageGroupUser!: PageGroupUser;
 
   constructor(
-    private loaderService: LoaderService,
-    private openDialogService: OpenDialogService,
-    private apiService: GroupUserControllerService,    
+    private apiService: GroupUserControllerService,
+    private formBuilder: FormBuilder,    
+    private route: Router,     
     private toastr: ToastrService
-    ) { }
+    ) {
+      this.groupFormGroup = this.formBuilder.group(
+        {
+          statusgroup: new FormControl(2, Validators.required),
+        }
+      ); 
+    }
 
   ngOnInit(): void {
     this.initData(0,5);
   }
-
-  private listenToLoading(): void {
-    this.loaderService.getSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
-  }
   
   private initData(page: number, size: number){
-    this.listenToLoading();
-    this.apiService.findAllGroup(page,size).subscribe(
+    this.loading = true;
+    this.apiService.findAllGroup(status=this.f["statusgroup"].value, page =page, size = size).subscribe(
       response => {
         if(response==null){
           this.isEmpty=true;
+            this.loading = false;
         }else{
           this.isEmpty=false;
           this.pageGroupUser=response;
+          this.loading = false;
         }
       },error => {
       }
     );
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.groupFormGroup.controls;
+  }
+
   newGroupUser() {
-    this.openDialogService.openDialog(AddGroupUserComponent)
-        .afterClosed()
-        .subscribe(result => {
-          if(result){
-            this.refresf();
-          }
-        });
+    this.route.navigate(['/group/add-group-user']);
   }
 
-  openDialogEdit(group: GroupUser) {
-    this.openDialogService.openDialog(UpdateGroupUserComponent, group)
-        .afterClosed()
-        .subscribe(result => {
-          if(result){
-            this.refresf();
-          }
-        });
+  viewGroup(group: GroupUser) {
+    this.route.navigate(['/group/view-group',group.idgroupes]);
   }
 
-  openDialogHistoric(group: GroupUser) {
-    this.openDialogService.openDialog(InfosGroupUserComponent, group);
-  }
-
-
-
-  openDialogAddRemoveRole(group: GroupUser) {
-    this.openDialogService.openDialog(AddRoleGroupUserComponent, group.idgroupes)
-        .afterClosed()
-        .subscribe(result => {
-          if(result){
-            this.refresf();
-          }
-        });
-  }
-
-  openDialogAddRemovePostes(group: GroupUser) {
-    this.openDialogService.openDialog(AddPosteGroupUserComponent, group)
-        .afterClosed()
-        .subscribe(result => {
-          if(result){
-            this.refresf();
-          }
-        });
-  }
-  
   private changePageOrSize(page: number, size: number){
-    this.listenToLoading();
-    this.initData(page,size);
+    this.pageSwitch(page,size);
   }
 
   private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchGroupUserByName(name,page,size).subscribe(
+    this.loadingPage = true;
+    this.apiService.searchGroupUserByName(name=name, status=this.f["statusgroup"].value, page =page, size = size).subscribe(
       res => {
         if(res==null){
           this.isEmpty=true;
@@ -123,6 +87,7 @@ export class ListGroupUserComponent implements OnInit {
           this.isEmpty=false;
           this.pageGroupUser=res;
         }
+        this.loadingPage = false;
       },error => {
       }
     );
@@ -130,50 +95,40 @@ export class ListGroupUserComponent implements OnInit {
 
 
   changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
+    if(this.valueToSearch.trim().length!<=0){
       this.changePageOrSize(event.page, event.size);
     }else{
-      if(this.searchBy =="name"){
         this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else{
-        this.toastr.info("Coche sur name puis recommancer la recherche", "Infos");
-      }
 
     }    
   }
  
   private searchName(name: string){
-    this.listenToLoading();
-    this.apiService.searchGroupUserByName(name).subscribe(
+    this.loadingPage = true;
+    this.apiService.searchGroupUserByName(name, status=this.f["statusgroup"].value).subscribe(
       res => {
         if(res==null){
           this.isEmpty=true;
-          this.pageGroupUser=res;
+          this.loadingPage = false;
         }else{
           this.isEmpty=false;
-          this.pageGroupUser=res;
+          this.pageGroupUser = res;
+          this.loadingPage = false;
         }
       },error => {
+        this.loadingPage = false;
       }
     );
   }
 
   
 
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      } 
+  search(){
+    if(this.valueToSearch.trim().length!>0){
+      this.searchName(this.valueToSearch);
     }else{
-      this.initData(0,5);
-      this.research=false;
-      this.searchBy = undefined;
+      this.valueToSearch = "";
+      this.pageSwitch(0,5);
     }
   }
 
@@ -183,7 +138,55 @@ export class ListGroupUserComponent implements OnInit {
   }
 
   refresf(){
-    this.initData(0,5);
+    this.pageSwitch(0,5);
+  }
+
+  private pageSwitchsearchName(name: string, page: number, size: number){
+    this.loadingPage = true;
+    this.apiService.searchGroupUserByName(name,this.f["statusgroup"].value, page, size).subscribe(
+      response=>{
+        if(response==null){
+          this.isEmpty=true;
+          this.loadingPage = false;
+        }else{
+          this.isEmpty=false;
+          this.pageGroupUser=response;          
+          this.loadingPage = false;
+        }
+      },
+      error=>{
+        this.loadingPage = false;
+      }
+
+    );
+  }
+
+  private pageSwitch(page: number, size: number){
+    this.loadingPage = true;
+    this.apiService.findAllGroup(status=this.f["statusgroup"].value, page =page, size = size).subscribe(
+      response=>{
+        if(response==null){
+          this.isEmpty=true;
+          this.loadingPage = false;
+        }else{
+          this.isEmpty=false;
+          this.pageGroupUser=response;
+          this.loadingPage = false;
+        }
+      },
+      error=>{
+        this.loadingPage = false;
+      }
+    );
+  }
+
+  
+  updateOnclickGen(e: any) {
+    if(this.valueToSearch.length!>0){
+      this.pageSwitchsearchName(this.valueToSearch, 0, 5);
+    }else{
+      this.pageSwitch(0,5);
+    }
   }
 
 

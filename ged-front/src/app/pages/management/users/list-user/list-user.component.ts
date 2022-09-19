@@ -1,24 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-import { PageProfiles, UsersControllerService } from 'src/app/model';
+import { PageProfiles, Profiles, UsersControllerService } from 'src/app/model';
 import { AddRemoveDroitComponent } from '../add-remove-droit/add-remove-droit.component';
 import { AddRemoveInGroupComponent } from '../add-remove-in-group/add-remove-in-group.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { ProfilComponent } from '../profil/profil.component';
 import { UpdateNameComponent } from '../update-name/update-name.component';
 import { UpdateUserComponent } from '../update-user/update-user.component';
-export interface UserPoste {  
-  idStructure?: number,
-  idProfile?: number,
-  profileName?: string,
-  userName?: string,
-  status?: boolean,
-  directionName?: string,
-  directionSigle?: string
-} 
 
 @Component({
   selector: 'app-list-user',
@@ -27,303 +20,155 @@ export interface UserPoste {
 })
 export class ListUserComponent implements OnInit {
 
+  profileFormGroup!: FormGroup;
   pageUsers!: PageProfiles;
-  userList: UserPoste[] = [];
   isEmpty: boolean = false;
   loading: boolean = true;
+  loadingPage: boolean = false;
   research: boolean = false;
   view: boolean = false;
-  private valueToSearch!: string;
-  searchBy: 'name' | undefined;
+  valueToSearch: string = "";
+  statusProfiles: any = [
+    {value: 0, name: "Profiles desactivé"},
+    {value: 1, name: "Profiles activé"},
+    {value: 2, name: "Tous les profiles"},
+  ];
   private pagesize ={page: 0, size: 5};
 
 
   constructor(
-    private loaderService: LoaderService,
-    private openDialogService: OpenDialogService,
-    private apiService: UsersControllerService,    
+    private apiService: UsersControllerService,     
+    private route: Router, 
+    private formBuilder: FormBuilder,   
     private toastr: ToastrService
-    ) { }
+    ) { 
+      this.profileFormGroup = this.formBuilder.group(
+        {
+          statusprofile: new FormControl(2, Validators.required),
+        }
+      ); 
+    }
 
     ngOnInit(): void {
-     // setTimeout(()=>{
-        this.initData(0,5);
-    //  }, 5000)
-      
+      this.initData(0,5);
+    }
+
+    viewProfile(user: Profiles){
+      this.route.navigate(['/profile/view-profile',user.idProfiles]);
     }
 
     newProfile(){
-      this.openDialogService.openDialog(AddUserComponent)
-                            .afterClosed()
-                            .subscribe(result => {
-                              if(result){
-                                this.refresf();
-                              }
-                            });
+      this.route.navigate(['/profile/add-profile']);
     }
   
-    private listenToLoading(): void {
-      this.loaderService.getSub
-        .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-        .subscribe((loading) => {
-          this.loading = loading;
-        });
+    get f(): { [key: string]: AbstractControl } {
+      return this.profileFormGroup.controls;
     }
 
     private initData(page: number, size: number){
-      this.listenToLoading();
-      this.userList=[];
-      this.apiService.findAllProfiles(page, size).subscribe(
+      this.loading = true;
+      this.apiService.findAllProfiles(status=this.f["statusprofile"].value, page =page, size = size).subscribe(
         response=>{
+          
           if(response==null){
             this.isEmpty=true;
+            this.loading = false;
           }else{
             this.isEmpty=false;
             this.pageUsers=response;
-            this.pageUsers.content?.forEach( user=>{
-            this.listenToLoading();
-            this.apiService.currentStructure(user.idProfiles!).subscribe(
-              resp=>{
-                if(user.currentUser==null)
-                  user.currentUser = "empty";
-                if(resp==null){
-                  this.userList.push(
-                    {
-                      idStructure: undefined,
-                      idProfile:user.idProfiles!,
-                      profileName:user.name!,
-                      userName: user.currentUser!,
-                      status: user.status!,
-                      directionName: "undefined",
-                      directionSigle: "undefined"
-                    }
-                  );
-                }else{
-                  this.userList.push(
-                    {
-                            idStructure: resp.idStructure!,
-                            idProfile:user.idProfiles!,
-                            profileName:user.name!,
-                            userName: user.currentUser!,
-                            status: user.status!,
-                            directionName: resp.name!,
-                            directionSigle: resp.sigle!
-                          }
-                        );
-                      }
-                    },
-                    error=>{  
-                    }
-                );
-              }
-            );
+            this.loading = false;
           }
         },
         error=>{
+          this.loading = false;
         }
       );
     }
 
-    setSatus(user: UserPoste) {
-      this.listenToLoading();
-      this.apiService.setProfileStatus(user.idProfile!).subscribe(
-        response =>{
-          let index: number = this.userList.findIndex(users => users.idProfile ===user.idProfile);
-          this.userList[index].status = !this.userList[index].status;
-
+    private pageSwitch(page: number, size: number){
+      this.loadingPage = true;
+      this.apiService.findAllProfiles(status=this.f["statusprofile"].value, page =page, size = size).subscribe(
+        response=>{
+          if(response==null){
+            this.isEmpty=true;
+            this.loadingPage = false;
+          }else{
+            this.isEmpty=false;
+            this.pageUsers=response;
+            this.loadingPage = false;
+          }
         },
         error=>{
-
+          this.loadingPage = false;
         }
-      )
-    }
-    
-   /* openDialogProfilDroit(user: UserPoste) {
-      this.openDialogService.openDialog(AddRemoveDroitComponent, user.idProfile);
-    }*/
-
-    openDialogUpdateName(user: UserPoste){
-      let profileInfos = {
-        idProfile: user.idProfile,
-        nameProfile: user.profileName
-      }
-      this.openDialogService.openDialog(UpdateNameComponent, profileInfos)
-                            .afterClosed()
-                            .subscribe(result => {
-                              if(result){
-                                this.refresf();
-                              }
-                            });
+      );
     }
 
-    openDialogUpdateUser(user: UserPoste){
-      let profileInfos = {
-        idProfile: user.idProfile,
-        userNameProfile: user.userName
-      }
-      this.openDialogService.openDialog(UpdateUserComponent, profileInfos)
-                            .afterClosed()
-                            .subscribe(result => {
-                              if(result){
-                                this.refresf();
-                              }
-                            });
-    }
-
-    openDialogGroupProfil(user: UserPoste) {
-      this.openDialogService.openDialog(AddRemoveInGroupComponent, user.idProfile);
-    }
-
-    openDialogProfil(user: UserPoste) {
-      let data = {
-        user:user.idProfile,
-        editable:false
-      }
-      this.openDialogService.openDialog(ProfilComponent, data);
-    }
     
   private changePageOrSize(page: number, size: number){
-    this.listenToLoading();    
-    this.initData(page,size);
+    this.pageSwitch(page,size);
   }
 
-  private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.searchUsersByName(name,page,size).subscribe(
-      response=>{
-        if(response==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=response;
-          this.pageUsers.content?.forEach( user=>{
-            if(user.currentUser==null)
-              user.currentUser = "empty";
-            this.apiService.currentStructure(user.idProfiles!).subscribe(
-              resp=>{
-                if(resp==null){
-                  this.userList.push(
-                    {
-                      idStructure: undefined,
-                      idProfile:user.idProfiles!,
-                      profileName:user.name!,
-                      userName: user.currentUser!,
-                      status: user.status!,
-                      directionName: "undefined",
-                      directionSigle: "undefined"
-                    }
-                  );
-                }else{
-                  this.userList.push(
-                    {
-                      idStructure: resp.idStructure!,
-                      idProfile:user.idProfiles!,
-                      profileName:user.name!,
-                      userName: user.currentUser!,
-                      status: user.status!,
-                      directionName: resp.name!,
-                      directionSigle: resp.sigle!
-                    }
-                  );
-                }
-              },
-              error=>{  
-              }
-          );
-        }
-          );
-        }
-      },
-      error=>{
-
-      }
-
-    );
+  private changePageOrSizeSearchByName(name: string, page: number, size: number){ 
+    this.pageSwitchsearchName(name=name, page=page, size=size);
   }
   
   changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
+    if(this.valueToSearch.trim().length!<=0){
       this.changePageOrSize(event.page, event.size);
     }else{
-      if(this.searchBy =="name"){
-        this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      }
-
+      this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
     }  
   }
  
-  private searchName(name: string){
-    this.listenToLoading();
-    this.apiService.searchUsersByName(name).subscribe(
+  private searchName(name: string, page: number, size: number){
+    this.loading = true;
+    this.apiService.searchUsersByName(name,this.f["statusprofile"].value, page, size).subscribe(
       response=>{
         if(response==null){
           this.isEmpty=true;
+          this.loading = false;
         }else{
           this.isEmpty=false;
           this.pageUsers=response;
-          this.pageUsers.content?.forEach( user=>{
-            if(user.currentUser==null)
-              user.currentUser = "empty";
-            this.apiService.currentStructure(user.idProfiles!).subscribe(
-              resp=>{
-                if(resp==null){
-                  this.userList.push(
-                    {
-                      idStructure: undefined,
-                      idProfile:user.idProfiles!,
-                      profileName:user.name!,
-                      userName: user.currentUser!,
-                      status: user.status!,
-                      directionName: "undefined",
-                      directionSigle: "undefined"
-                    }
-                  );
-                }else{
-                  this.userList.push(
-                    {
-                      idStructure: resp.idStructure!,
-                      idProfile:user.idProfiles!,
-                      profileName:user.name!,
-                      userName: user.currentUser!,
-                      status: user.status!,
-                      directionName: resp.name!,
-                      directionSigle: resp.sigle!
-                    }
-                  );
-                }
-              },
-              error=>{  
-              }
-          );
-            }
-          );
+          this.loading = false;
         }
       },
       error=>{
+        this.loading = false;
+      }
+    );
+  }
 
+  private pageSwitchsearchName(name: string, page: number, size: number){
+    this.loadingPage = true;
+    this.apiService.searchUsersByName(name,this.f["statusprofile"].value, page, size).subscribe(
+      response=>{
+        if(response==null){
+          this.isEmpty=true;
+          this.loadingPage = false;
+        }else{
+          this.isEmpty=false;
+          this.pageUsers=response;          
+          this.loadingPage = false;
+        }
+      },
+      error=>{
+        this.loadingPage = false;
       }
 
     );
   }
 
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    this.userList = [];
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      } 
+  search(){
+    if(this.valueToSearch.trim().length!>0){
+      this.searchName(this.valueToSearch, 0, 5);
     }else{
+      this.valueToSearch = "";
       this.initData(0,5);
       this.research=false;
-      this.searchBy = undefined;
     }
+
   }
 
     viewList(){
@@ -332,7 +177,14 @@ export class ListUserComponent implements OnInit {
     }
   
     refresf(){
-      this.userList=[];
       this.initData(0,5);
+    }
+
+    updateOnclickGen(e: any) {
+      if(this.valueToSearch.length!>0){
+        this.pageSwitchsearchName(this.valueToSearch, 0, 5);
+      }else{
+        this.pageSwitch(0,5);
+      }
     }
 }

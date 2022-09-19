@@ -5,18 +5,18 @@ import { ToastrService } from 'ngx-toastr';
 import * as constante from '../../../../loader/constante';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-//import { StructureControllerService, Structures } from 'src/app/model';
+import { StructureControllerService, Structures } from 'src/app/model';
 @Component({
   selector: 'app-add-substructure',
   templateUrl: './add-substructure.component.html',
   styleUrls: ['./add-substructure.component.scss']
 })
 export class AddSubstructureComponent implements OnInit {
-/*
+
   newStructureFormGroup!: FormGroup;
   constantes: any = constante;
   clicked: boolean= constante.falseValue;
- 
+  color = "#000000";
   StructureSigle: string|undefined;
   isEmpty: boolean = constante.trueValue;
   loading: boolean = constante.falseValue;
@@ -39,11 +39,11 @@ export class AddSubstructureComponent implements OnInit {
       }
     );
   }
-*/
+
   ngOnInit(): void {
-    //this.StructureSigle = this.data.sigle;
+    this.StructureSigle = this.data.sigle;
   }
-  /*
+  
   get f(): { [key: string]: AbstractControl } {
     return this.newStructureFormGroup.controls;
   }
@@ -55,10 +55,19 @@ export class AddSubstructureComponent implements OnInit {
       description: undefined,
       postes: undefined,
       sousStructure: undefined,
-      structureSuperieur: this.data
+      structureSuperieur: this.data,
+      active: constante.trueValue,
+      color: undefined,
+      dateCreation: undefined,
+      profiles:[]
     };
   }
 
+  desableButton(){
+    if(this.newStructureFormGroup.valid && this.color != '#000000')
+      return false;
+    return true;
+  }
   onSaveNewStructure(){
     this.clicked=constante.trueValue;
     let body: Structures=this.initStructureBean();
@@ -66,17 +75,19 @@ export class AddSubstructureComponent implements OnInit {
     body.sigle = this.f[constante.sigleSearchValue].value;
     body.description = this.f[constante.description].value;
     body.structureSuperieur=this.data;
+    body.color = this.color;
     this.apiService.addSubStructures(body).subscribe(
       res => {
         this.toastr.success(constante.tokenDefaultValue,constante.create);
         this.dialogRef.close(constante.trueValue);
       },
       error => {
-        console.log(error);
+        this.toastr.error(constante.tokenDefaultValue,constante.error);
         this.f[constante.sigleSearchValue].setValue(body.sigle); 
         this.f[constante.nameSearchValue].setValue(body.name); 
         this.f[constante.description].setValue(body.description);
         this.f[constante.structureSup].setValue(this.data!.name);
+        this.color = '#000000';
         this.clicked = false;
       }
     );
@@ -86,6 +97,6 @@ export class AddSubstructureComponent implements OnInit {
   }
  
 
-*/
+
 
 }

@@ -31,11 +31,30 @@ export class LocalDaoService {
   }
 
 
-
+  getData (key: string, removeItem: boolean = false): any {
+    const data: any = sessionStorage.getItem(key);
+    if (removeItem) {
+      sessionStorage.removeItem(key);
+    }
+    return data;
+  }
 
 
   exists(key: string): boolean {
     if (sessionStorage.getItem(key)) {
+        return true;
+    }
+    return false;
+  }
+
+  existsAll(): boolean {
+    if (
+      sessionStorage.getItem("token") && 
+      sessionStorage.getItem("roles") && 
+      sessionStorage.getItem("login") && 
+      sessionStorage.getItem("color") && 
+      sessionStorage.getItem("sigle") && 
+      sessionStorage.getItem("name")) {
         return true;
     }
     return false;
@@ -55,6 +74,10 @@ export class LocalDaoService {
 */
   removeData (key: string) {
     sessionStorage.removeItem(key);
+  }
+
+  removeAllData () {
+    sessionStorage.clear();
   }
 
   removeDataToken () {

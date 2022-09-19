@@ -1,69 +1,87 @@
-.userMain .userBlock{
-    float: left;
-    width: 100%;
-    box-shadow: 0px 0px 23px -3px #ccc;
-    padding-bottom: 12px;
-    margin-bottom: 30px;
-    overflow: hidden;
-    background:#fff;
-    
 
-}
-.userMain .userBlock .backgrounImg{
-    float: left;
-    overflow: hidden;
-    height: 77px;
-}
-.backgrounImg{
+.profile_view {
+    margin-bottom: 20px;
+    display: inline-block;
     width: 100%;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
 }
-.userMain .userBlock  img{
-    width: auto;
+.profile_view:hover {
+    -webkit-box-shadow: 0 14px 12px 0 rgba(0,0,0,0.17),0 20px 40px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 14px 12px 0 rgba(0,0,0,0.17),0 20px 40px 0 rgba(0,0,0,0.3);    
 }
-.userMain .userBlock .userImg{
-    text-align: center;
-}
-.userMain .userBlock .userImg img{
-    width: 80px;
-    height: 80px;
-    margin-top: -39px;
-    border-radius: 100%;
-    border: 5px solid #fff;
-    
-}
-.userMain .userBlock .userDescription{
-    text-align: center;
-}
-.userMain .userBlock .userDescription h5{
-    margin-bottom: 2px;
-    font-weight: 600;
-}
-.userMain .userBlock .userDescription p{
-    margin-bottom: 5px;
-}
-.userMain .userBlock .userDescription .btn{
-    padding: 0px 23px 0px 23px;
-    height: 22px;
-    border-radius: 0;
-    font-size: 12px;
-    background: #0198dd;
-    color: #fff;
-}
-.userMain .userBlock .userDescription .btn:hover{
-    
-    opacity:0.7;
+.well.profile_view {
+    padding: 10px 0 0;
 }
 
-.userMain .userBlock .followrs{
-    display: inline-flex;
-    margin-right: 10px;
-    border-right: 1px solid #ccc;
-    padding-right: 10px;
+.well.profile_view .divider {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 5px;
+    margin-top: 5px;
 }
-.userMain .userBlock .followrs .number{
-    font-size: 15px;
-    font-weight: bold;
-    margin-right: 5px;
-    margin-top: -1px;
+
+.well.profile_view .ratings {
+    margin-bottom: 0;
+}
+
+.pagination.pagination-split li {
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.pagination.pagination-split li a {
+    border-radius: 4px;
+    color: #768399;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.well.profile_view {
+    background: #fff;
+}
+
+.well.profile_view .bottom {
+    margin-top: -20px;
+    background: #F2F5F7;
+    padding: 9px 0;
+    border-top: 1px solid #E6E9ED;
+}
+
+.well.profile_view .left {
+    margin-top: 20px;
+}
+
+.well.profile_view .left p {
+    margin-bottom: 3px;
+}
+
+.well.profile_view .right {
+    margin-top: 0px;
+    padding: 10px;
+}
+
+.well.profile_view .img-circle {
+    border: 1px solid #E6E9ED;
+    padding: 2px;
+}
+
+.well.profile_view h2 {
+    margin: 5px 0;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.well.profile_view .ratings {
+    text-align: left;
+    font-size: 16px;
+}
+
+.well.profile_view .brief {
+    margin: 0;
+    font-weight: 300;
+}
+
+.profile_left {
+    background: white;
 }
 

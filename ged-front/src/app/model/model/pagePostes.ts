@@ -14,8 +14,8 @@ import { Postes } from './postes';
 import { Sort } from './sort';
 
 export interface PagePostes { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<Postes>;
     number?: number;

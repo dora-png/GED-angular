@@ -1,67 +1,27 @@
-<mat-divider></mat-divider>
-<mat-sidenav-container class="example-container" >
-  <mat-sidenav mode="side" opened>
-    <mat-toolbar>
-      <br>
-      <button [matMenuTriggerFor]="new" class="btn-1"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau</button>
-      <br>
-      <mat-menu #new="matMenu">
-        <mat-list>
-          <mat-list-item>
-            <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>  
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un dossier</button>  
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
-          </mat-list-item>  
-          <mat-list-item>
-            <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
-          </mat-list-item>
-        </mat-list>
-      </mat-menu>
-    </mat-toolbar>
-    <mat-nav-list class="menu">
-      <mat-tree style="padding-left: 1em;" [dataSource]="dataSource" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-          <!-- use a disabled button to provide padding for tree leaf -->
-          <!--button mat-icon-button (click)="openDialog()" ><mat-icon> insert_drive_file</mat-icon> {{node.name}} </button-->    
-          <button mat-button ><i class="fa fa-folder" aria-hidden="true"></i> {{node.name}} </button>
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-            <i class="fa fa-folder" aria-hidden="true" matTooltip="MENU" *ngIf="!treeControl.isExpanded(node); else showCross"></i>
-            <ng-template #showCross>
-                <i class="fa fa-folder-open" aria-hidden="true"></i>
-            </ng-template>
-                {{node.name}} 
-        </button>
-         
-        </mat-tree-node>
-      </mat-tree>
-         
-      <mat-divider></mat-divider>
-      <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
-      <mat-divider></mat-divider>
-      <a mat-list-item routerLinkActive="active" routerLink="/courrier" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
-      
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div style="overflow-x: unset;">
-      <app-list-doc></app-list-doc>
-      <app-list-liasse></app-list-liasse>
-    </div>
-    
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
+<!-- <div class="row">
+  <div class="col-md-12">
+    <div class="left">
+      <div class="item">
+      <span class="glyphicon glyphicon-th-large"></span>
+      </div>
+      <div class="item active">
+      <span class="glyphicon glyphicon-th-list"></span>
+          Все документы</div>
+      <div class="item">
+      <span class="glyphicon glyphicon-log-out"></span>
+          Расходные накладные</div>
+      <div class="item">
+      <span class="glyphicon glyphicon-log-in"></span>
+          Приходные накладные</div> 
+      <div class="item">
+      <span class="glyphicon glyphicon-random"></span>
+          Акты переоценки</div>
+      <div class="item">
+      <span class="glyphicon glyphicon-remove"></span>
+          Акты списания</div>    
+      </div>
+      <div class="right">
+        <app-dashbord></app-dashbord>
+      </div>
+  </div>
+</div> -->

@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="row" *ngIf="edit">
+    <div class="col-sm-3">
+      <button class="btn btn-info btn-lg" (click)="openDialogAddSubStructure()">Add Sous Structure</button>
+    </div>
+  </div>  
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-4"  *ngFor="let structure of listSubStructure;let indexOfelement=index">
+        <div class="cards">
+            <div class="card card-1">
+              <div class="card__icon" [style.color]="structure.color"><i class="fa fa-cubes fa-2x"></i></div>
+              <p class="card__exit"><i class="fa fa-times"></i></p>
+              <br>
+              <h2 class="card__title">{{structure.name}} ({{structure.sigle}})</h2>
+              <p class="card__apply" style="cursor: pointer;">
+                <a class="card__link" (click)="onSee(structure)">See <i class="fa fa-arrow-right"></i></a>
+              </p>
+            </div>
+          </div>
+    </div>
+</div>
+    

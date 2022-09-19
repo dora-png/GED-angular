@@ -14,8 +14,8 @@ import { PageableObject } from './pageableObject';
 import { Sort } from './sort';
 
 export interface PageDocs { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<Docs>;
     number?: number;

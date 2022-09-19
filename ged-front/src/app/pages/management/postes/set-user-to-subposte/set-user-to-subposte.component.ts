@@ -1,11 +1,13 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { delay, Observable, of } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
 import { OpenDialogService } from 'src/app/loader/open-dialog.service';
-//import { LogPosteUserControllerService, PageUsers, PosteControllerService, Postes, Users, UsersControllerService } from 'src/app/model';
+import { PageProfiles, Postes, Profiles, UsersControllerService } from 'src/app/model';
+import { LogPosteUserControllerService } from 'src/app/model/api/logPosteUserController.service';
+import { PosteControllerService } from 'src/app/model/api/posteController.service';
 
 @Component({
   selector: 'app-set-user-to-subposte',
@@ -13,72 +15,106 @@ import { OpenDialogService } from 'src/app/loader/open-dialog.service';
   styleUrls: ['./set-user-to-subposte.component.scss']
 })
 export class SetUserToSubposteComponent implements OnInit {
-/*
+
   isEmpty: boolean = true;
+  clicked: boolean= false;
   loading: boolean = false;
+  loadingPage: boolean = false;
   research: boolean = false;
   view: boolean = false;
-  currentUser: Users[] = [];
-  listUser: Users[] = [];
+  currentProfile!: Profiles;
+  private dataProfile!: Profiles;
   private valueToSearch!: string;
-  searchBy: 'name' | 'login' | undefined;
-  private pagesize ={page: 0, size: 5};
   posteName: string = "";
-  pageUsers!: PageUsers;
+  pageProfiles!: PageProfiles;
 
    
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: Postes,
-    private loaderService: LoaderService,
-    private openDialogService: OpenDialogService,
-    private apiUsersService: UsersControllerService,   
+    @Inject(MAT_DIALOG_DATA) private data: Postes,  
     private apiServiceLogPosteUser: LogPosteUserControllerService,
+    private apiUsersService: UsersControllerService,
     private apiService: PosteControllerService,    
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogRef:  MatDialogRef<SetUserToSubposteComponent>
     ) {
       this.posteName = this.data.name!;
      }
-*/
-     ngOnInit(): void {
-      //this.listenToLoading();
-      //this.initData();
-    }
-  /*
-    private listenToLoading(): void {
-      this.loaderService.getSub
-        .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-        .subscribe((loading) => {
-          this.loading = loading;
-        });
+
+    ngOnInit(): void {
+      this.loading = true;
+     this.initData();
     }
 
     private findAllUser(page?: number, size?: number){
-      this.apiUsersService.findAll1(page,size).subscribe(
+      this.apiUsersService.findAllProfiles(1,page,size).subscribe(
         resp=>{
           if(resp==null){
             this.isEmpty=true;
           }else{
             this.isEmpty=false;
-            this.pageUsers=resp;
-            this.listUser = resp!.content!;
+            this.pageProfiles=resp;
           }
+          this.loading = false;
         },
         error=>{
-          this.toastr.info(error.error.message, "Infos");
+          this.loading = false;
+          this.toastr.info("Check your internet connexion", "Infos");
+        }
+      );
+    }
+
+    private pageSwitch(page?: number, size?: number){      
+      this.loadingPage = true;
+      this.apiUsersService.findAllProfiles(1,page,size).subscribe(
+        resp=>{
+          if(resp==null){
+            this.isEmpty=true;
+          }else{
+            this.isEmpty=false;
+            this.pageProfiles=resp;
+          }
+          this.loadingPage = false;
+          this.clicked = false;
+        },
+        error=>{
+          this.clicked = false;
+          this.loadingPage = false;
+          this.toastr.info("Check your internet connexion", "Infos");
+        }
+      );
+    }
+
+    private pageSwitchNotEmpty(listUserId: number, page?: number, size?: number){      
+      this.loadingPage = true;
+      this.apiUsersService.findAllProfilesToAddInPoste(listUserId,page,size).subscribe(
+        resp=>{
+          if(resp==null){
+            this.isEmpty=true;
+          }else{
+            this.isEmpty=false;
+            this.pageProfiles=resp;
+          }
+          this.loadingPage = false;
+          this.clicked = false;
+        },
+        error=>{
+          this.clicked = false;
+          this.loadingPage = false;
+          this.toastr.info("Check your internet connexion", "Infos");
         }
       );
     }
 
     private findAllUserNotIn(listUserId: number, page?: number, size?: number){
-      this.apiUsersService.listUserToAdd(listUserId,page,size).subscribe(
+      this.apiUsersService.findAllProfilesToAddInPoste(listUserId,page,size).subscribe(
         resp=>{
           if(resp==null){
             this.isEmpty=true;
           }else{
             this.isEmpty=false;
-            this.pageUsers=resp;
-            this.listUser = resp!.content!;
+            this.pageProfiles=resp;
           }
+          this.loading = false;
         },
         error=>{
           this.toastr.info(error.error.message, "Infos");
@@ -87,207 +123,82 @@ export class SetUserToSubposteComponent implements OnInit {
     }
     
     private initData(){
-      this.currentUser = [];
       this.apiServiceLogPosteUser.currentUserOfPoste(this.data!.idposte!).subscribe(
         resp=>{
-          this.currentUser.push(resp);
-          this.findAllUserNotIn(resp.iduser!);
+          if(resp != null){
+            this.dataProfile = resp;
+            this.currentProfile = this.getCurrentProfile();
+            this.findAllUserNotIn(resp.idProfiles!,0,5);
+          }else{
+            this.findAllUser(0,5);
+          }
         },
-        error=>{
-          this.toastr.info(error.error.message, "Infos");
-          this.findAllUser();
+        error=>{          
+          this.loading=false;
+          this.toastr.info("Check your internet", "Infos");
         }
       );
     }
 
-    private initUser(): Users{
-      return {
-        iduser: undefined,
-        username:undefined,
-        name:undefined,
-        password:undefined,
-        dateCreation:undefined,
-        status:undefined
-
-
-      };
+    private getData(){
+      this.loadingPage=true,
+      this.apiServiceLogPosteUser.currentUserOfPoste(this.data!.idposte!).subscribe(
+        resp=>{
+          if(resp != null){
+            this.dataProfile = resp;
+            this.currentProfile = this.getCurrentProfile();
+            this.pageSwitchNotEmpty(resp.idProfiles!,0,5);
+          }else{
+            this.pageSwitch(0,5);
+          }
+        },
+        error=>{          
+          this.loadingPage=false;
+          this.toastr.info("Check your internet", "Infos");
+        }
+      );
     }
     
-  private changePageOrSize(page: number, size: number){
-    this.listenToLoading();
-    this.apiUsersService.findAll1(page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=res;
-          this.listUser = res!.content!;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
-  private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiUsersService.searchByName1(name, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=res;
-          this.listUser = res!.content!;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
+    private getCurrentProfile(): Profiles{
+      return this.dataProfile;
+    }
+    
   
-  private changePageOrSizeSearchByLogin(login: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiUsersService.searchByLogin(login, page, size).toPromise().then(
-      res => {
-        if(res==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageUsers=res;
-          this.listUser = res!.content!;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
-  }
-
   changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
-      this.changePageOrSize(event.page, event.size);
+
+    if(this.dataProfile==null){
+      this.pageSwitch(event.page, event.size);
     }else{
-      if(this.searchBy =="name"){
-        this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else if(this.searchBy =="login"){       
-        this.changePageOrSizeSearchByLogin(this.valueToSearch!, event.page, event.size);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      }
+      this.pageSwitchNotEmpty(this.dataProfile.idProfiles!, event.page, event.size);
 
     }    
   }
- 
-  private searchName(name: string){
-    this.listenToLoading();
-    this.apiUsersService.searchByName1(name).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
-        }else{
-          this.research=false;
-          this.pageUsers=res;
-          this.listUser = res!.content!;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
+
+  addProfile(profile: Profiles){
+    this.clicked = true;
+    this.apiService.addUser(this.data.idposte!, profile.idProfiles!).subscribe(
+      response=>{
+        this.getData();
+      },
+      error=>{
+        this.clicked = false;
+        this.loadingPage=false;
+        this.toastr.error("Check your internet", "Infos");
       }
     );
   }
 
-  private searchLogin(name: string){
-    this.listenToLoading();
-    this.apiUsersService.searchByLogin(name).toPromise().then(
-      res => {
-        if(res==null){
-          this.research=true;
-          this.initData();
-        }else{
-          this.research=false;
-          this.pageUsers=res;
-          this.listUser = res!.content!;
-        }
-      }
-    ).catch(
-      error => {
-      }
-    ).finally(
-      () => {
-      }
-    );
+  onClose(){
+    this.dialogRef.close(this.currentProfile);
   }
 
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else if(this.searchBy =="login"){        
-        this.searchLogin(this.valueToSearch);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      } 
-    }else{
-      this.initData();
-      this.research=false;
-      this.searchBy = undefined;
-    }
+  save(){
+    this.dialogRef.close(this.dataProfile);
   }
 
-  viewList(){
-    this.view=!this.view;
-
+  containProfile(profile: Profiles){
+    return profile.name === this.currentProfile.name;
   }
 
-  refresf(){
-    this.listenToLoading();
-    this.initData();
-  }
 
-  onDrop(event: CdkDragDrop<Users []>){
-    if(event.previousContainer==event.container){
-    }else{
-      if(event.previousContainer.data == this.listUser ){
-        console.log(this.listUser[event.previousIndex]);
-        this.apiService.addUser(this.data.idposte!,this.listUser[event.previousIndex].iduser!).subscribe(
-          response=>{
-            this.toastr.success("ok", "Infos");
-            this.refresf();
-          },
-          error=>{
-            this.toastr.info(error.error.message, "Infos");
-          }
-        );
-       //transferArrayItem(
-         // this.listUser,
-         // this.currentUser,
-         // event.previousIndex,
-         // event.currentIndex
-        //);
-      }
-
-    }
-  }
-    
-*/
 }

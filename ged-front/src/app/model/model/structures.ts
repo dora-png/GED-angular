@@ -10,14 +10,17 @@
  * Do not edit the class manually.
  */
 import { Postes } from './postes';
+import { Profiles } from './profiles';
 
 export interface Structures { 
     idstructure?: number;
     name?: string;
     sigle?: string;
+    color?: string;
     description?: string;
     active?: boolean;
     postes?: Array<Postes>;
+    profiles?: Array<Profiles>;
     structureSuperieur?: Structures;
     sousStructure?: Array<Structures>;
     dateCreation?: Date;

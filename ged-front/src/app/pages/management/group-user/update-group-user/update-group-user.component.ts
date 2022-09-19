@@ -35,7 +35,7 @@ export class UpdateGroupUserComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+/*
   get f(): { [key: string]: AbstractControl } {
     return this.newGroupFormGroup.controls;
   }
@@ -59,6 +59,6 @@ export class UpdateGroupUserComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-
+*/
 
 }

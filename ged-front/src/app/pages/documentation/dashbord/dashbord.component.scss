@@ -1,0 +1,295 @@
+.sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    width: 280px;
+  }
+  
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+  
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+  
+  .right{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  
+  .logout{
+    flex-grow: 1;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .title{
+    flex-grow: 8;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  #Brel CSS
+  .ng-valid[required], .ng-valid.required  {
+    border: 2px solid #42A948;
+  }
+  .ng-invalid:not(form):not(.ng-pristine)  {
+    border: 2px solid #a94442;
+  }
+  .command-row{
+    margin-bottom: 15px;
+  }
+  mat-card + .command-row, mat-card + mat-card{
+    margin-top: 15px;
+  }
+  .command-row a{
+    color: white !important;
+    margin: 3px;
+  }
+  .mat-table {
+  overflow: auto;
+  }
+  .mat-column-select {
+  overflow: visible;
+  }
+  .table-filter {
+  min-height: 64px;
+  padding: 8px 24px 0;
+  }
+  .mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  }
+  .green {
+  color: green;
+  }
+  .red {
+  color: red;
+  }
+  .our-display fieldset{
+    margin-bottom: 20px;
+  }
+  .our-display legend{
+    margin-bottom: 15px;
+    border-bottom: 1px solid #343a40;
+    font-size: 1.1em;
+  }
+  .our-display label{
+    font-style: italic;
+    font-size: 0.9em;
+  }
+  .our-display label::after{
+    content: " : ";
+  }
+  app-alert{
+    position: fixed;
+    top: 56px;
+    width: 100%;
+    z-index: 10000;
+    left: 0;
+  }
+  .modal{
+    z-index: 99999 !important;
+  }
+  .required-star{
+    color: red;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .details-list strong.form-control{
+    border-radius: 0px !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  .special-card{
+    border: none;
+    box-shadow: none !important;
+  }
+  .dropdown-item{
+  cursor: pointer;
+  }
+  .dark a{
+  color: gray !important;
+  }
+  
+  .menu a{
+    border-bottom: #343a40 solid 1px;
+    margin-bottom: 10px;
+  }
+  
+  .menu a:hover{
+    transition-duration: 50ms;
+    color: darkslategray;
+    transition-delay: 5ms;
+  }
+  
+  i{
+    margin-right: 3px;
+  }
+
+  .btn-1 {
+    font-family: Hack, monospace;
+    background: #1f1f20;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0.5rem;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+
+    /*&::after {
+        content: "\f054";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 400;
+        position: absolute;
+        left: 85%;
+        top: 31%;
+        right: 5%;
+        bottom: 0;
+        opacity: 0;
+
+    }*/
+
+    &:hover {
+        background: #f2f2f5;
+        color: #000000;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px #00eeff61;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+
+        &::after {
+            opacity: 1;
+            transition: all 0.5s;
+
+        }
+    }
+
+
+}
+
+.fixedButton{
+  position: fixed;
+  bottom: 0px;
+  right: 0px; 
+  padding: 20px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+
+.input-group .icon-addon .form-control {
+  border-radius: 10%;
+}
+
+.icon-addon {
+  position: relative;
+  color: #555;
+  display: block;
+}
+
+.icon-addon:after,
+.icon-addon:before {
+  display: table;
+  content: " ";
+}
+
+.icon-addon:after {
+  clear: both;
+}
+
+.icon-addon.addon-md .glyphicon,
+.icon-addon .glyphicon, 
+.icon-addon.addon-md .fa,
+.icon-addon .fa {
+  position: absolute;
+  z-index: 2;
+  left: 10px;
+  font-size: 14px;
+  width: 20px;
+  margin-left: -2.5px;
+  text-align: center;
+  padding: 10px 0;
+  top: 1px
+}
+
+.icon-addon.addon-lg .form-control {
+  line-height: 1.33;
+  height: 46px;
+  font-size: 18px;
+  padding: 10px 16px 10px 40px;
+}
+
+.icon-addon.addon-sm .form-control {
+  height: 30px;
+  padding: 5px 10px 5px 28px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.icon-addon.addon-lg .fa,
+.icon-addon.addon-lg .glyphicon {
+  font-size: 18px;
+  margin-left: 0;
+  left: 11px;
+  top: 4px;
+}
+
+.icon-addon.addon-md .form-control,
+.icon-addon .form-control {
+  padding-left: 30px;
+  float: left;
+  font-weight: normal;
+}
+
+.icon-addon.addon-sm .fa,
+.icon-addon.addon-sm .glyphicon {
+  margin-left: 0;
+  font-size: 12px;
+  left: 5px;
+  top: -1px
+}
+
+.icon-addon .form-control:focus + .glyphicon,
+.icon-addon:hover .glyphicon,
+.icon-addon .form-control:focus + .fa,
+.icon-addon:hover .fa {
+  color: #2580db;
+}
+
+.footer{
+  position: relative;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   text-align: center;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+.yui-dt-liner {
+  padding: 4px;
+  padding-top: 4px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+}
+.my-sites .detail {
+  clear: left;
+  line-height: 1.5em;
+  min-height: 1.5em;
+  padding-bottom: 0.2em;
+}

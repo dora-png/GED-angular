@@ -17,301 +17,184 @@ import { HttpStatusCode } from 'src/app/loader/status-code';
 export class AddRoleGroupUserComponent implements OnInit {
 
 
-  isEmpty: boolean = true;
-  loading: boolean = false;
-  clicked: boolean = false;
-  groupRoleEdited: boolean = constante.falseValue;
+  droitsList: Droits[]=[];
+  valid: boolean= true;
+  clicked: boolean= false;
+  isEmpty: boolean = false;
+  loading: boolean = true;
+  loadingPage: boolean = false;
   research: boolean = false;
   view: boolean = false;
+  valueToSearch: string = "";
+  droitPage! : PageDroits;
+  groupRoleEdited: boolean = constante.falseValue;
   currentRoles: Droits[] = [];
   listRoles: Droits[] = [];
-  private valueToSearch!: string;
-  searchBy: 'name' | 'login' | undefined;
   private pagesize ={page: 0, size: 5};
   groupName: string = "";
   pageDroits!: PageDroits;
 
    
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: number,
-    private loaderService: LoaderService,
-    private apiGroupsService: GroupUserControllerService,   
+    @Inject(MAT_DIALOG_DATA) private data: Droits[],
     private apiService: DroitsControllerService,
-    private auth: AuthenticationService,    
     private toastr: ToastrService,
     private dialogRef:  MatDialogRef<AddRoleGroupUserComponent>
     ) {
      }
 
      ngOnInit(): void {
-      //this.listenToLoading();
+      this.droitsList = this.data;
       this.initData(0,5);
-    }
-      
-    private listenToLoading(): void {
-      this.loaderService.getSub
-        .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-        .subscribe((loading) => {
-          this.loading = loading;
-        });
-    }
-
-    private findAllRulesNotIn(droitList: number[], page?: number, size?: number){
-      this.apiService.findListDroitToAddInGroup(droitList,page,size).subscribe(
-        resp=>{
-          if(resp==null){
-            this.pageDroits = resp;
-          }else{
-            this.pageDroits = resp;
-          }
-        },
-        error=>{
-          this.toastr.info(error.error.message, "Infos");
-        }
-      );
-    }
-
-    private findAllRules(page?: number, size?: number){
-      this.apiService.findAllDroit(page,size).subscribe(
-        resp=>{
-          console.log(resp)
-          this.pageDroits = resp;
-        },
-        error=>{
-          this.toastr.info(error.error.message, "Infos");
-        }
-      );
     }
     
     private initData(page: number, size: number){
-      this.currentRoles = [];
-      this.apiService.findAllDroitUser(this.data!,page,size).subscribe(
+      this.loading = true;
+      this.apiService.findAllDroit1(page,size).subscribe(
         resp=>{
           if(resp==null){
             this.isEmpty=true;
-            this.findAllRules();
+            this.loading = false;
           }else{
             this.isEmpty=false;
-            this.currentRoles=resp;
-            let listIds : Array<number> = [];
-            this.currentRoles.forEach(droits =>{
-              let id: number = droits.iddroit!;
-              listIds.push(id.valueOf());
-            });
-            this.findAllRulesNotIn(listIds);
+            this.droitPage = resp;
+            this.loading = false;
           }
         },
         error=>{
+          this.loading = false;
           this.toastr.info(error.error.message, "Infos");
         }
       );
     }
+  
+    onClose(){
+      this.dialogRef.close(this.data);
+    }
+
+    onReset(){
+      this.droitsList = this.initDroitsList();
+      this.valid = true;
+    }
+
+    save(){
+      this.dialogRef.close(this.droitsList);
+    }
 
     addDroit(droit: Droits){
-      //this.droitToAdd.push(droit);
+      this.droitsList.push(droit);
     }
+
     containDroit(droit: Droits){
       let containElement: boolean= false
-      /*this.droitToAdd.find(
+      this.droitsList.find(
         droits=>{
           if(droit.iddroit===droits.iddroit){
             containElement = true;
           }
         }
-      );*/
+      );
       return containElement;
     }
   
     removeDroit(droit: Droits){    
-      /*this.droitToAdd = this.droitToAdd.filter(function (droits) {
-          return droits.abbr != droit.abbr;
-        }
-      );*/
-    }
-    
-  onRemove(droitBean: Droits){    
-   /* this.clicked=!this.clicked;
-    let profilesDroitBean: ProfilesDroitBean = {
-      droit: droitBean.iddroit,
-      profile: this.data
-    };*/
-   /* this.apiServiceProfile.removeDroitsToUsers(profilesDroitBean).subscribe(
-      response=>{
-        this.droitBeans = this.droitBeans.filter(function (droits) {
-          return droits.iddroit != droitBean.iddroit && droits.typeDroit != droitBean.typeDroit;
+      this.droitsList = this.droitsList.filter(function (droits) {
+          return droits.description != droit.description;
         }
       );
-        this.clicked=!this.clicked;
-      },
-      error=>{
-        this.clicked=!this.clicked;
-      }
-    )*/
-  }
+    }
 
-  onClose(){
-    this.closeModal(false);
-  }
+    initDroitsList(): Droits[] {
+      return this.data;
+    }
 
-  private closeModal(value: boolean){
-    this.dialogRef.close(value);
-  }
-
-  changePageAndSize(event: any){
     
-  }
-  /*  
-  private changePageOrSize(page: number, size: number){
-    this.listenToLoading();
-    this.initData(page, size);
-  }
-
-  private changePageOrSizeSearchByName(name: string, page: number, size: number){
-    this.listenToLoading();
-    this.apiService.findRoleToAddName(this.data.idgroupes!,name, page, size).subscribe(
-      resp=>{
-        if(resp==null){
+  private pageSwitch(page: number, size: number){
+    this.loadingPage = true;
+    this.apiService.findAllDroit1(page=page,size=size).subscribe(
+      response=>{
+        console.log(response)
+        if(response==null){
           this.isEmpty=true;
+          this.loadingPage = false;
         }else{
           this.isEmpty=false;
-          this.pageRoles=resp;
-          this.listRoles = resp!.content!;
+          this.droitPage = response!;    
+          this.loadingPage = false;
         }
       },
       error=>{
-        this.toastr.info(error.error.message, "Infos");
+        this.loadingPage = false;
       }
     );
   }
-
-  changePageAndSize(event: {page: number, size: number}){
-    if(this.searchBy==null){
-      this.changePageOrSize(event.page, event.size);
-    }else{
-      if(this.searchBy =="name"){
-        this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
-      }else{
-        this.toastr.info("Cochez sur name pour la recherche", "Infos");
-      }
-
-    }    
-  }
- 
-  private searchName(name: string){
-    this.listenToLoading();
-    this.apiService.findRoleToAddName(this.data.idgroupes!,name).subscribe(
-      resp=>{
-        if(resp==null){
-          this.isEmpty=true;
-        }else{
-          this.isEmpty=false;
-          this.pageRoles=resp;
-          this.listRoles = resp!.content!;
-        }
-      },
-      error=>{
-        this.toastr.info(error.error.message, "Infos");
-      }
-    );
-  }
-
-
-  search(event: any){
-    let searchValue: string =event.target.value;
-    searchValue = searchValue.trim();
-    if(searchValue.length!>0){
-      this.valueToSearch=searchValue;
-      if(this.searchBy =="name"){
-        this.searchName(this.valueToSearch);
-      }else{
-        this.toastr.error("err.error.message", "Error +err.status");
-      } 
-    }else{
-      this.initData(0,5);
-      this.research=false;
-      this.searchBy = undefined;
-    }
-  }
-
-  viewList(){
-    this.view=!this.view;
-
-  }
-
-  refresf(){
-    this.listenToLoading();
-    this.initData(0,5);
-  }
-
-  onDrop(event: CdkDragDrop<Roles []>){
-    if(event.previousContainer!=event.container){
-      if(event.previousContainer.data == this.listRoles ){
-        transferArrayItem(
-          this.listRoles,
-          this.currentRoles,
-          event.previousIndex,
-          event.currentIndex
-        );
-        this.groupRoleEdited = constante.trueValue;
-
-        //this.apiGroupsService.addPosteToGroup(groupToAdd).subscribe(
-         // response=>{
-         //   this.toastr.success("Added", "OK");
-            
-         // },
-        //  error=>{
-        //    this.toastr.info(error.error.message, "Infos");
-        //  }
-        //);
-
-      }
-
-    }
-  }
-
- 
   
-  onRemove(role: Roles){
-    this.data.roleslistes = [];
-    this.data.roleslistes.push(role);
-    this.apiGroupsService.removeRoleToGroup(this.data).subscribe(
-      response=>{
-        this.toastr.success("", constante.update);
-        this.initData(0,5);
-      },
-      error=>{
-        if(error.status === HttpStatusCode.Unauthorized){
-          this.auth.onLogOut5S(error.error);
-          this.dialogRef.close(constante.falseValue);
-        }else{
-          this.toastr.error(constante.tokenDefaultValue,constante.error);
-        }
+private changePageOrSize(page: number, size: number){
+  this.pageSwitch(page,size);
+}
+
+private changePageOrSizeSearchByName(name: string, page: number, size: number){ 
+  this.pageSwitchsearchName(name=name, page=page, size=size);
+}
+
+changePageAndSize(event: {page: number, size: number}){
+  if(this.valueToSearch.trim().length!<=0){
+    this.changePageOrSize(event.page, event.size);
+  }else{
+    this.changePageOrSizeSearchByName(this.valueToSearch!, event.page, event.size);
+  }  
+}
+
+private searchName(name: string, page: number, size: number){
+  this.loadingPage = true;
+  this.apiService.findDroitByDescription(name, page=page, size=size).subscribe(
+    response=>{
+      if(response==null){
+        this.isEmpty=true;
+        this.loadingPage = false;
+      }else{
+        this.isEmpty=false;
+        this.droitPage = response!;  
+        this.loadingPage = false;
       }
-    );
-  }
-  onClose(){
-    this.isEmpty = constante.trueValue;
-    this.loading = constante.falseValue;
-    this.research = constante.falseValue;
-    this.groupRoleEdited = constante.falseValue;
-    this.dialogRef.close(constante.trueValue);
+    },
+    error=>{
+      this.loadingPage = false;
+    }
+  );
+}
+
+private pageSwitchsearchName(name: string, page: number, size: number){
+  this.loadingPage = true;
+  this.apiService.findDroitByDescription(name, page=page, size=size).subscribe(
+    response=>{
+      if(response==null){
+        this.isEmpty=true;
+        this.loadingPage = false;
+      }else{
+        this.isEmpty=false;
+        this.droitPage = response!;        
+        this.loadingPage = false;
+      }
+    },
+    error=>{
+      this.loadingPage = false;
+    }
+
+  );
+}
+
+search(){
+  if(this.valueToSearch.trim().length!>0){
+    this.searchName(this.valueToSearch, 0, 5);
+  }else{
+    this.valueToSearch = "";
+    this.initData(0,5);
+    this.research=false;
   }
 
-  onSave(){
-    this.data.roleslistes = this.currentRoles;
-    this.apiGroupsService.addRoleToGroup(this.data).subscribe(
-      response=>{
-        this.toastr.success("", constante.update);
-        this.dialogRef.close(constante.trueValue);       
-      },
-      error=>{
-        if(error.status === HttpStatusCode.Unauthorized){
-          this.auth.onLogOut5S(error.error);
-          this.dialogRef.close(constante.falseValue);
-        }else{
-          this.toastr.error(constante.tokenDefaultValue,constante.error);
-        }
-      }
-    );
-  }*/
+}
+    
+
+
 }

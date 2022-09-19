@@ -1,10 +1,9 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-//import { PosteControllerService, Postes } from 'src/app/model';
+import { PosteControllerService, Postes } from 'src/app/model';
 
 @Component({
   selector: 'app-add-subposte',
@@ -12,7 +11,7 @@ import { LoaderService } from 'src/app/loader/loader.service';
   styleUrls: ['./add-subposte.component.scss']
 })
 export class AddSubposteComponent implements OnInit {
-  /*newPosteFormGroup!: FormGroup;
+  newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
   
    
@@ -32,10 +31,10 @@ export class AddSubposteComponent implements OnInit {
       }
     );
    }
-*/
+
   ngOnInit(): void {
   }
-/*
+  
   get f(): { [key: string]: AbstractControl } {
     return this.newPosteFormGroup.controls;
   }
@@ -48,7 +47,7 @@ export class AddSubposteComponent implements OnInit {
       description: undefined,
       posteSubalterne: undefined,
       posteSuperieur: this.data!,
-      groupslistes: undefined,
+      dateCreation : undefined,
       structure:this.data!.structure!,
     };
   }
@@ -81,5 +80,5 @@ export class AddSubposteComponent implements OnInit {
   onClose(){
     this.dialogRef.close(false);
   }
-*/
+
 }

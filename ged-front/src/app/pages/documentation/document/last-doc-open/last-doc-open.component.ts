@@ -41,7 +41,6 @@ interface ExampleFlatNode {
   styleUrls: ['./last-doc-open.component.scss']
 })
 export class LastDocOpenComponent implements OnInit {
- 
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,

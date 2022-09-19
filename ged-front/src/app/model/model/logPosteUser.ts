@@ -10,13 +10,12 @@
  * Do not edit the class manually.
  */
 import { Postes } from './postes';
-import { Users } from './users';
+import { Profiles } from './profiles';
 
 export interface LogPosteUser { 
     idloguserposte?: number;
     dateDebut?: Date;
     dateFin?: Date;
-    actiondo?: string;
     posteId?: Postes;
-    userId?: Users;
+    ldaplogin?: Profiles;
 }

@@ -14,15 +14,15 @@ import { PageableObject } from './pageableObject';
 import { Sort } from './sort';
 
 export interface PageGroupProfile { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
+    numberOfElements?: number;
+    pageable?: PageableObject;
     size?: number;
     content?: Array<GroupProfile>;
     number?: number;
     sort?: Sort;
     first?: boolean;
     last?: boolean;
-    numberOfElements?: number;
-    pageable?: PageableObject;
     empty?: boolean;
 }

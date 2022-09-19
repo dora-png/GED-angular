@@ -1,4 +1,4 @@
-<!-- <h2 mat-dialog-title>Add SubStructure to {{StructureSigle}}</h2>
+<h2 mat-dialog-title>Add SubStructure to {{StructureSigle}}</h2>
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="newStructureFormGroup" class="example-form">
       <div  class="row">
@@ -57,16 +57,16 @@
     </div>
     <div  class="row">
           <div class="col-md-12">            
-              <div class="example-list" >          
+              <div class="example-list" > 
+                <span>Choose color of Structure</span>         
               <div class="example-box" >
-                  <i class="fa fa-circle  fa-4x" formControlName="color" aria-hidden="true" name="color" id="color" 
+                  <i class="fa fa-circle  fa-4x" aria-hidden="true" name="color" id="color" 
                     [style.color]="color"
                         [cpPosition]="'bottom'"
                         [cpPositionOffset]="'50%'"
                         [cpPositionRelativeToArrow]="true"
-                        [(colorPicker)]="f['color'].value"></i>
-                <span *ngIf="f['color'].touched && f['color'].errors" style="color: red;">
-                  {{f["color"].errors|json}}</span>
+                        [(colorPicker)]="color"></i>
+                
               </div>
               </div>
           </div>
@@ -78,8 +78,7 @@
   <mat-dialog-actions align="end">
     <button mat-button *ngIf="clicked"><i class='fa fa-spinner fa-spin fa-4x '></i> </button>    
     <button mat-button *ngIf="!clicked" (click)="onClose()">Cancel</button>
-    <button *ngIf="!clicked" type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewStructure()" class="btn btn-success">
-      Save Structure
+    <button *ngIf="!clicked" type="button"[disabled]="desableButton()" (click)="onSaveNewStructure()" class="btn btn-success">
+      Save Structure 
     </button>
   </mat-dialog-actions>
- -->

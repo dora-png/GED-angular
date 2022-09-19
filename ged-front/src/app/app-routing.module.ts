@@ -18,13 +18,128 @@ import { ListCourrierComponent } from './pages/courrier/list-courrier/list-courr
 import { ManageIndexComponent } from './pages/management/manage-index/manage-index.component';
 import { ListGroupUserComponent } from './pages/management/group-user/list-group-user/list-group-user.component';
 import { AuthGuard } from './loader/auth-guard-service';
+import { AddUserComponent } from './pages/management/users/add-user/add-user.component';
 import { ErrorComponent } from './utils/error/error.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import * as constant from './loader/constante';
 import { MultipleFilesComponent } from './utils/multiple-files/multiple-files.component';
 import { SingleFileComponent } from './utils/single-file/single-file.component';
+import { MyfilesComponent } from './pages/documentation/myfiles/myfiles.component';
+import { EntrepotsComponent } from './pages/documentation/entrepots/entrepots.component';
+import { DashbordUserComponent } from './pages/documentation/dashbord/dashbord.component';
+import { ProfilComponent } from './pages/management/users/profil/profil.component';
+import { AddGroupUserComponent } from './pages/management/group-user/add-group-user/add-group-user.component';
+import { InfosGroupUserComponent } from './pages/management/group-user/infos-group-user/infos-group-user.component';
+import { CreateStructureComponent } from './pages/management/structure/create-structure/create-structure.component';
+import { ReadStructureComponent } from './pages/management/structure/read-structure/read-structure.component';
+import { AddSubstructureComponent } from './pages/management/structure/add-substructure/add-substructure.component';
 
+const addSubStructure: Route={
+  path: "structure/add-sub-structure/:id",
+  component: AddSubstructureComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Structures",
+    breadcrumb: [
+      { routerLink: constant.structurePath, text: "Add SubStructure" }
+    ]
+  }
+};
 
+const addStructure: Route={
+  path: "structure/add-structure",
+  component: CreateStructureComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Structures",
+    breadcrumb: [
+      { routerLink: constant.structurePath, text: "Add Structures" }
+    ]
+  }
+};
+
+const viewStructure: Route={
+  path: "structure/view-structure/:id",
+  component: ReadStructureComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Structures",
+    update: false,
+    breadcrumb: [
+      { routerLink: constant.structurePath, text: "view Structure" }
+    ]
+  }
+};
+
+const viewGroupUser: Route={
+  path: "group/view-group/:id",
+  component: InfosGroupUserComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Groupe",
+    update: false,
+    breadcrumb: [
+      { routerLink: constant.groupPath, text: "view User Group" }
+    ]
+  }
+};
+
+const addGroupUser: Route={
+  path: "group/add-group-user",
+  component: AddGroupUserComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Groupes",
+    breadcrumb: [
+      { routerLink: constant.groupPath, text: "Add Group User" }
+    ]
+  }
+};
+
+const viewUser: Route={
+  path: "profile/view-profile/:id",
+  component: ProfilComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Profile",
+    update: false,
+    breadcrumb: [
+      { routerLink: constant.userPath, text: "view User Profile" }
+    ]
+  }
+};
+
+const entrepot: Route={
+  path: "entrepot",
+  component: EntrepotsComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Entrepot"    
+  }
+};
+const updateUser: Route={
+  path: "profile/update-profile/:id",
+  component: ProfilComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Profile",
+    update: true,
+    breadcrumb: [
+      { routerLink: constant.userPath, text: "Update User" }
+    ]
+  }
+};
+const addUser: Route={
+  path: "profile/add-profile",
+  component: AddUserComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: "Listes Profile",
+    breadcrumb: [
+      { routerLink: constant.userPath, text: "Add User" }
+    ]
+  }
+};
 const spb: Route={
   path: constant.spb,
   component: SignalPbComponent,
@@ -49,6 +164,16 @@ const singleFile: Route = {
   path: "download-file",
   //canActivate:[AuthGuard],
   component: SingleFileComponent//change
+};
+const myfile: Route = {
+  path: 'myfile',
+  component: MyfilesComponent,
+  canActivate:[AuthGuard]
+};
+const dashboarduser: Route = {
+  path: 'dashboarduser',
+  component: DashbordUserComponent,
+  canActivate:[AuthGuard]
 };
 const home: Route = {
   path: constant.home,
@@ -214,6 +339,7 @@ const routes: Routes = [
   archive,
   typeLiasse,
   dashboard,
+  dashboarduser,
   liasse,
   group,
   documentation,
@@ -221,15 +347,25 @@ const routes: Routes = [
   poste,
   workflow,
   organigram,
+  entrepot,
   help,
+  viewGroupUser,
+  addGroupUser,
   home,
+  addSubStructure,
+  addStructure,
+  viewStructure,
   spb,
+  addUser,
+  updateUser,
+  viewUser,
   user,
   login,
   courrier,
   index,
   multipleFile,
   singleFile,
+  myfile,
   {path:constant.tokenDefaultValue, redirectTo: constant.loginPath, pathMatch: constant.full},
   defaultRoute
 ];

@@ -11,189 +11,180 @@
 </div>
 <br />
 <div class="row">
-  <div class="col-md-12" *ngIf="loading && !isEmpty;else content" >
+  <div class="col-md-12" *ngIf="loading;else content" >
     <mat-card class="loader-container">
       <app-loader></app-loader>
     </mat-card>      
   </div>
   <ng-template #content>
     <div class="col-md-12">
+      <br />
+      <hr />
       <div class="row">
-        <div align="end">
-          <button mat-button (click)="refresf()">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-          </button>
-          <button mat-button (click)="newProfile()" >
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          </button>
-          <button mat-button (click)="viewList()">
-            <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
-            <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
-          </button>
+        <div class="col-md-2">
+          <mat-card class="data-2">
+            <div class="row">
+              <div align="end">
+                <button mat-button (click)="refresf()">
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+                <button mat-button (click)="newProfile()">
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </button>
+                <button mat-button (click)="viewList()">
+                  <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
+                  <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
+                </button>
+              </div>              
+          </div>
+          <hr class="my-3">
+          <div class="row">
+            <div class="col-md-12" align="center">
+              <span>Search</span>
+            </div>
         </div>
-    </div>
-    <app-error *ngIf="isEmpty"></app-error>
-    <div  class="row" *ngIf="!isEmpty">
-      <div class="col-md-12">
-        <mat-card>
-          <div class="row"></div>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-6">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-                <input (keyup)="search($event)" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+          <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1" (click)="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <input [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                </div>
+              </div>
+          </div>
+          <hr class="my-3">
+            <div class="row" align="center">
+              <label>Status:</label>
+              <div  [formGroup]="profileFormGroup" >
+               <div class="px-2"  >
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusprofile" id="users-status-disabled" formControlName="statusprofile" [value]="statusProfiles[0].value"> 
+                  <label class="custom-control-label" for="users-status-disabled">{{statusProfiles[0].name}}</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusprofile" id="users-status-active" formControlName="statusprofile" [value]="statusProfiles[1].value">
+                  <label class="custom-control-label" for="users-status-active"> {{statusProfiles[1].name}}</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusprofile" id="users-status-any" formControlName="statusprofile" [value]="statusProfiles[2].value"> 
+                  <label class="custom-control-label" for="users-status-any">{{statusProfiles[2].name}}</label>
+                </div>
+              </div> 
               </div>
             </div>
-            <div class="col-sm-2 col-form-label">
-              <div class="input-group">
-                <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                  <mat-radio-group [(ngModel)]="searchBy">
-                    <mat-radio-button class="example-margin" value="name">Name</mat-radio-button>
-                  </mat-radio-group>
-                </span>
+           
+
+          </mat-card>
+        </div>
+        <div class="col-md-10">
+        <app-list-empty *ngIf="isEmpty"></app-list-empty>
+        <div  class="row" *ngIf="!isEmpty">
+          <div class="col-md-12">
+            <mat-card class="data-1">
+              <mat-progress-bar mode="indeterminate" *ngIf="loadingPage" color="warn"></mat-progress-bar>
+              <br *ngIf="loadingPage" />
+              <div class="row"></div>
+              <div class="container-fluid" *ngIf="view">
+                <div class="row">
+                  <div class="col-sm-12">
+                    
+            <div class="table-responsive">
+              <table class="table no-wrap user-table mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">Profile Name</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">Current User</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">Direction</th>
+                    <th scope="col" class="border-0 text-uppercase font-medium">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of pageUsers?.content;let indexOfelement=index">
+                    <td class="pl-4">{{indexOfelement +1 }}</td>
+                    <td>
+                        <h5 class="font-medium mb-0">{{user?.name!}}</h5>
+                    </td>
+                    <td>
+                        <span class="text-muted">{{user?.currentUser!}}</span>
+                    </td>
+                    <td>
+                        <span class="text-muted">{{user?.structure?.sigle!}}</span>
+                    </td>
+                    <td (click)="viewProfile(user)">
+                      <i class="fa fa-info fa-2x"  aria-hidden="true"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                      <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid" *ngIf="!view">                
+                <div class="col-md-12">
+                  <div class="x_panel">
+                      <div class="x_content">
+                          <div class="row">
+                              <div class="clearfix"></div>
+                              <div class="col-md- col-sm-4 col-xs-12 animated fadeInDown"  *ngFor="let user of pageUsers?.content;let indexOfelement=index">
+                                  <div class="well profile_view">
+                                      <div class="col-sm-12">
+                                          <h2>{{user?.name!}} <span class="brief"><i></i></span></h2>
+                                          <div class="left col-xs-7">
+                                              <h4 class="brief"><i>Direction:</i> {{user?.structure?.sigle!}}</h4>
+                                              <p><strong>Current User: </strong> {{user?.currentUser!}} </p>
+                                              <br>
+                                          </div>
+                                          <div class="right col-xs-5 text-center">
+                                              <img src="../../../../../assets/cuy.jpg" alt="" class="img-circle img-responsive">
+                                          </div>
+                                      </div>
+                                      <div class="col-xs-12 bottom text-center" [ngStyle]="{'background-color': user.status ? '#00C851' : '#ff4444' }">
+                                          <div class="col-xs-12 col-sm-6 emphasis">
+                                              <p class="ratings" style="color:white">
+                                                  <i class="fa"></i>
+                                                  <i *ngIf="user.status" class="fa fa-eye  fa-2x"  aria-hidden="true"></i>
+                                                  <i *ngIf="!user.status" class="fa fa-eye-slash  fa-2x"  aria-hidden="true"></i>
+                                              </p>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-6 emphasis">
+                                              <button (click)="viewProfile(user)" class="btn btn-success btn-xs"> 
+                                                  <i class="fa fa-id-card-o  fa-2x"></i> View Profile 
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                    <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>
+                </div>
               </div>
               
-            </div>
-      
+            </mat-card>
           </div>
-          <div class="alert alert-danger" *ngIf="research" role="alert">
-            not found 
-          </div>
-          <div class="container-fluid" *ngIf="view">
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table table-striped table-bordered table-list">
-                  <thead>
-                   <tr >
-                      <th >#</th>
-                      <th>Profile Name</th>
-                      <th>User</th>
-                      <th>Direction</th>
-                      <th>Status</th>
-                      <th><i class="fa fa-id-card-o" aria-hidden="true"></i> View</th>
-                    </tr> 
-                   </thead>
-                   <tbody>
-                    <tr class="new" *ngFor="let user of userList;let indexOfelement=index" [ngStyle]="{'background-color': user.status ? '#00C851' : '#ff4444' }">
-                       <td>{{indexOfelement +1 }}</td>
-                       <td>{{user.profileName!}}  </td>
-                       <td>{{user.userName!}} </td>
-                       <td>{{user.directionSigle!}} </td>
-                       <td>
-                        <i (click)="setSatus(user)" *ngIf="user.status" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
-                        <i (click)="setSatus(user)" *ngIf="!user.status" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
-                       </td>
-                       <td [matMenuTriggerFor]="userPlus"> 
-                        <i  class="fa fa-id-card-o" aria-hidden="true" ></i>
-                        <mat-menu #userPlus="matMenu">
-                          <mat-list>
-                            <a mat-list-item >
-                              <button mat-menu-item [matMenuTriggerFor]="maj"><i class="fa fa-pencil" aria-hidden="true"></i> Mise à Jour</button>  
-                              <mat-menu #maj="matMenu">
-                                <mat-list>
-                                  <a mat-list-item (click)="openDialogUpdateName(user)">
-                                    <button mat-menu-item> Profile Name</button>  
-                                  </a>
-                                  <mat-divider></mat-divider>
-                                  <a mat-list-item (click)="openDialogUpdateUser(user)">
-                                    <button mat-menu-item><i class="fa fa-user-circle" aria-hidden="true"></i> Profile User</button>                  
-                                  </a>
-                                </mat-list>
-                              </mat-menu> 
-                            </a>
-                            <mat-divider></mat-divider>
-                           <!--  <a mat-list-item (click)="openDialogProfilDroit(user)">
-                              <button mat-menu-item><i class="fa fa-shield" aria-hidden="true"></i> Ajouter / Retirer un Droit</button>                  
-                            </a><mat-divider></mat-divider> -->
-                            <a mat-list-item (click)="openDialogGroupProfil(user)">
-                              <button mat-menu-item><i class="fa fa-users" aria-hidden="true"></i> Ajouter / Retirer un Group</button>                  
-                            </a>
-                            <mat-divider></mat-divider>
-                            <a mat-list-item (click)="openDialogProfil(user)">
-                              <button mat-menu-item><i class="fa fa-info"  aria-hidden="true"></i> Informations</button>                
-                            </a>
-                          </mat-list>
-                        </mat-menu> 
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container" *ngIf="!view">
-            <div class="row userMain">
-                <div class="col-md-3 col-sm-4" *ngFor="let user of userList;let indexOfelement=index">
-                    <div class="userBlock">
-                        <div class="backgrounImg" [ngStyle]="{'background-color': user.status ? '#00C851' : '#ff4444' }">
-                           
-                        </div>
-                        <div class="userImg">
-                            <img src="../../../../../assets/cuy.jpg">
-                        </div>
-                        <div class="userDescription">
-                            <h5>{{user.profileName!}} ( {{user.userName!}} )</h5>
-                            <p>Direction: {{user.directionSigle!}}</p>
-                            <p>Status: 
-                              <i (click)="setSatus(user)" *ngIf="user.status" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
-                              <i (click)="setSatus(user)" *ngIf="!user.status" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
-                            </p>
-                            <a   [matMenuTriggerFor]="userPlus">
-                              <span><i class="fa fa-id-card-o  fa-2x" aria-hidden="true"></i></span>
-                            </a>
-                            <mat-menu #userPlus="matMenu">
-                              <mat-list>
-                                <a mat-list-item >
-                                  <button mat-menu-item [matMenuTriggerFor]="maj"><i class="fa fa-pencil" aria-hidden="true"></i> Mise à Jour</button>  
-                                  <mat-menu #maj="matMenu">
-                                    <mat-list>
-                                      <a mat-list-item (click)="openDialogUpdateName(user)">
-                                        <button mat-menu-item> Profile Name</button>  
-                                      </a>
-                                      <mat-divider></mat-divider>
-                                      <a mat-list-item (click)="openDialogUpdateUser(user)">
-                                        <button mat-menu-item><i class="fa fa-user-circle" aria-hidden="true"></i> Profile User</button>                  
-                                      </a>
-                                    </mat-list>
-                                  </mat-menu> 
-                                </a>
-                                <mat-divider></mat-divider>
-                           <!--      <a mat-list-item (click)="openDialogProfilDroit(user)">
-                                  <button mat-menu-item><i class="fa fa-shield" aria-hidden="true"></i> Ajouter / Retirer un Droit</button>                  
-                                </a><mat-divider></mat-divider> -->
-                                <a mat-list-item (click)="openDialogGroupProfil(user)">
-                                  <button mat-menu-item><i class="fa fa-users" aria-hidden="true"></i> Ajouter / Retirer un Group</button>                  
-                                </a>
-                                <mat-divider></mat-divider>
-                                <a mat-list-item (click)="openDialogProfil(user)">
-                                  <button mat-menu-item><i class="fa fa-info"  aria-hidden="true"></i> Informations</button>                
-                                </a>
-                              </mat-list>
-                            </mat-menu> 
-                        </div>
-                      
-                    </div>
-                </div>
-             </div>
-             <div class="row">
-              <div class="col-md-4">
-                <app-nav-table [pageNumber]="pageUsers?.pageable?.pageNumber!" [first]="pageUsers?.first!" [last]="pageUsers?.last!" [size]="pageUsers?.size!" [totalPages]="pageUsers?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-              </div>
-            </div>
-          </div>
-          
-        </mat-card>
+        </div> 
+        </div>
       </div>
-    </div> 
     </div>
   </ng-template>
   
 </div>
+
+
+

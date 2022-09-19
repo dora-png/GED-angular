@@ -14,8 +14,8 @@ import { Sort } from './sort';
 import { WorkFlowProfiles } from './workFlowProfiles';
 
 export interface PageWorkFlowProfiles { 
-    totalPages?: number;
     totalElements?: number;
+    totalPages?: number;
     size?: number;
     content?: Array<WorkFlowProfiles>;
     number?: number;

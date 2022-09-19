@@ -1,189 +1,222 @@
- <h2 mat-dialog-title >Profile</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="row" *ngIf="userData != null">
-        <div class="col-md-12">
-            <div class="container">
-                <div class="main-body">
-                      <div class="row gutters-sm">
-                        <div class="col-md-3 mb-3">
-                          <div class="card">
-                            <div class="card-body">
-                              <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://image.ibb.co/es4AG7/author4.jpg" alt="Admin" class="rounded-circle" width="150">
-                                <div class="mt-3">
-                                  <h4>{{userData.profileName!}}  
-                                    <br />
-                                    Status: 
-                                    <span *ngIf="editable">
-                                      <i (click)="setSatus()" *ngIf="userData.status" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
-                                      <i (click)="setSatus()" *ngIf="!userData.status" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
-                                    </span>
-                                    <span *ngIf="!editable">
-                                      <i (click)="setSatus()" *ngIf="userData.status" class="fa fa-eye" style="color: green;" aria-hidden="true"></i>
-                                      <i (click)="setSatus()" *ngIf="!userData.status" class="fa fa-eye-slash" style="color: red;" aria-hidden="true"></i>
-                                    </span>
-                                    
-                                  </h4>
-                                  <p class="text-secondary mb-1">{{userData.userName!}}</p>
-                                  <p class="text-muted font-size-sm">Structure: {{userData.directionSigle!}}</p>
-                                </div>
-                              </div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-12" *ngIf="loading;else content" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
+  </div>
+  <ng-template #content>
+    <div class="col-md-12">
+      <div class="container-fluid" *ngIf="!edit">
+        <div class="main-body">
+              <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center text-center">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <div class="mt-3">
+                          <h4>User: {{profiles?.currentUser}}</h4>
+                          <p class="text-secondary mb-1">Profile: {{profiles?.name}} </p>
+                          <!-- <p class="text-muted font-size-sm">Structure: {{profiles.directionSigle!}}</p> -->
+                          <p class="text-muted font-size-sm">Status</p>
+                          <p>
+                            <a class="btn btn-outline-primary" *ngIf="profiles?.status"> 
+                              <i class="fa fa-eye fa-3x" style="color: green;" aria-hidden="true"></i>
+                            </a>
+                            <a class="btn btn-outline-primary" *ngIf="!profiles?.status">
+                              
+                              <i *ngIf="!profiles?.status" class="fa fa-eye-slash fa-4x" style="color: red;" aria-hidden="true"></i>
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="row" *ngIf="editable">
+                        <div class="col-sm-3">
+                          <a class="btn btn-info btn-lg" (click)="onSet()">Edit</a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Profile Name: </label>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{profiles?.name}}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Profile Type: </label>
+                        </div>
+                        <div class="col-sm-9 text-secondary" *ngIf="profiles?.typeprofil=='INTERN_ACTOR'; else content">
+                          Acteur Interne
+                        </div>
+                        <ng-template #content>
+                          <div class="col-sm-9 text-secondary">
+                            Acteur Externe
+                          </div>
+                        </ng-template>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Structure: </label>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{profiles?.structure?.name }} ({{profiles?.structure?.sigle }})
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Group User: </label>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{groupUser?.name }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Date Création: </label>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{profiles?.dateCreation | date }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+      
+                </div>
+              </div>
+      
+            </div>
+        </div>
+      
+      
+        <div class="container-fluid"  *ngIf="edit">
+          <div class="main-body">
+            <form [formGroup]="newProfileFormGroup" class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"
+                      (click)="setUser()"
+                      >
+                      <div class="mt-3">
+                        <h4>{{profiles?.currentUser!}}</h4>
+                        <p class="text-muted font-size-sm">Status</p>
+                        <p>
+                          <a class="btn btn-outline-primary" *ngIf="profiles?.status"> 
+                            <i (click)="setSatus()" class="fa fa-eye fa-3x" style="color: green;" aria-hidden="true"></i>
+                          </a>
+                          <a class="btn btn-outline-primary" *ngIf="!profiles?.status">                      
+                            <i (click)="setSatus()" class="fa fa-eye-slash fa-4x" style="color: red;" aria-hidden="true"></i>
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="row gutters">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label class="mb-2 text-primary">Update Name & Type</label>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label for="name">Profile Name
+                                <mat-error *ngIf="f['name'].touched && f['name'].errors">
+                                  {{f["name"].errors|json}}
+                                </mat-error>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input type="text" autocomplete="off" class="form-control"(keyup)="onChangeInput($event)"  formControlName="name" name="name" id="name" required>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-9">
-                          <mat-tab-group animationDuration="2000ms">
-                            <mat-tab label="First">
-                              <div class="card mb-3">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Full Name</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Login</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Direction</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Poste</h6>
-                                    </div>
-                                    <div class="col-sm-8 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row" *ngIf="editable">
-                                    <div class="col-sm-12">
-                                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </mat-tab>
-                            <mat-tab label="Second">
-                              <div class="card mb-3">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Full Name</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Login</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Direction</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Poste</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row" *ngIf="editable">
-                                    <div class="col-sm-12">
-                                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </mat-tab>
-                            <mat-tab label="Third">
-                              <div class="card mb-3">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Full Name</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Login</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.userName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Direction</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <h6 class="mb-0">Poste</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                      {{userData.directionName!}}
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row" *ngIf="editable">
-                                    <div class="col-sm-12">
-                                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </mat-tab>
-                          </mat-tab-group>                                                   
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label for="typeprofile">Profile Type
+                                <mat-error *ngIf="f['typeprofile'].touched && f['typeprofile'].errors">
+                                  {{f["typeprofile"].errors|json}}
+                                </mat-error>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input type="radio" name="typeprofile" formControlName="typeprofile" [value]="typeProfiles[0].value"> {{typeProfiles[0].name}}
+                              <input type="radio" name="typeprofile" formControlName="typeprofile" [value]="typeProfiles[1].value"> {{typeProfiles[1].name}}
+                            </div>
+                          </div>
                         </div>
                       </div>
-            
                     </div>
+                    <div class="row gutters">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label class="mb-2 text-primary">Update Group</label>
+                      </div>                
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label>Set GroupUser</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input type="text" class="form-control" id="group" placeholder="" [value]="groupUser?.name" (click)="setGroup()" readonly>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row gutters">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="text-right">
+                          <button type="button" id="submit" name="submit" class="btn btn-secondary" (click)="onSet()">Cancel</button>
+                          <button type="button" id="submit" name="submit" class="btn btn-success" (click)="onSave()">Update</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-        </div>       
-    </div>  
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onClose()">Cancel</button>
-  <button mat-button *ngIf="editable" >Save</button>
-</mat-dialog-actions> 
+      
+      
+              </div>
+            </form>
+      
+          </div>
+        </div>
+    </div>
+  </ng-template>
+</div>
+

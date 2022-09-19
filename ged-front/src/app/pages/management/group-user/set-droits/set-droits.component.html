@@ -1,0 +1,149 @@
+<h2 mat-dialog-title>Add / Remove Droits to Group User</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div class="col-md-12" *ngIf="loading;else content" >
+        <mat-card class="loader-container">
+          <app-loader></app-loader>
+        </mat-card>      
+      </div>
+    </div>
+    <ng-template #content>
+      
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+          <app-list-empty *ngIf="isEmpty"></app-list-empty>
+          <div  class="row" *ngIf="!isEmpty">
+            <div class="col-md-12">
+              <mat-card class="data-1">
+                <div class="row"></div>
+                <div class="container">                
+                  
+        <div class="col-md-12">
+          <fieldset>
+              <div class="row"></div>
+              <div class="container-fluid">
+                <div class="row">
+                  <form class="example-form">             
+                      <div class="row">
+                          <div class="col-md-5 container-fluid">
+                              <div>
+                                  <h1 style="text-align:center;"> Liste des Droits a ajouter</h1> 
+                                  <div class="row container-fluid">
+                                    <div class="col-md-12">
+                                      <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1" (click)="search()">
+                                          <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                        <input [(ngModel)]="valueToSearch"  [ngModelOptions]="{standalone: true}" type="text"id="search" class="form-control" placeholder="Droit Name ..." aria-describedby="basic-addon1">
+                                      </div>
+                                    </div>
+                                </div>
+                                <mat-progress-bar mode="indeterminate" *ngIf="loadingDroitToAdd" color="warn"></mat-progress-bar>
+                                  <div class="example-list  container-fluid" *ngIf="!isPageDroitEmpty">
+                                    <div class="example-box"  *ngFor="let droit of droitPage?.content;let indexOfelement=index">
+                                        <span style="font-size:1.5em">
+                                            <strong> {{ droit.description }}</strong>
+                                         </span>
+                                      <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                          <i class="fa fa-plus-circle  fa-2x" (click)="addDroit(droit)" aria-hidden="true" style="color: #00C851;"></i>
+                                      </button>
+                                    </div>
+                                      <div class="example-box">
+                                        <app-nav-table [pageNumber]="droitPage?.pageable?.pageNumber!" [first]="droitPage?.first!" [last]="droitPage?.last!" [size]="droitPage?.size!" [totalPages]="droitPage?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+                                      </div>
+                                  </div>
+                                  <div class="example-list  container-fluid" *ngIf="isPageDroitEmpty">
+                                    <div class="example-box">
+                                        <span style="font-size:1.5em">
+                                            <strong> Not Found</strong>
+                                         </span>
+                                      <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                          <i class="fa fa-plus-circle  fa-2x" aria-hidden="true" style="color: #00C851;"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  
+                                  
+                            
+                          </div>
+                        </div>       
+                        <div class="col-md-2">
+                          <br>
+                          <br>
+                          <div class="example-list" >
+                           <div  class="example-box" >                                
+                                  <i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true">
+                                      <strong>ADD</strong> 
+                                  </i>              
+                           </div>
+                         </div>
+                      </div>
+                        <div class="col-md-5 container-fluid">
+                          <div>
+                            <h1 style="text-align:center;"> Liste des Droits du groups</h1>  
+                            <div class="row container-fluid">
+                              <div class="col-md-12">
+                                <div class="input-group">
+                                  <span class="input-group-addon" id="basic-addon1" (click)="searchCurrentDroit()">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                  </span>
+                                  <input [(ngModel)]="valueToSearchCurrentDroit"  [ngModelOptions]="{standalone: true}"  type="text"id="searchc" class="form-control" placeholder="Droit Name ..." aria-describedby="basic-addon1">
+                                </div>
+                              </div>
+                          </div>
+                          <mat-progress-bar mode="indeterminate" *ngIf="loadingCurrentDroit" color="warn"></mat-progress-bar>
+                            <div class="example-list  container-fluid"  *ngIf="!isPageCurrentDroitEmpty">
+                              <div class="example-box"  *ngFor="let droit of currentDroitPage?.content;let indexOfelement=index">
+                                  <span style="font-size:1.5em">
+                                      <strong> {{ droit.description }}</strong>
+                                   </span>
+                                <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                  <i class="fa fa-minus-circle  fa-2x" (click)="removeDroit(droit)" aria-hidden="true" style="color: #ff4444;"></i>
+                                </button>
+                              </div>
+                                <div class="example-box">
+                                  <app-nav-table [pageNumber]="currentDroitPage?.pageable?.pageNumber!" [first]="currentDroitPage?.first!" [last]="currentDroitPage?.last!" [size]="currentDroitPage?.size!" [totalPages]="currentDroitPage?.totalPages!" (changePageAndSize)="changePageAndSizeCurrentDroit($event)"></app-nav-table> 
+                                </div>
+                            </div>
+
+                            <div class="example-list  container-fluid" *ngIf="isPageCurrentDroitEmpty">
+                              <div class="example-box">
+                                  <span style="font-size:1.5em">
+                                      <strong> Not Found</strong>
+                                   </span>
+                                <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                                    <i class="fa fa-plus-circle  fa-2x" aria-hidden="true" style="color: #00C851;"></i>
+                                </button>
+                              </div>
+                            </div>
+                      
+                    </div>
+                        </div>
+                        
+                      </div>
+                      
+                  </form> 
+                </div>
+              </div>
+          </fieldset>
+          
+        </div>
+                </div>
+                
+              </mat-card>
+            </div>
+          </div> 
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="row" align="end">
+        <div>
+            <button type="button" (click)="onExit()" class="btn btn-warning btn-lg btn-block">Exit</button>
+        </div>
+    </div>
+  </mat-dialog-actions>

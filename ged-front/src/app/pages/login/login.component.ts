@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/app/loader/authentication.service';
 import { FileUploadService } from 'src/app/loader/file-upload.service';
 import { JwtRequest, LoginControllerService } from 'src/app/model';
 import * as constant from '../../loader/constante';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,6 +15,7 @@ import * as constant from '../../loader/constante';
 })
 export class LoginComponent implements OnInit {
 
+  panelOpenState = false;
   totoo: boolean=false;
   color = "black";
   loginFormGroup!: FormGroup;
@@ -32,13 +33,18 @@ export class LoginComponent implements OnInit {
       this.loginFormGroup = formBuilder.group(
         {
           username: new FormControl(null, [Validators.required, Validators.maxLength(8), Validators.minLength(3)]),
-          password: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(2)]),
+          password: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]),
         }
       );
     }
 
   ngOnInit(): void {
     this.auth.disableHeaderBar();
+    $(document).ready(function(){          
+      $("#actions").resize(
+        
+      );   
+    }); 
   }
   toto(){
     this.totoo=!this.totoo;
@@ -47,18 +53,28 @@ export class LoginComponent implements OnInit {
   get f(): { [key: string]: AbstractControl } {
     return this.loginFormGroup.controls;
   }
+
+  private onHasRole(role:string): boolean{
+    return this.auth.getRoles(role);
+  }
   onLogin(){
-   // this.clicked=!this.clicked;
+    this.clicked=!this.clicked;
     let user: JwtRequest = this.initUserBean();
     user.username = this.f[constant.username].value;
     user.password = this.f[constant.password].value;
     this.apiServiceUser.createAuthenticationToken(user).subscribe(
       response=>{
         this.auth.saveUserLogin(response.RefreshToken);
-        this.router.navigate([constant.manageIndex]);
+        this.router.navigate(['dashboarduser']);
+        /*
+        if(this.onHasRole(constant.admin))
+         
+        else
+          this.router.navigate([constant.manageIndexPath]);
+*/
       }, error=>{       
         this.toast.warning(error.error,constant.warning)
-        /*this.clicked=!this.clicked;*/
+        this.clicked=!this.clicked;
       }
     );
   }

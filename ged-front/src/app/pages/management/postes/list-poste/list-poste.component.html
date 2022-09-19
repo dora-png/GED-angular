@@ -1,85 +1,105 @@
-<!-- <h2 mat-dialog-title>LISTE POSTE IN Structure {{structureName}}</h2>
-  <mat-dialog-content class="mat-typography">
-    <div class="row">
-      <div align="end">
-        <button mat-button >
-          <i class="fa fa-refresh" *ngIf="!loading && !isEmpty" (click)="refresf()" aria-hidden="true"></i>
-        </button>
-        <button mat-button (click)="viewList()" *ngIf="!loading && !isEmpty" >
-          <i class="fa fa-list" aria-hidden="true" *ngIf="view"></i>
-          <i class="fa fa-th" aria-hidden="true" *ngIf="!view"></i>
-        </button>
-          <button mat-button  *ngIf="isEmpty">
-            <i class="fa fa-plus-circle" (click)="openDialogCreatePoste()" aria-hidden="true"></i>
-          </button>
-      </div>
+<br>
+<div class="row">
+  <div class="col-md-12" *ngIf="loading;else content" >
+    <mat-card class="loader-container">
+      <app-loader></app-loader>
+    </mat-card>      
   </div>
-    <app-error *ngIf="!loading && isEmpty"></app-error>
-    <div  class="row" *ngIf="!loading && !isEmpty">
-        <div class="col-md-12">
-          <mat-card>
-            <div class="container-fluid" *ngIf="view">
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="example-list">
-                    <div class="example-box" *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
-                      <div class="form-group" mat-button [matMenuTriggerFor]="action">
-                          <div class="input-group">
-                            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                              Name: 
-                            </span>
-                            <span class="input-group-addon" style="background: none; border: none;" id="basic-addon1">
-                              {{postes.name!}}
-                            </span>
-                          </div>
-                  
-                      </div>                   
-                    <mat-menu #action="matMenu">
-                      <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
-                      <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add sub Poste</button>
-                      <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
-                      <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
-                      <button mat-menu-item > Delete</button>
-                    </mat-menu>
-                    </div>
-                  </div>
+  <ng-template #content>
+    <div class="col-md-12">
+      <br />
+      <hr />
+      <div class="row">
+        <div class="col-md-2">
+          <mat-card class="data-2">
+            <div class="row">
+              <div align="end">
+                <button mat-button (click)="refresf()">
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+                <button mat-button (click)="newPoste()"  *ngIf="isEmpty" >
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </button>
+              </div>              
+          </div>
+          <hr class="my-3">
+          <!-- <div class="row">
+            <div class="col-md-12" align="center">
+              <span>Search</span>
+            </div>
+        </div>
+          <div class="row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1" (click)="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                  <input [(ngModel)]="valueToSearch" type="text"id="search" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
                 </div>
               </div>
-            </div>
-            <div class="container bootstrap snippet"  *ngIf="!view">
-              <div class="row">
-                <div class="col-lg-2 col-sm-6" *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
-                  <div class="circle-tile ">
-                    <a [matMenuTriggerFor]="action"><div class="circle-tile-heading light-gray"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
-                    <mat-menu #action="matMenu">
-                      <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
-                      <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add sub Poste</button>
-                      <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
-                      <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
-                    </mat-menu>
-                    <div class="circle-tile-content dark-gray">
-                      <div class="circle-tile-description text-faded"> Name</div>
-                      <div class="circle-tile-number text-faded ">{{postes.name!}}</div>
-                      <a class="circle-tile-footer" ><i class="fa fa-close text-red"></i></a>
-                    </div>
-                  </div>
+          </div> 
+          <hr class="my-3"> -->
+            <div class="row" align="center">
+              <label>Total Elements: {{pagePostes?.totalElements!}}</label>
+              <!-- <div  [formGroup]="postesFormGroup" >
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusposte" id="users-status-active" formControlName="statusposte" [value]="statusPostes[1].value">
+                  <label class="custom-control-label" for="users-status-active"> {{statusPostes[1].name}}</label>
+                </div>
+              </div>
+              <div class="px-2">
+                <div class="custom-control custom-radio">
+                  <input type="radio" (change)="updateOnclickGen($event)" class="custom-control-input" name="statusposte" id="users-status-any" formControlName="statusposte" [value]="statusPostes[2].value"> 
+                  <label class="custom-control-label" for="users-status-any">{{statusPostes[2].name}}</label>
                 </div>
               </div> 
-            </div> 
-            <div class="row">
-              <div class="col-md-12">
-                <app-nav-table [pageNumber]="pagePostes?.pageable?.pageNumber!" [first]="pagePostes?.first!" [last]="pagePostes?.last!" [size]="pagePostes?.size!" [totalPages]="pagePostes?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
-              </div>
+              </div> -->
             </div>
+           
+
           </mat-card>
         </div>
+        <div class="col-md-10">
+        <app-list-empty *ngIf="isEmpty"></app-list-empty>
+        <div  class="row" *ngIf="!isEmpty">
+          <div class="col-md-12">
+            <mat-card class="data-1">
+              <mat-progress-bar mode="indeterminate" *ngIf="loadingPage" color="warn"></mat-progress-bar>
+              <br *ngIf="loadingPage" />
+              <div class="row"></div>
+              <div class="container-fluid">                
+                <div class="row userMain">
+                  <div class="col-lg-2 col-sm-6" *ngFor="let postes of pagePostes?.content;let indexOfelement=index">
+                    <div class="circle-tile ">
+                      <a [matMenuTriggerFor]="action"><div class="circle-tile-heading light-gray"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                      <mat-menu #action="matMenu">
+                        <button mat-menu-item (click)="openDialogEdit(postes)">  Edit</button>
+                        <button mat-menu-item (click)="openDialogAddSubPoste(postes)"> add sub Poste</button>
+                        <button mat-menu-item (click)="openDialogSetPosteUser(postes)"> Set user in poste</button>
+                        <button mat-menu-item (click)="openDialogHistoric(postes)"> Information about</button>
+                      </mat-menu>
+                      <div class="circle-tile-content dark-gray">
+                        <div class="circle-tile-description text-faded"> Name</div>
+                        <div class="circle-tile-number text-faded ">{{postes.name!}}</div>
+                        <a class="circle-tile-footer" ><i class="fa fa-close text-red"></i></a>
+                      </div>
+                    </div>
+                  </div>  
+               </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">                
+                  <app-nav-table [pageNumber]="pagePostes?.pageable?.pageNumber!" [first]="pagePostes?.first!" [last]="pagePostes?.last!" [size]="pagePostes?.size!" [totalPages]="pagePostes?.totalPages!" (changePageAndSize)="changePageAndSize($event)"></app-nav-table>              
+              </div>
+              </div>
+              
+            </mat-card>
+          </div>
+        </div> 
+        </div>
       </div>
-
-
-
-      
-        
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button (click)="onClose()">Cancel</button>
-  </mat-dialog-actions> -->
+    </div>
+  </ng-template>
+  
+</div>

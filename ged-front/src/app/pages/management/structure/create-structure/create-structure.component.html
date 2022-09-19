@@ -1,44 +1,76 @@
-<!-- <h2 mat-dialog-title>Create Structure</h2>
-  <mat-dialog-content class="mat-typography">
-    <form [formGroup]="newStructureFormGroup" class="example-form">
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Structure Name</mat-label>
-            <input autocomplete="off" [formControlName]="constantes.nameSearchValue" name="name" id="name" required  matInput>
-            <mat-error *ngIf="f[constantes.nameSearchValue].touched && f[constantes.nameSearchValue].errors">
-              {{f[constantes.nameSearchValue].errors|json}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Structure Sigle</mat-label>
-            <input autocomplete="off" [formControlName]="constantes.sigleSearchValue" name="sigle" id="sigle" required  matInput>
-            <mat-error *ngIf="f[constantes.sigleSearchValue].touched && f[constantes.sigleSearchValue].errors">
-              {{f[constantes.sigleSearchValue].errors|json}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Structure Description</mat-label>
-            <textarea autocomplete="off" [formControlName]="constantes.description" name="description" id="description" required matInput></textarea>
-            <mat-error *ngIf="f[constantes.description].touched && f[constantes.description].errors">
-              {{f[constantes.description].errors|json}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-    </form>   
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button *ngIf="clicked"><i class='fa fa-spinner fa-spin fa-4x '></i> </button>    
-    <button mat-button *ngIf="!clicked" (click)="onClose()">Cancel</button>
-    <button *ngIf="!clicked" type="button"[disabled]="newStructureFormGroup.invalid" (click)="onSaveNewStructure()" class="btn btn-success">
-      Save Structure
-    </button>
-  </mat-dialog-actions>
- -->
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-12">
+      <mat-card>
+          <div class="row"></div>
+          <div class="container-fluid">
+              <form [formGroup]="newStructureFormGroup" class="example-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Structure Name</mat-label>
+                      <input autocomplete="off" [formControlName]="constantes.nameSearchValue" name="name" id="name" required  matInput>
+                      <mat-error *ngIf="f[constantes.nameSearchValue].touched && f[constantes.nameSearchValue].errors">
+                        {{f[constantes.nameSearchValue].errors|json}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Structure Sigle</mat-label>
+                      <input autocomplete="off" [formControlName]="constantes.sigleSearchValue" name="sigle" id="sigle" required  matInput>
+                      <mat-error *ngIf="f[constantes.sigleSearchValue].touched && f[constantes.sigleSearchValue].errors">
+                        {{f[constantes.sigleSearchValue].errors|json}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Structure Description</mat-label>
+                      <textarea autocomplete="off" [formControlName]="constantes.description" name="description" id="description" required matInput></textarea>
+                      <mat-error *ngIf="f[constantes.description].touched && f[constantes.description].errors">
+                        {{f[constantes.description].errors|json}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div  class="row">
+                  <div class="col-md-12">   
+                    <span>
+                      <i class="fa fa-circle  fa-4x" aria-hidden="true" name="color" id="color" 
+                            [style.color]="color"
+                                [cpPosition]="'bottom'"
+                                [cpPositionOffset]="'50%'"
+                                [cpPositionRelativeToArrow]="true"
+                                [(colorPicker)]="color"> <span> Change Color</span></i>
+                    </span>   
+                  </div>
+                </div>
+                <br />
+                  <div class="row">
+                    <div class="col-md-12" *ngIf="clicked">
+                      <i class='fa fa-spinner fa-spin fa-4x '></i> 
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button"  (click)="onClose()" class="btn btn-danger btn-lg btn-block" *ngIf="!clicked">Exit</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-success btn-lg btn-block"[disabled]="desableButton()" (click)="onSaveNewStructure()" *ngIf="!clicked">Save</button>
+                    </div>
+                </div>
+              </form>   
+                
+          </div>
+        </mat-card>
+    </div>        
+</div>
+
+

@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-/*import { PosteControllerService, Postes } from 'src/app/model';
-*/
+import { PosteControllerService, Postes } from 'src/app/model';
+
 @Component({
   selector: 'app-update-poste',
   templateUrl: './update-poste.component.html',
@@ -12,7 +12,6 @@ import { LoaderService } from 'src/app/loader/loader.service';
 })
 export class UpdatePosteComponent implements OnInit {
 
-/*
 
   newPosteFormGroup!: FormGroup;
   clicked: boolean= false;
@@ -34,10 +33,10 @@ export class UpdatePosteComponent implements OnInit {
       }
     );
   }
-*/
+  
   ngOnInit(): void {
   }
-/*
+
   get f(): { [key: string]: AbstractControl } {
     return this.newPosteFormGroup.controls;
   }
@@ -46,11 +45,11 @@ export class UpdatePosteComponent implements OnInit {
     return {
       idposte: this.data.idposte!,
       name: this.data.name!,
-     // niveau: this.data.niveau!,
+      active: this.data.active!,
       description: this.data.description!,
       posteSubalterne: this.data.posteSubalterne!,
       posteSuperieur: this.data.posteSuperieur,
-      groupslistes: this.data.groupslistes!,
+      dateCreation: this.data.dateCreation!,
       structure:this.data.structure!,
     };
   }
@@ -61,25 +60,21 @@ export class UpdatePosteComponent implements OnInit {
     body.name = this.f["name"].value;
     body.description = this.f["description"].value;
     this.newPosteFormGroup.reset();
-    this.apiService.addPoste(body).toPromise().then(
+    this.apiService.updatePoste(body).subscribe(
       res => {
         this.toastr.success("true","Create");
         this.dialogRef.close(true);
-      }
-    ).catch(
+      },
       error => {
         this.f["name"].setValue(body.name); 
         this.f["description"].setValue(body.description);
         this.clicked = false;
-      }
-    ).finally(
-      () => {
       }
     );
   }
   onClose(){
     this.dialogRef.close(false);
   }
-*/
+
 
 }

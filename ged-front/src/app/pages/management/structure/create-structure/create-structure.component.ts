@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from 'src/app/loader/loader.service';
-//import { StructureControllerService, Structures } from 'src/app/model';
+import { StructureControllerService, Structures } from 'src/app/model';
 import * as constante from '../../../../loader/constante';
 
 @Component({
@@ -12,11 +12,11 @@ import * as constante from '../../../../loader/constante';
   styleUrls: ['./create-structure.component.scss']
 })
 export class CreateStructureComponent implements OnInit {
-/*
+
   newStructureFormGroup!: FormGroup;
   clicked: boolean= constante.falseValue;
   constantes: any = constante;
-  
+  color = "#000000";
   
    
   constructor(
@@ -24,7 +24,7 @@ export class CreateStructureComponent implements OnInit {
     private apiService: StructureControllerService,    
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private dialogRef:  MatDialogRef<CreateStructureComponent>
+    private router: Router
   ) { 
     this.newStructureFormGroup = formBuilder.group(
       {
@@ -34,10 +34,10 @@ export class CreateStructureComponent implements OnInit {
       }
     );
   }
-*/
+
   ngOnInit(): void {
   }
-/*
+
   get f(): { [key: string]: AbstractControl } {
     return this.newStructureFormGroup.controls;
   }
@@ -51,30 +51,40 @@ export class CreateStructureComponent implements OnInit {
       postes: undefined,
       sousStructure: undefined,
       structureSuperieur: undefined,
-      active: constante.trueValue
+      active: constante.trueValue,
+      color: undefined,
+      dateCreation: undefined,
+      profiles:[]
     };
   }
-
+  desableButton(){
+    if(this.newStructureFormGroup.valid && this.color != '#000000')
+      return false;
+    return true;
+  }
   onSaveNewStructure(){
     this.clicked=constante.trueValue;
     let body: Structures=this.initStructureBean();
     body.name = this.f[constante.nameSearchValue].value;
     body.sigle = this.f[constante.sigleSearchValue].value;
     body.description = this.f[constante.description].value;
-    this.apiService.add4(body).subscribe(
+    body.color = this.color;
+    this.apiService.addStructures(body).subscribe(
       res => {
         this.toastr.success(constante.tokenDefaultValue,constante.create);
-        this.dialogRef.close(constante.trueValue);
+        this.router.navigate(["manage/structure"]);
       },error => {
+        this.toastr.error(constante.error,constante.error);
         this.f[constante.sigleSearchValue].setValue(body.sigle); 
         this.f[constante.nameSearchValue].setValue(body.name); 
         this.f[constante.description].setValue(body.description);
+        //this.color = '#000000';
         this.clicked = constante.falseValue;
       }
     );
   }
-  onClose(){
-    this.dialogRef.close(constante.falseValue);
+  onClose(){    
+    this.router.navigate(["manage/structure"]);
   }
-*/
+
 }
