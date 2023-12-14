@@ -82,11 +82,12 @@ color: #000;
 .tabs-panel .nav-tabs > li.active > a:hover,
 .tabs-panel .nav-tabs > li.active > a:focus {
 color: #4a4d56;
-cursor: default;
+cursor: pointer;
 background-color: inherit;
 border: none;
 border-bottom-color: transparent;
 }
+
 
 .tabs-panel .nav-tabs > li.active > a:after,
 .tabs-panel .nav-tabs > li.active > a:hover:after,
@@ -249,7 +250,7 @@ opacity: 1;
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
 color: #555;
-cursor: default;
+cursor: pointer;
 background-color: #fff;
 border: 1px solid #dce2e9;
 border-bottom-color: transparent;
@@ -542,3 +543,14 @@ cursor: pointer;
 .dropzone:hover .dropzone-image {
 opacity: 1;
 }
+
+.toto{
+  display: none;
+}
+.tata:hover{
+  .toto{
+    display: block;
+  }
+
+}
+

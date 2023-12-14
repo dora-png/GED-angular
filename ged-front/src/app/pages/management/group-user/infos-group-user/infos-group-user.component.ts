@@ -19,11 +19,11 @@ export class InfosGroupUserComponent implements OnInit {
 
 
   newGroupFormGroup!: FormGroup;
-  editable: boolean = false;   
-  edit : boolean = false;  
-  editGroup : boolean = false;  
-  editProfileList : boolean = false;  
-  editDroitList : boolean = false; 
+  editable: boolean = false;
+  edit : boolean = false;
+  editGroup : boolean = false;
+  editProfileList : boolean = false;
+  editDroitList : boolean = false;
   loading: boolean = false;
   loadingProfile: boolean = false;
   loadingProfile1: boolean = false;
@@ -43,21 +43,21 @@ export class InfosGroupUserComponent implements OnInit {
   touched: boolean= false;
 
 
-  constructor(  
-    private route: ActivatedRoute,   
-    private router: Router,  
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private apiServiceGroup: GroupUserControllerService,
     private openDialogService: OpenDialogService,
-    private formBuilder: FormBuilder,  
+    private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private auth: AuthenticationService
-    ) { 
+    ) {
       this.newGroupFormGroup = this.formBuilder.group(
         {
           name: new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(3)]),
           sigle: new FormControl(null, [Validators.required, Validators.maxLength(5), Validators.minLength(3)]),
         }
-      );      
+      );
     }
 
     ngOnInit(): void {
@@ -89,9 +89,9 @@ export class InfosGroupUserComponent implements OnInit {
           }else{
             this.isEmpty=false;
             this.data = response;
-            this.f["name"].setValue(this.data.name!);     
+            this.f["name"].setValue(this.data.name!);
             this.f["sigle"].setValue(this.data.sigle!);
-            this.groupUser = this.getGroup();            
+            this.groupUser = this.getGroup();
             this.loading = false;
             this.getDroitsList(0,5);
             this.getProfilesList(0,5);
@@ -113,11 +113,11 @@ export class InfosGroupUserComponent implements OnInit {
     }
 
     changePageAndSizeDroit(event: {page: number, size: number}){
-      this.pageSwitchDroit(event.page, event.size);         
+      this.pageSwitchDroit(event.page, event.size);
     }
 
     changePageAndSizeProfile(event: {page: number, size: number}){
-      this.pageSwitchProfile(event.page, event.size);         
+      this.pageSwitchProfile(event.page, event.size);
     }
 
     private pageSwitchDroit(page:number, size:number){
@@ -131,12 +131,12 @@ export class InfosGroupUserComponent implements OnInit {
           }else{
             this.isPageDroitsEmpty = true;
             this.loadingDroit1 = false;
-            
+
           }
         },error=>{
           this.isPageDroitsEmpty = true;
         }
-      );      
+      );
     }
 
     private pageSwitchProfile(page:number, size:number){
@@ -150,17 +150,17 @@ export class InfosGroupUserComponent implements OnInit {
           }else{
             this.isPageProfilessEmpty = true;
             this.loadingProfile1 = false;
-            
+
           }
         },error=>{
           this.isPageProfilessEmpty = true;
         }
-      );      
+      );
     }
 
   private getDroitsList(page:number, size:number) {
     this.loadingDroit = true;
-    this.apiServiceGroup.findAllDroitInGroupUser(this.data.idgroupes!,page,1,size).subscribe(
+    this.apiServiceGroup.findAllDroitInGroupUser(this.data.idgroupes!,1,page,size).subscribe(
       resp=>{
         if(resp != null){
           this.isPageDroitsEmpty = false;
@@ -169,14 +169,14 @@ export class InfosGroupUserComponent implements OnInit {
         }else{
           this.isPageDroitsEmpty = true;
           this.loadingDroit = false;
-          
+
         }
       },error=>{
         this.isPageDroitsEmpty = true;
       }
     );
   }
-  
+
   private getProfilesList(page:number, size:number) {
     this.loadingProfile = true;
     this.apiServiceGroup.findAllProfileInGroupUser(this.data.idgroupes!,1,page,size).subscribe(
@@ -188,13 +188,13 @@ export class InfosGroupUserComponent implements OnInit {
         }else{
           this.isPageProfilessEmpty = true;
           this.loadingProfile = false;
-          
+
         }
       },error=>{
         this.isPageProfilessEmpty = true;
         this.loadingProfile = false;
       }
-    );   
+    );
   }
 
   private getProfilesListData(): Profiles[] {
@@ -234,12 +234,12 @@ export class InfosGroupUserComponent implements OnInit {
       .subscribe(result => {
         this.getProfilesList(0,5);
       });
-    
+
   }
-  
+
   private updateGroupUser(body: GroupUser){
     this.apiServiceGroup.updateGroupUser(body).subscribe(
-      response=>{        
+      response=>{
         this.toastr.success("", "Uptated");
         this.router.navigate(['/manage/security']);
 
@@ -255,13 +255,13 @@ export class InfosGroupUserComponent implements OnInit {
     this.groupUser.sigle = this.f["sigle"].value;
     let body: GroupUser =this.groupUser;
     this.updateGroupUser(body);
-        
+
   }
 
 
   t: string = "aaaaaaaaaaaaaa";
   toto(): string{
-    this.to();    
+    this.to();
     return this.t;
   }
   private to(){
@@ -271,5 +271,5 @@ this.t="ella";
       },5000
     )
   }
-  
+
 }

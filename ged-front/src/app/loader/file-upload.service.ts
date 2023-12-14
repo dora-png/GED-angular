@@ -12,10 +12,20 @@ export class FileUploadService {
   constructor(private http: HttpClient) {}
 
   // define function to upload files
-  upload(formData: FormData, login: string): Observable<HttpEvent<string[]>> {
+  uploadUserUpload(formData: FormData, login: string, liasse: string="default/"): Observable<HttpEvent<string[]>> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("login",login);
+    queryParams = queryParams.append("login",login).append("path",liasse);
     return this.http.post<string[]>(`${this.server}/uploadfile-user`, formData, {
+      params: queryParams,
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
+  uploadUserUploadMulti(formData: FormData, login: string, liasse: string="default/"): Observable<HttpEvent<string[]>> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("login",login).append("path",liasse);
+    return this.http.post<string[]>(`${this.server}/uploadmultifile-user`, formData, {
       params: queryParams,
       reportProgress: true,
       observe: 'events'

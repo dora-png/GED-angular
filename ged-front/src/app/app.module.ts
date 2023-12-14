@@ -22,12 +22,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatSelectModule} from '@angular/material/select';
-//import { NgxOrgChartModule } from 'ngx-org-chart';
+import { NgxOrgChartModule } from 'ngx-org-chart';
 import { NgChartsModule } from 'ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatStepperModule } from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +41,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InterceptorService } from './loader/interceptor.service';
-//import { ApiServiceService } from './loader/api-service.service';
 import { NavComponent } from './nav/nav.component';
 import { ApiModule, Configuration } from './model/index';
 import { CreateDocComponent } from './pages/documentation/document/create-doc/create-doc.component';
@@ -141,6 +141,7 @@ import { SingleFileComponent } from './utils/single-file/single-file.component';
 import { MultipleFilesComponent } from './utils/multiple-files/multiple-files.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { DndDirective } from './directives/dnd.directive';
+//import {  } from ''
 import { ProgressComponent } from './utils/progress/progress.component';
 import { AddUserComponent } from './pages/management/users/add-user/add-user.component';
 import { AddRemoveInGroupComponent } from './pages/management/users/add-remove-in-group/add-remove-in-group.component';
@@ -159,6 +160,14 @@ import { SetDroitsComponent } from './pages/management/group-user/set-droits/set
 import { SetProfilesComponent } from './pages/management/group-user/set-profiles/set-profiles.component';
 import { ListSubStructureComponent } from './pages/management/structure/list-sub-structure/list-sub-structure.component';
 import { ListProfilesComponent } from './pages/management/structure/list-profiles/list-profiles.component';
+import { CorbeilleComponent } from './pages/documentation/document/corbeille/corbeille.component';
+import { ShareComponent } from './pages/documentation/document/share/share.component';
+import { GetDocComponent } from './pages/documentation/document/get-doc/get-doc.component';
+import { DeleteDataComponent } from './pages/documentation/delete-data/delete-data.component';
+import { CreateModeleComponent } from './pages/documentation/modeles/create-modele/create-modele.component';
+import { UpdateModeleComponent } from './pages/documentation/modeles/update-modele/update-modele.component';
+import { ListModeleComponent } from './pages/documentation/modeles/list-modele/list-modele.component';
+import { InfosModeleComponent } from './pages/documentation/modeles/infos-modele/infos-modele.component';
 export const getConfiguration = () => {
   return new Configuration({
     /*basePath: environment.basePath,
@@ -321,16 +330,24 @@ const MATERIAL=[
     SetProfilesComponent,
     ListSubStructureComponent,
     ListProfilesComponent,
+    CorbeilleComponent,
+    ShareComponent,
+    GetDocComponent,
+    DeleteDataComponent,
+    CreateModeleComponent,
+    UpdateModeleComponent,
+    ListModeleComponent,
+    InfosModeleComponent,
   ],
   imports: [
-    AppRoutingModule,    
+    AppRoutingModule,
     BrowserModule,
     MATERIAL,
     FormsModule,
     NgChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    //NgxOrgChartModule,
+    NgxOrgChartModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     DragDropModule,

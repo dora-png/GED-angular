@@ -1,0 +1,235 @@
+<div class="tab-pane active documents documents-panel" *ngIf="listView">
+    <div class="table-responsive">
+        <table class="table no-wrap user-table mb-0">
+          <thead>
+            <tr>
+              <th scope="col" class="border-0 text-uppercase font-medium pl-4"></th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Modifiér</th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Taille</th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="tata">
+              <td class="pl-4" (click)="folderDetail()">
+                <i class="fa fa-folder text-success fa-3x"></i>
+                <i class="fa fa fa-2x">Dossier</i>
+              </td>
+              <td>
+                  <h5 class="font-medium mb-0">Date de Modification</h5>
+              </td>
+              <td>
+                  <span class="text-muted">Taille</span>
+              </td>
+              <td>
+                <div class="toto">
+                    <span style="margin: 5px; cursor: pointer;" (click)="edit()">
+                        <a>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Edit</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="share()">
+                        <a>
+                            <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Share</i>
+                        </a>
+                    </span> 
+                    <span style="margin: 5px; cursor: pointer;" (click)="view()">
+                        <a>
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> View</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="seeDetail()">
+                        <a >
+                            <i class="fa fa-pencil"  aria-hidden="true"></i>
+                            <i class="fa fa"  aria-hidden="true"> Set Detail</i>
+                        </a>
+                    </span> 
+                    <br>
+                    <span style="margin: 5px; cursor: pointer;" (click)="onUploadFile()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Add files in this Folder</i>
+                        </a>
+                    </span>                         
+                    <span style="margin: 5px; cursor: pointer;" (click)="createLiasse()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Create other folder in this Folder</i>
+                        </a>
+                    </span>  
+                    <span style="margin: 5px; cursor: pointer;" (click)="comment()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Commenter</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="onDelete()">
+                        <a>
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Delete</i>
+                        </a>
+                    </span>                     
+                 </div>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="tab-pane active documents documents-panel" *ngIf="!listView">
+    <span (click)="back()">
+        <i class="fa fa-file-word-o text-success fa-3x"></i> Return ...
+    </span>
+    <hr>
+    <div class="table-responsive">
+        <table class="table no-wrap user-table mb-0">
+          <thead>
+            <tr>
+              <th scope="col" class="border-0 text-uppercase font-medium pl-4"></th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Modifiér</th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Taille</th>
+              <th scope="col" class="border-0 text-uppercase font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="tata">
+              <td class="pl-4">
+                <i class="fa fa-file-excel-o text-success fa-3x"></i>
+                <i class="fa fa fa-2x">Nom Fichier</i>
+              </td>
+              <td>
+                  <h5 class="font-medium mb-0">Date de Modification</h5>
+              </td>
+              <td>
+                  <span class="text-muted">Taille</span>
+              </td>
+              <td>
+                <div class="toto">
+                    <span style="margin: 5px; cursor: pointer;" (click)="edit()">
+                        <a>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Edit</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="share()">
+                        <a>
+                            <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Share</i>
+                        </a>
+                    </span> 
+                    <span style="margin: 5px; cursor: pointer;" (click)="view()">
+                        <a>
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> View</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="seeDetail()">
+                        <a >
+                            <i class="fa fa-pencil"  aria-hidden="true"></i>
+                            <i class="fa fa"  aria-hidden="true"> Set Detail</i>
+                        </a>
+                    </span> 
+                    <br>
+                    <span style="margin: 5px; cursor: pointer;" (click)="onUploadFile()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Add files in this Folder</i>
+                        </a>
+                    </span>                         
+                    <span style="margin: 5px; cursor: pointer;" (click)="createLiasse()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Create other folder in this Folder</i>
+                        </a>
+                    </span>  
+                    <span style="margin: 5px; cursor: pointer;" (click)="comment()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Commenter</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="onDelete()">
+                        <a>
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Delete</i>
+                        </a>
+                    </span>                     
+                 </div>
+              </td>
+              
+            </tr>
+            <tr class="tata">
+              <td class="pl-4">
+                <i class="fa fa-file-word-o text-success fa-3x"></i>
+                <i class="fa fa fa-2x">Nom Fichier</i>
+              </td>
+              <td>
+                  <h5 class="font-medium mb-0">Date de Modification</h5>
+              </td>
+              <td>
+                  <span class="text-muted">Taille</span>
+              </td>
+              <td>
+                <div class="toto">
+                    <span style="margin: 5px; cursor: pointer;" (click)="edit()">
+                        <a>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Edit</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="share()">
+                        <a>
+                            <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Share</i>
+                        </a>
+                    </span> 
+                    <span style="margin: 5px; cursor: pointer;" (click)="view()">
+                        <a>
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> View</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="seeDetail()">
+                        <a >
+                            <i class="fa fa-pencil"  aria-hidden="true"></i>
+                            <i class="fa fa"  aria-hidden="true"> Set Detail</i>
+                        </a>
+                    </span> 
+                    <br>
+                    <span style="margin: 5px; cursor: pointer;" (click)="onUploadFile()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Add files in this Folder</i>
+                        </a>
+                    </span>                         
+                    <span style="margin: 5px; cursor: pointer;" (click)="createLiasse()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Create other folder in this Folder</i>
+                        </a>
+                    </span>  
+                    <span style="margin: 5px; cursor: pointer;" (click)="comment()">
+                        <a>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Commenter</i>
+                        </a>
+                    </span>   
+                    <span style="margin: 5px; cursor: pointer;" (click)="onDelete()">
+                        <a>
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                            <i class="fa fa" aria-hidden="true"> Delete</i>
+                        </a>
+                    </span>                     
+                 </div>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>

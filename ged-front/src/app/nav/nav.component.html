@@ -1,44 +1,22 @@
 <mat-drawer-container  class="sidenav-container" [hasBackdrop]="'false'">
-<!--       <mat-drawer  #drawer style="width: 15%;" [mode]="'side'" [opened]="isLogged">
+<!--     <mat-drawer  #drawer style="width: 15%;" [mode]="'side'" [opened]="isLogged">
       <mat-toolbar  >
         <i class="fa fa-folder-open" matTooltip="MENU" aria-label="Side nav toggle icon" aria-hidden="true"></i>
         Menu
       </mat-toolbar>
       <mat-nav-list class="menu">
         <a mat-list-item >
-          <button [matMenuTriggerFor]="new" class="btn-1">
+          <button  class="btn-1">
             <i class="fa fa-plus" aria-hidden="true"></i> Nouveau
           </button>
         </a>   
-        <mat-menu #new="matMenu">
-          <mat-list>
-            <a mat-list-item (click)="onAddFolder()">
-              <button mat-menu-item><i class="fa fa-folder-o" aria-hidden="true"></i> Dossier</button>  
-            </a>
-            <mat-divider></mat-divider>
-            <a mat-list-item (click)="onAddSingleFile()">
-              <button mat-menu-item><i class="fa fa-file-text" aria-hidden="true"></i> Importer un fichier</button>                  
-            </a>
-            <mat-divider></mat-divider>
-            <a mat-list-item (click)="onAddMultipleFiles()">
-              <button mat-menu-item><i class="fa fa-folder"  aria-hidden="true"></i> Importer un dossier</button>                
-            </a>
-            <mat-divider></mat-divider>
-            <a mat-list-item (click)="createWordFile()">
-              <button mat-menu-item><i class="fa fa-file-word-o" aria-hidden="true"></i> Creer un fichier Word</button> 
-            </a>  
-            <a mat-list-item (click)="createExcelFile()">
-              <button mat-menu-item><i class="fa fa-file-excel-o" aria-hidden="true"></i> Creer un fichier Excel</button>             
-            </a >
-          </mat-list>
-        </mat-menu>  
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.home"><i class="fa fa-home" aria-hidden="true"></i> Mon Espace</a>     
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-share" aria-hidden="true"></i> Partage Avec Moi</a>     
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.courrierPath" ><i class="fa fa-clock-o" aria-hidden="true"></i> Recents</a> 
         <a mat-list-item routerLinkActive="active"  [routerLink]="constantes.dashboardPath"><i class="fa fa-star-o" aria-hidden="true"></i> Suivis</a>     
         <a mat-list-item routerLinkActive="active" [routerLink]="constantes.documentationPath" ><i class="fa fa-trash-o" aria-hidden="true"></i> Corbeille</a> 
       </mat-nav-list>
-    </mat-drawer>  -->
+    </mat-drawer> -->
     
     <mat-drawer-content >
       <mat-toolbar [style]="'black'" *ngIf="isLogged" style="height: 36px; font-size: 15px; color: white; background-color: black;"> 
@@ -83,7 +61,7 @@
         </span>
         <div class="right">
           <span class="title"></span>
-          <span >
+          <span>
             <button mat-button [matMenuTriggerFor]="user"><i class="fa" aria-hidden="true">{{ sigle }} {{ name }}<span class="caret"></span></i></button>
             <mat-menu #user="matMenu">    
               <button mat-menu-item ><i class="fa fa-tachometer" aria-hidden="true"></i>  Tableau de bord utilisateur</button>
@@ -166,12 +144,63 @@
         <div class="content-wrapper" *ngIf="isLogged" class="footer">
           <app-footer></app-footer>
         </div>
-      </div>
-     
+      </div><!-- 
+      (click)="drawer.toggle()" *ngIf="isLogged" -->
       
-<!--       <a class="fixedButton" (click)="drawer.toggle()" *ngIf="isLogged">
-        <div class="roundedFixedBtn"><i class="fa fa-bars"></i></div>
-       </a> -->
+       <a class="fixedButton" *ngIf="isLogged">
+        <div class="roundedFixedBtn">
+          <i class="fa fa-bars" [matMenuTriggerFor]="menu"></i>
+          <mat-menu #menu="matMenu">    
+            <button mat-menu-item>
+              <a mat-button routerLink="dashboarduser"><i class="fa" aria-hidden="true">Acceuil</i> </a>
+            </button>
+            <button mat-menu-item>
+              <a mat-button routerLink="/myfile"><i class="fa" aria-hidden="true">Mes fichiers</i></a>
+            </button>
+            <button mat-menu-item>
+              <a mat-button routerLink="/documentation"><i class="fa" aria-hidden="true">Fichiers partagés</i></a>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="sites">
+              <i class="fa" aria-hidden="true">Sites</i>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="taches">
+              <i class="fa" aria-hidden="true">Taches</i>
+            </button>            
+            <button mat-menu-item>
+              <a mat-button [routerLink]="constantes.manageIndexPath"><i class="fa" aria-hidden="true">Personnes</i> </a>
+            </button>
+            <button mat-menu-item>
+              <a mat-button routerLink="/entrepot"><i class="fa" aria-hidden="true">Entrepots</i></a>
+            </button>
+            <button mat-menu-item  *ngIf="onHasRole(constantes.admin)">
+              <a mat-button [routerLink]="constantes.manageIndexPath"><i class="fa" aria-hidden="true">Outils admin</i></a>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="user">
+              <i class="fa" aria-hidden="true">{{ sigle }} {{ name }}</i>
+            </button>             
+          </mat-menu>
+          <mat-menu #taches="matMenu">
+            <button mat-menu-item  >Utile(s)</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item ><i class="fa fa-tasks" aria-hidden="true"></i>   Mes taches</button>
+            <button mat-menu-item ><i class="fa fa-sitemap" aria-hidden="true"></i>  Workflow que j'ai initié</button>
+          </mat-menu>
+          <mat-menu #sites="matMenu">
+            <button mat-menu-item  >Utile(s)</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item ><i class="fa fa-globe" aria-hidden="true"></i>   Mes sites</button>
+            <button mat-menu-item ><i class="fa fa-search" aria-hidden="true"></i>  Recherche de sites</button>
+            <button mat-menu-item ><i class="fa fa-plus" aria-hidden="true"></i>  Creer un site</button>
+            <button mat-menu-item ><i class="fa fa-star" aria-hidden="true"></i>   Favoris</button>            
+          </mat-menu>
+          <mat-menu #user="matMenu">
+            <button mat-menu-item ><i class="fa fa-tachometer" aria-hidden="true"></i>  Tableau de bord utilisateur</button>
+            <button mat-menu-item ><i class="fa fa-user-circle-o" aria-hidden="true"></i> Mon Profil</button>
+            <button mat-menu-item ><i class="fa fa-question-circle" aria-hidden="true"></i>  Aide</button>
+            <button mat-menu-item (click)="onLogOut()"><i class="fa fa-sign-out" aria-hidden="true"></i>   Se deconnecter</button>
+          </mat-menu>
+        </div>
+       </a>
       
       
     </mat-drawer-content>

@@ -25,7 +25,44 @@
                         <div class="row"  ><!-- *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)" -->
                             <div class="col-md-12">
                                 <h3>
-                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management Application
+                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management Documentaion Module
+                                </h3>                                
+                            </div>
+                        </div>
+                        <div class="row"> <!-- *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)" -->
+                            <div class="col-md-12">
+                              <!-- dblue -->
+                              <!--  *ngIf="onHasRole(constantes.rli)" --><a [routerLink]="constantes.modelePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Modeles </a>
+                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.courrierPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Sites </a>
+                              <!--  *ngIf="onHasRole(constantes.rtl)"  --><a [routerLink]="constantes.typeLiassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Tâches  </a>
+                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.liassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />WorkFlow  </a>
+                            </div>
+                        </div>
+
+                        <br/>
+                        <div class="row"  ><!-- *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)" -->
+                            <div class="col-md-12">
+                                <h3>
+                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management Courrier Module
+                                </h3>                                
+                            </div>
+                        </div>
+                        <div class="row"> <!-- *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)" -->
+                            <div class="col-md-12">
+                              <!-- dblue -->
+                              <!--  *ngIf="onHasRole(constantes.rli)" --><a [routerLink]="constantes.archivePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Courrier Sortant </a>
+                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.courrierPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Courrier Entrant </a>
+                              <!--  *ngIf="onHasRole(constantes.rtl)"  --><a [routerLink]="constantes.typeLiassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Courier Confidentiel  </a>
+                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.liassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Courriers  </a>
+                            </div>
+                        </div>
+
+                        
+                        <br/>
+                        <div class="row"  ><!-- *ngIf="onHasRole(constantes.rli) || onHasRole(constantes.rdo) || onHasRole(constantes.rtl) || onHasRole(constantes.rwf)" -->
+                            <div class="col-md-12">
+                                <h3>
+                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management Archive Module
                                 </h3>                                
                             </div>
                         </div>
@@ -33,11 +70,7 @@
                             <div class="col-md-12">
                               <!-- dblue -->
                               <!--  *ngIf="onHasRole(constantes.rli)" --><a [routerLink]="constantes.archivePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Archive </a>
-                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.courrierPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Courrier </a>
-                              <!--  *ngIf="onHasRole(constantes.rtl)"  --><a [routerLink]="constantes.typeLiassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Type de Dossiers  </a>
-                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="constantes.liassePath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-folder fa-4x" aria-hidden="true"></i> <br />Dossiers  </a>
-                              <!--  *ngIf="onHasRole(constantes.rdo)"  --><a [routerLink]="constantes.documentationPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-file fa-4x" aria-hidden="true"></i> <br />Documents </a>
-                              <!--  *ngIf="onHasRole(constantes.rwf)"  --><a [routerLink]="constantes.workflowPath" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Workflows </a>
+                              <!--  *ngIf="onHasRole(constantes.rli)"  --><a [routerLink]="'entrepot'" class="btn btn-dblue btn-lg" role="button"><i class="fa fa-tachometer fa-4x" aria-hidden="true"></i> <br />Entrepot </a>
                             </div>
                         </div>
                         <br/>
@@ -45,7 +78,7 @@
                         <div class="row"> <!--  *ngIf="onHasRole(constantes.rus) || onHasRole(constantes.rst) || onHasRole(constantes.rro)" -->
                             <div class="col-md-12">
                                 <h3>
-                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management User
+                                    <i class="fa fa-cogs" aria-hidden="true"></i> Management User Module
                                 </h3>                                
                             </div>
                         </div>

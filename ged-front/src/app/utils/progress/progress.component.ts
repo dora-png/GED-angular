@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProgressComponent implements OnInit {
   @Input() progress = 0;
+  @Input() backgroundColor = "";
   constructor() {}
 
   ngOnInit() {}

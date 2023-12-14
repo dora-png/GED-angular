@@ -6,7 +6,9 @@ export class LocalDaoService {
 
   constructor() { }
 
-  
+  private getDataAsJSON (key: string, removeItem: boolean = false): any {
+    return JSON.parse(this.getData(key, removeItem));
+  }
   save (key: string, data: any, force: boolean = true, stringify: boolean = true): boolean {
     if (sessionStorage.getItem(key) != null && !force) {
       return false;
@@ -31,12 +33,36 @@ export class LocalDaoService {
   }
 
 
-  getData (key: string, removeItem: boolean = false): any {
+  private getData (key: string, removeItem: boolean = false): any {
     const data: any = sessionStorage.getItem(key);
     if (removeItem) {
       sessionStorage.removeItem(key);
     }
     return data;
+  }
+
+  getToken (): string {   
+    return this.getDataAsJSON("token") ;
+  }
+
+  getLogin (): string {   
+    return this.getDataAsJSON("login") ;
+  }
+
+  getName (): string {   
+    return this.getDataAsJSON("name") ;
+  }
+
+  getColor (): string {   
+    return this.getDataAsJSON("color") ;
+  }
+
+  getSigle (): string {   
+    return this.getDataAsJSON("sigle") ;
+  }
+
+  getRole (): string[] { 
+    return this.getDataAsJSON("roles") ;   
   }
 
 
@@ -68,9 +94,7 @@ export class LocalDaoService {
     return data;
   }
 
-  getDataAsJSON (key: string, removeItem: boolean = false): any {
-    return JSON.parse(this.getData(key, removeItem));
-  }
+
 */
   removeData (key: string) {
     sessionStorage.removeItem(key);

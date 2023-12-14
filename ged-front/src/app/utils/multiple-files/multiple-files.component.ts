@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import * as constant from '../../loader/constante';
 import { saveAs } from 'file-saver';
 import { FileUploadService } from 'src/app/loader/file-upload.service';
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 
 @Component({
   selector: 'app-multiple-files',
@@ -11,6 +13,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
   styleUrls: ['./multiple-files.component.scss']
 })
 export class MultipleFilesComponent implements OnInit {
+  
+  color = "#4c97cb";
+  errorMessage: string = "";
   
 /*
 filenames: string[] = [];
@@ -84,10 +89,15 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
   newFolderFormGroup!: FormGroup;
   files: any[] = [];
   desableBox: boolean=false;
+  private userLogin: string = "";
   constructor(
     private formBuilder: FormBuilder,
-      private fileService: FileUploadService
+    @Inject(MAT_DIALOG_DATA) private data: string,
+      private fileService: FileUploadService,
+      private auth: AuthenticationService,
+      private dialogRef:  MatDialogRef<MultipleFilesComponent>
     ) { 
+      this.userLogin = this.auth.loginUser; 
       this.newFolderFormGroup = formBuilder.group(
         {
           file: new FormControl(null, [Validators.requiredTrue]),
@@ -96,6 +106,7 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
     }
 
   ngOnInit(): void {
+    this.dialogRef.updateSize('250px','250px');
   }
   
   onReset(){
@@ -129,47 +140,89 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
   }
 
   private uploadFilesSimulator(index: number) {
-    if (index === this.files.length) {
-      return;
-    } else {
-      this.desableBox = true ;
-      let loginUser: string = "admin";
-      let formData = new FormData();
-      for (let i in this.files) {
-        formData.delete('files');
-        formData.append('files', this.files[i].file, this.files[i].file.webkitRelativePath);
-        this.fileService.upload(formData, loginUser).subscribe(
-          event => {
-            this.resportProgress(event,i);
-          },
-          (error: HttpErrorResponse) => {
-            console.log("error:",error);
-          }
-        );
-      } 
-    }
+    if(this.data===""){
+      if (index === this.files.length) {
+        return;
+      } else {
+        let formData = new FormData();
+        for (let i in this.files) {
+          formData.delete('files');
+          formData.append('files', this.files[i].file, this.files[i].file.webkitRelativePath);
+          this.fileService.uploadUserUploadMulti(formData, this.userLogin).subscribe(
+            event => {
+              this.resportProgress(event,i);
+            },
+            (error: HttpErrorResponse) => {
+              this.color = "#f11c1c";
+              this.errorMessage = error.error.message;
+            }
+          );
+        } 
+      }
+    }else{
+      if (index === this.files.length) {
+        return;
+      } else {
+        let formData = new FormData();
+        for (let i in this.files) {
+          formData.delete('files');
+          formData.append('files', this.files[i].file, this.files[i].file.webkitRelativePath);
+          this.fileService.uploadUserUploadMulti(formData, this.userLogin, this.data).subscribe(
+            event => {
+              this.resportProgress(event,i);
+            },
+            (error: HttpErrorResponse) => {
+              this.color = "#f11c1c";
+              this.errorMessage = error.error.message;
+            }
+          );
+        } 
+      }
+    }  
+    this.desableBox = false ;
+    
   }
 
   private resportProgress(httpEvent: HttpEvent<string[] | Blob>, index: string): void {
     switch(httpEvent.type) {
       case HttpEventType.UploadProgress:
+        this.color = "#4c97cb";
         this.updateStatus(httpEvent.loaded, httpEvent.total!, parseInt(index));
         break;
-      /*case HttpEventType.DownloadProgress:
+      case HttpEventType.ResponseHeader:
+        if(httpEvent.status === 200){
+          this.dialogRef.close(true);
+        }
+        break;
+      case HttpEventType.Response:        
+        if (httpEvent.body instanceof Array) {
+          this.dialogRef.close(true);
+        } else {
+         
+        }
+        break;
+      default:
+        break;      
+    }
+    /* switch(httpEvent.type) {
+      case HttpEventType.UploadProgress:
+        this.updateStatus(httpEvent.loaded, httpEvent.total!, parseInt(index));
+        break;
+      case HttpEventType.DownloadProgress:
         this.updateStatus(httpEvent.loaded, httpEvent.total!, 'Downloading... ');
-        break;*/
+        break;
       case HttpEventType.ResponseHeader:
         console.log('Header returned', httpEvent);
         break;
       case HttpEventType.Response:
         if (httpEvent.body instanceof Array) {
           //this.fileStatus.status = 'done';
-          /*for (const filename of httpEvent.body) {
+          for (const filename of httpEvent.body) {
             this.filenames.unshift(filename);
-          }*/
+          }
         } else {
-          /*saveAs(new File([httpEvent.body!], httpEvent.headers.get('File-Name')!, 
-                  {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`}));*/
+          saveAs(new File([httpEvent.body!], httpEvent.headers.get('File-Name')!, 
+                  {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`}));
           // saveAs(new Blob([httpEvent.body!], 
           //   { type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`}),
           //    httpEvent.headers.get('File-Name'));
@@ -180,7 +233,7 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
           console.log(httpEvent);
           break;
       
-    }
+    } */
   }
   
   private updateStatus(loaded: number, total: number, index: number): void {
@@ -204,5 +257,9 @@ private updateStatus(loaded: number, total: number, requestType: string): void {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  onClose(){
+    this.dialogRef.close(false);
   }
 }

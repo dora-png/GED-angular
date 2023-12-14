@@ -6,11 +6,8 @@ import { OpenDialogService } from '../loader/open-dialog.service';
 import { ProfilComponent } from '../pages/management/users/profil/profil.component';
 import * as constante from '../loader/constante';
 import { Router } from '@angular/router';
-import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
-import { saveAs } from 'file-saver';
 import { FileUploadService } from '../loader/file-upload.service';
 import { UploadFolderComponent } from '../utils/upload-folder/upload-folder.component';
-import { MultipleFilesComponent } from '../utils/multiple-files/multiple-files.component';
 import { SingleFileComponent } from '../utils/single-file/single-file.component';
 
 @Component({
@@ -19,7 +16,6 @@ import { SingleFileComponent } from '../utils/single-file/single-file.component'
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-
   color: string="aqua";
   name: string="";
   sigle: string="";
@@ -74,6 +70,69 @@ export class NavComponent implements OnInit {
     return this.auth.getRoles(role);
   }
 
+  listenToLoading(): void {
+    this.loaderService.getSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
+  }
+  onProfil(){
+    this.openDialog.openDialog(ProfilComponent);
+  }
+  onLogOut(){
+    this.auth.logout();
+  }
+  
+/*
+
+  color: string="aqua";
+  name: string="";
+  sigle: string="";
+  isLogged: boolean = false;
+  constantes: any = constante;
+  loading: boolean = true;
+  private isLoggedSubscription: Subscription | undefined;
+  logging: boolean = false;
+  message: string | null = null;
+  login: string="";
+
+  
+  constructor(
+    private loaderService: LoaderService,
+    private auth: AuthenticationService,
+    private route: Router,
+    private openDialog: OpenDialogService,
+    private fileService: FileUploadService
+    ) {
+      
+     }
+
+     getColor(){
+      return "background-color: "+this.color+";"
+     }
+
+  ngOnInit(): void {  
+    this.isLoggedSubscription = this.auth.isUserSubject.subscribe(
+      (isLogged: boolean)=>{
+        this.isLogged=isLogged;
+      }
+    );  
+    this.color = this.auth.getColor();
+    this.login = this.auth.getLogin();
+    this.name = this.auth.getName();
+    this.sigle = this.auth.getSigle();
+    console.log(this.auth.getAllRoles())
+    console.log(this.color)
+    console.log(this.login)
+    console.log(this.name)
+    console.log(this.sigle)
+  }
+
+  onHasRole(role:string): boolean{
+    return this.auth.getRoles(role);
+  }
+
 onAddFolder(){
   this.openDialog.openDialog(UploadFolderComponent);
 }
@@ -110,5 +169,5 @@ createExcelFile(){
   
 
 
-
+*/
 }

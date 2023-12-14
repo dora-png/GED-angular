@@ -33,6 +33,8 @@ import { InfosGroupUserComponent } from './pages/management/group-user/infos-gro
 import { CreateStructureComponent } from './pages/management/structure/create-structure/create-structure.component';
 import { ReadStructureComponent } from './pages/management/structure/read-structure/read-structure.component';
 import { AddSubstructureComponent } from './pages/management/structure/add-substructure/add-substructure.component';
+import { ListModeleComponent } from './pages/documentation/modeles/list-modele/list-modele.component';
+
 
 const addSubStructure: Route={
   path: "structure/add-sub-structure/:id",
@@ -279,6 +281,18 @@ const structure: Route={
     ]
   }
 };
+
+const modele: Route={
+  path: constant.modele,
+  component: ListModeleComponent,
+  canActivate:[AuthGuard],
+  data: {
+    title: constant.modeleName,
+    breadcrumb: [
+      { routerLink: constant.manageIndexPath, text: constant.manageName }
+    ]
+  }
+};
 const user: Route={
   path: constant.user,
   component: ListUserComponent,
@@ -356,6 +370,7 @@ const routes: Routes = [
   addStructure,
   viewStructure,
   spb,
+  modele,
   addUser,
   updateUser,
   viewUser,

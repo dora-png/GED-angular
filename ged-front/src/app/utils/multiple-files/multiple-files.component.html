@@ -1,58 +1,70 @@
-
-<div class="container" style="margin-top: 20px;">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4>Upload and Download Files</h4>
-      </div><br>
-      <div class="panel-body">   
-        <form enctype="multipart/form-data" >
-          <fieldset>
-            <div class="form-group">              
-                <div class="container1">
-                    <input *ngIf="files.length == 0" type="file" #fileDropRef id="fileDropRef"  
-                            webkitdirectory multiple (change)="fileBrowseHandler($event)" />
-                    <i class="fa fa-cloud-upload fa-5x" aria-hidden="true"></i>
-                    <h3>Click here to add folder</h3>
-                    <h3>or</h3>                    
-                    <button *ngIf="files.length != 0" (click)="uploadFolder()" class="btn btn-success" ><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+<h2 mat-dialog-title></h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="container" style="margin-top: 20px;">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Upload and Download Files</h4>
+          </div><br>
+          <div class="panel-body">   
+            <form enctype="multipart/form-data" >
+              <fieldset>
+                <div class="form-group">              
+                    <div class="container1">
+                        <input *ngIf="files.length == 0" type="file" #fileDropRef id="fileDropRef"  
+                                webkitdirectory multiple (change)="fileBrowseHandler($event)" />
+                        <i class="fa fa-cloud-upload fa-5x" aria-hidden="true"></i>
+                        <h3>Click here to add folder</h3>
+                        
+                    </div>
+                </div>
+              </fieldset>
+            </form>
+    
+            <div class="files-list">
+                <div class="single-file" *ngFor="let file of files; let i = index">
+                    <div class="file-icon" style="width: 50px">
+                        <i style="color: rgb(0, 255, 115);" class="fa fa-file fa-2x" aria-hidden="true"></i>
+                        
+                    </div>
+                    <div class="info">
+                        <h4 class="name">
+                            {{ file?.file?.webkitRelativePath }} <span class="size">{{ formatBytes(file?.file?.size) }}</span> 
+                        </h4>
+                        <p class="size">
+                          <span *ngIf="file?.progress > 0 && 100 >file?.progress">
+                            Loading... {{ file?.progress }} / %
+                          </span>
+                          <span *ngIf="file?.progress == 100">
+                            <span *ngIf="color == '#4c97cb'">
+                              Complete
+                          </span>
+                          
+                          </span> 
+                          <span *ngIf="color == '#f11c1c'">
+                            Failed because {{errorMessage}}
+                        </span>                           
+                        </p>
+                        <app-progress [progress]="file?.progress"  [backgroundColor]="color"></app-progress>
+                    </div>
+            
+                    <div class="delete" *ngIf="file?.progress == 0"  style="width: 25px" (click)="deleteFile(i)">
+                        <i style="color: red;" class="fa fa-trash-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="delete" *ngIf="file?.progress == 100"  style="width: 25px">
+                        <i style="color: rgb(0, 255, 76);" class="fa fa-check-square" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
-          </fieldset>
-        </form>
-
-        <div class="files-list">
-            <div class="single-file" *ngFor="let file of files; let i = index">
-                <div class="file-icon" style="width: 50px">
-                    <i style="color: rgb(0, 255, 115);" class="fa fa-file fa-2x" aria-hidden="true"></i>
-                    
-                </div>
-                <div class="info">
-                    <h4 class="name">
-                        {{ file?.file?.webkitRelativePath }} <span class="size">{{ formatBytes(file?.file?.size) }}</span> 
-                    </h4>
-                    <p class="size">
-                        <span *ngIf="file?.progress > 0 && 100 >file?.progress">
-                            Loading... {{ file?.progress }} 
-                        </span>
-                        <span *ngIf="file?.progress == 100">
-                            complete
-                        </span>                        
-                    </p>
-			        <app-progress [progress]="file?.progress"></app-progress>
-                </div>
-        
-                <div class="delete" *ngIf="file?.progress == 0"  style="width: 25px" (click)="deleteFile(i)">
-                    <i style="color: red;" class="fa fa-trash-o" aria-hidden="true"></i>
-                </div>
-                <div class="delete" *ngIf="file?.progress == 100"  style="width: 25px">
-                    <i style="color: rgb(0, 255, 76);" class="fa fa-check-square" aria-hidden="true"></i>
-                </div>
-            </div>
+            
+          </div>
         </div>
-        
-      </div>
     </div>
-</div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button *ngIf="files.length != 0" (click)="uploadFolder()" class="btn btn-success" ><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+    <button mat-button (click)="onClose()">Cancel</button>
+  </mat-dialog-actions>
+
 
 
 

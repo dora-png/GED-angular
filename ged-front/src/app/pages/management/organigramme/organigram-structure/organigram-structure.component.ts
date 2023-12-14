@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { delay } from 'rxjs';
 import { LoaderService } from 'src/app/loader/loader.service';
-//import { OrganigramSystem, PosteControllerService } from 'src/app/model';
+import { OrganigramSystem, PosteControllerService } from 'src/app/model';
 
 @Component({
   selector: 'app-organigram-structure',
@@ -10,7 +10,7 @@ import { LoaderService } from 'src/app/loader/loader.service';
   styleUrls: ['./organigram-structure.component.scss']
 })
 export class OrganigramStructureComponent implements OnInit {
-/*
+
   loading: boolean = false;
   isEmpty: boolean = true;
   nodes: any = [];
@@ -20,27 +20,23 @@ export class OrganigramStructureComponent implements OnInit {
     private dialogRef:  MatDialogRef<OrganigramStructureComponent>,
     private apiService: PosteControllerService,
     private loaderService: LoaderService
-  ) { }*/
+  ) { }
   ngOnInit(): void {
-    //this.initData();
+    this.initData();
     
   }
-/*
-  private listenToLoading(): void {
-    this.loaderService.getSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
+
+  refrech(){
+    this.initData();
   }
 
   private initData(){
-    this.listenToLoading();
     this.apiService.ogranigramme1(this.data.id).toPromise().then(
       res => {
         if(res==null){
           this.isEmpty=true;
         }else{
+          this.nodes = [];
           this.isEmpty=false;
           this.nodes.push(res);
         }
@@ -57,5 +53,5 @@ export class OrganigramStructureComponent implements OnInit {
   test(event: any){}
   onCloseModal(){
     this.dialogRef.close();
-  }*/
+  }
 }

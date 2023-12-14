@@ -23,25 +23,23 @@ export class InterceptorService implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loaderService.setGetLoading(constant.trueValue,request.url);
-    if (this.authenticationService.getToken() !=constant.tokenDefaultValue ) {
+    /*if (this.authenticationService.getToken() !=constant.tokenDefaultValue ) {
         request = request.clone({
           setHeaders: { Authorization: this.authenticationService.getToken() }
         });
-    }
+    }*/
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
           if (event instanceof HttpResponse) {
-            if(event.headers.has(constant.headerAuthori) && event.headers.has(constant.headerAuthori) != null ) {
+            if(event.headers.has(constant.headerAuthori) != null ) {
               this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)
             }
           }
           if (event instanceof HttpErrorResponse) {
-            if(event.headers.has(constant.headerAuthori) && event.headers.has(constant.headerAuthori) != null ) {
+            if(event.headers.has(constant.headerAuthori) != null ) {
               this.authenticationService.saveToken(event.headers.get(constant.headerAuthori)!)
             }
           }     
-          this.loaderService.setGetLoading(constant.falseValue,request.url);
           return event;
         }
       )

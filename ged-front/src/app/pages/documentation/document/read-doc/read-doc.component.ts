@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/loader/authentication.service';
 
 @Component({
   selector: 'app-read-doc',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReadDocComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: number,
+    private auth: AuthenticationService,
+    private dialogRef:  MatDialogRef<ReadDocComponent>
+  ) { }
 
   ngOnInit(): void {
   }
 
+  onClose(){
+    this.dialogRef.close(false);
+  }
+  
 }

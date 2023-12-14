@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-12 tab-content no-bg no-border">
+        <div class="table-responsive">
+            <table class="table no-wrap user-table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 text-uppercase font-medium pl-4"></th>
+                  <th scope="col" class="border-0 text-uppercase font-medium">Modifiér</th>
+                  <th scope="col" class="border-0 text-uppercase font-medium">Taille</th>
+                  <th scope="col" class="border-0 text-uppercase font-medium">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="tata">
+                  <td class="pl-4">
+                    <i class="fa fa-file-excel-o text-success fa-3x"></i>
+                    <i class="fa fa fa-2x">Nom Fichier</i>
+                  </td>
+                  <td>
+                      <h5 class="font-medium mb-0">Date de Modification</h5>
+                  </td>
+                  <td>
+                      <span class="text-muted">Taille</span>
+                  </td>
+                  <td>
+                    <div class="toto">
+                        <span style="margin: 5px; cursor: pointer;" (click)="restaure()">
+                            <a>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                <i class="fa fa" aria-hidden="true"> Restaurer</i>
+                            </a>
+                        </span>   
+                        <span style="margin: 5px; cursor: pointer;" (click)="delete()">
+                            <a>
+                                <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                                <i class="fa fa" aria-hidden="true"> Delete</i>
+                            </a>
+                        </span> 
+                                           
+                     </div>
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+        </div> 
+    </div>
+</div>

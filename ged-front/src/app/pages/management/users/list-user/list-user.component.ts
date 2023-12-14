@@ -12,6 +12,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { ProfilComponent } from '../profil/profil.component';
 import { UpdateNameComponent } from '../update-name/update-name.component';
 import { UpdateUserComponent } from '../update-user/update-user.component';
+import * as constant from '../../../../loader/constante';
 
 @Component({
   selector: 'app-list-user',
@@ -68,8 +69,7 @@ export class ListUserComponent implements OnInit {
     private initData(page: number, size: number){
       this.loading = true;
       this.apiService.findAllProfiles(status=this.f["statusprofile"].value, page =page, size = size).subscribe(
-        response=>{
-          
+        response=>{          
           if(response==null){
             this.isEmpty=true;
             this.loading = false;
@@ -77,9 +77,15 @@ export class ListUserComponent implements OnInit {
             this.isEmpty=false;
             this.pageUsers=response;
             this.loading = false;
+            console.log(response);
           }
         },
         error=>{
+          if(error.status== 400){
+            this.toastr.warning("error.error.message",constant.warning)
+          }else{
+            this.toastr.error("Check your connexion",constant.error)    
+          }
           this.loading = false;
         }
       );
@@ -142,7 +148,7 @@ export class ListUserComponent implements OnInit {
 
   private pageSwitchsearchName(name: string, page: number, size: number){
     this.loadingPage = true;
-    this.apiService.searchUsersByName(name,this.f["statusprofile"].value, page, size).subscribe(
+    this.apiService.searchUsersByName(name,page, this.f["statusprofile"].value, size).subscribe(
       response=>{
         if(response==null){
           this.isEmpty=true;
@@ -153,7 +159,13 @@ export class ListUserComponent implements OnInit {
           this.loadingPage = false;
         }
       },
-      error=>{
+      error=>{console.log(error)
+        if(error.status== 400){
+          
+          this.toastr.warning("error.error.message",constant.warning)
+        }else{
+          this.toastr.error("Check your connexion",constant.error)    
+        }
         this.loadingPage = false;
       }
 
